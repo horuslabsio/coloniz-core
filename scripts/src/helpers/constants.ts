@@ -4,4 +4,6 @@ export const coloniz_NFT_CONTRACT_ADDRESS:string = "0x4dca9ec1ed78ce5cddbbcec63d
 export const coloniz_HUB_CONTRACT_ADDRESS:string ="0x7e3c4c5275b93d985699b86486848b0bee8d75b88fbaf36fea339eeb74b8aa8"
 export const FOLLOW_CONTRACT_ADDRESS:string = "0x60a56d724558a9cfbbf3a3fd4faebaa65678efe090d3dd49afa85d1bcc61eba"
 export const PROFILE_ADDRESS_ONE:string = "0x206b999eeed11da16898664d6ad251563e6796a564c6eaddfae4d84350d4cf1";
-export const PROFILE_ADDRESS_TWO:string = "0x75a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f"
+export const PROFILE_ADDRESS_TWO:string = "0x75a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f";
+
+export const KARST_PUBLICATION_CONTRACT_ADDRESS:string = "0x369fd3deada2d610a330d98befc977451d010c6da9138f114d58688a07ecda1";
