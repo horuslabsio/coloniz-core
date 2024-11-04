@@ -54,7 +54,7 @@ If you believe you have found a security vulnerability in our code, please repor
 
 ## License
 
-coloniz is an open-source software licensed under the [MIT](https://github.com/horuslabsio/coloniz-core/blob/main/LICENSE).
+Coloniz is an open-source software licensed under the [MIT](https://github.com/horuslabsio/coloniz-core/blob/main/LICENSE).
 
 
 ## Architecture
