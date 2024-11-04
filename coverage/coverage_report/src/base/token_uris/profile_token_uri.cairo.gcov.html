@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage.lcov - src/base/token_uris/profile_token_uri.cairo</title>
+  <link rel="stylesheet" type="text/css" href="../../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../../index.html" title="Click to go to top-level">top level</a> - <a href="index.html" title="Click to go to directory src/base/token_uris">src/base/token_uris</a> - profile_token_uri.cairo<span style="font-size: 80%;"> (source / <a href="profile_token_uri.cairo.func-c.html" title="Click to go to function table">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage.lcov</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
+            <td class="headerCovTableEntry">52</td>
+            <td class="headerCovTableEntry">52</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2024-11-04 15:04:52</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">4</td>
+          </tr>
+                  <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : pub mod ProfileTokenUri {</span>
+<span id="L2"><span class="lineNum">       2</span>              :     use core::array::ArrayTrait;</span>
+<span id="L3"><span class="lineNum">       3</span>              :     use coloniz::base::utils::byte_array_extra::FeltTryIntoByteArray;</span>
+<span id="L4"><span class="lineNum">       4</span>              :     use coloniz::base::utils::base64_extended::{get_base64_encode, convert_into_byteArray};</span>
+<span id="L5"><span class="lineNum">       5</span>              : </span>
+<span id="L6"><span class="lineNum">       6</span>              :     fn get_svg(token_id: u256, mint_timestamp: u64) -&gt; Array&lt;felt252&gt; {</span>
+<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC tlaBgGNC">           3 :         let mut svg = ArrayTrait::&lt;felt252&gt;::new();</span></span>
+<span id="L8"><span class="lineNum">       8</span> <span class="tlaGNC">           3 :         svg.append('&lt;svg width=&quot;200&quot; height=&quot;200&quot; x');</span></span>
+<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">           3 :         svg.append('mlns=&quot;http://www.w3.org/2000/sv');</span></span>
+<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">           3 :         svg.append('g&quot;&gt;&lt;circle cx=&quot;100&quot; cy=&quot;100&quot; r=');</span></span>
+<span id="L11"><span class="lineNum">      11</span> <span class="tlaGNC">           3 :         svg.append('&quot;80&quot; fill=&quot;red&quot;/&gt;&lt;/svg&gt;');</span></span>
+<span id="L12"><span class="lineNum">      12</span>              :         svg</span>
+<span id="L13"><span class="lineNum">      13</span>              :     }</span>
+<span id="L14"><span class="lineNum">      14</span>              : </span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           3 :     fn get_attributes(token_id: u256, mint_timestamp: u64) -&gt; Array&lt;felt252&gt; {</span></span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           6 :         let token_id_felt: felt252 = token_id.try_into().unwrap();</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           6 :         let timestamp_felt: felt252 = mint_timestamp.try_into().unwrap();</span></span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">           6 :         let token_id_byte: ByteArray = token_id_felt.try_into().unwrap();</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">           9 :         let token_id_byte_len: felt252 = token_id_byte.len().try_into().unwrap();</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">           3 :         let mut attributes = ArrayTrait::&lt;felt252&gt;::new();</span></span>
+<span id="L21"><span class="lineNum">      21</span>              :         let sample_traits = 'pavitra';</span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           3 :         attributes.append('&quot;,&quot;attributes&quot;:[{&quot;display');</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">           3 :         attributes.append('_type&quot;:&quot;number&quot;,&quot;trait_');</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           3 :         attributes.append('type&quot;:&quot;ID&quot;,&quot;value&quot;:&quot;');</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">           3 :         attributes.append(token_id_felt);</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           3 :         attributes.append('&quot;},{&quot;trait_type&quot;:&quot;HEX ');</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">           3 :         attributes.append('ID&quot;,&quot;value&quot;:&quot;');</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">           3 :         attributes.append(token_id_felt); // TODO to hex string </span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">           3 :         attributes.append('&quot;},{&quot;trait_type&quot;:&quot;DIGITS&quot;');</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">           3 :         attributes.append(',&quot;value&quot;:&quot;');</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">           3 :         attributes.append(token_id_byte_len);</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">           3 :         attributes.append('&quot;},{&quot;display_type&quot;:&quot;date&quot;,&quot;trai');</span></span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaGNC">           3 :         attributes.append('t_type&quot;:&quot;MINTED AT&quot;,&quot;value&quot;:&quot;');</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">           3 :         attributes.append(timestamp_felt);</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">           3 :         attributes.append('&quot;},');</span></span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC">           3 :         attributes.append(sample_traits);</span></span>
+<span id="L37"><span class="lineNum">      37</span> <span class="tlaGNC">           3 :         attributes.append(']}');</span></span>
+<span id="L38"><span class="lineNum">      38</span>              :         attributes</span>
+<span id="L39"><span class="lineNum">      39</span>              :     }</span>
+<span id="L40"><span class="lineNum">      40</span>              : </span>
+<span id="L41"><span class="lineNum">      41</span> <span class="tlaGNC">           3 :     fn get_json(token_id: u256, mint_timestamp: u64) -&gt; Array&lt;felt252&gt; {</span></span>
+<span id="L42"><span class="lineNum">      42</span> <span class="tlaGNC">           6 :         let token_id_felt: felt252 = token_id.try_into().unwrap();</span></span>
+<span id="L43"><span class="lineNum">      43</span> <span class="tlaGNC">           6 :         let timestamp_felt: felt252 = mint_timestamp.try_into().unwrap();</span></span>
+<span id="L44"><span class="lineNum">      44</span> <span class="tlaGNC">           3 :         let mut json = ArrayTrait::&lt;felt252&gt;::new();</span></span>
+<span id="L45"><span class="lineNum">      45</span> <span class="tlaGNC">           3 :         json.append('{&quot;name&quot;:&quot;Profile #');</span></span>
+<span id="L46"><span class="lineNum">      46</span> <span class="tlaGNC">           3 :         json.append(token_id_felt);</span></span>
+<span id="L47"><span class="lineNum">      47</span> <span class="tlaGNC">           3 :         json.append('&quot;,&quot;description&quot;:&quot;Profile #');</span></span>
+<span id="L48"><span class="lineNum">      48</span> <span class="tlaGNC">           3 :         json.append(timestamp_felt);</span></span>
+<span id="L49"><span class="lineNum">      49</span> <span class="tlaGNC">           3 :         json.append('&quot;,&quot;image&quot;:&quot;data:image/svg');</span></span>
+<span id="L50"><span class="lineNum">      50</span> <span class="tlaGNC">           3 :         json.append('+xml;base64,');</span></span>
+<span id="L51"><span class="lineNum">      51</span>              :         json</span>
+<span id="L52"><span class="lineNum">      52</span>              :     }</span>
+<span id="L53"><span class="lineNum">      53</span>              : </span>
+<span id="L54"><span class="lineNum">      54</span>              : </span>
+<span id="L55"><span class="lineNum">      55</span> <span class="tlaGNC">           3 :     pub fn get_token_uri(token_id: u256, mint_timestamp: u64) -&gt; ByteArray {</span></span>
+<span id="L56"><span class="lineNum">      56</span>              :         let baseuri = 'data:image/svg+xml;base64,';</span>
+<span id="L57"><span class="lineNum">      57</span> <span class="tlaGNC">           3 :         let mut svg = get_svg(token_id, mint_timestamp);</span></span>
+<span id="L58"><span class="lineNum">      58</span> <span class="tlaGNC">           6 :         let mut svg_byte_array: ByteArray = convert_into_byteArray(ref svg);</span></span>
+<span id="L59"><span class="lineNum">      59</span> <span class="tlaGNC">           6 :         let svg_encoded: ByteArray = get_base64_encode(svg_byte_array);</span></span>
+<span id="L60"><span class="lineNum">      60</span>              :         // getting json byte array</span>
+<span id="L61"><span class="lineNum">      61</span>              :         // json - json + svg_base64_encoded</span>
+<span id="L62"><span class="lineNum">      62</span> <span class="tlaGNC">           6 :         let mut json = get_json(token_id, mint_timestamp);</span></span>
+<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">           6 :         let mut json_byte_array: ByteArray = convert_into_byteArray(ref json);</span></span>
+<span id="L64"><span class="lineNum">      64</span> <span class="tlaGNC">           6 :         json_byte_array.append(@svg_encoded);</span></span>
+<span id="L65"><span class="lineNum">      65</span>              :         // getting attributes</span>
+<span id="L66"><span class="lineNum">      66</span> <span class="tlaGNC">           6 :         let mut attribute = get_attributes(token_id, mint_timestamp);</span></span>
+<span id="L67"><span class="lineNum">      67</span> <span class="tlaGNC">           6 :         let mut attribute_byte_array: ByteArray = convert_into_byteArray(ref attribute);</span></span>
+<span id="L68"><span class="lineNum">      68</span>              :         // tokenuri_to_encode = json + attribute</span>
+<span id="L69"><span class="lineNum">      69</span> <span class="tlaGNC">           3 :         let mut tokenuri_to_encode: ByteArray = Default::default();</span></span>
+<span id="L70"><span class="lineNum">      70</span>              :         // concat json ,</span>
+<span id="L71"><span class="lineNum">      71</span> <span class="tlaGNC">           6 :         tokenuri_to_encode.append(@json_byte_array);</span></span>
+<span id="L72"><span class="lineNum">      72</span>              :         // concat attribute</span>
+<span id="L73"><span class="lineNum">      73</span> <span class="tlaGNC">           6 :         tokenuri_to_encode.append(@attribute_byte_array);</span></span>
+<span id="L74"><span class="lineNum">      74</span>              :         // ecoding the encode</span>
+<span id="L75"><span class="lineNum">      75</span> <span class="tlaGNC">           6 :         let encoded_token_uri = get_base64_encode(tokenuri_to_encode);</span></span>
+<span id="L76"><span class="lineNum">      76</span>              :         // baseuri + base64_encoded(json,attribute)</span>
+<span id="L77"><span class="lineNum">      77</span> <span class="tlaGNC">           6 :         let mut token_uri: ByteArray = baseuri.try_into().unwrap();</span></span>
+<span id="L78"><span class="lineNum">      78</span>              :         // concat the base uri and the encoded token uri</span>
+<span id="L79"><span class="lineNum">      79</span> <span class="tlaGNC">           6 :         token_uri.append(@encoded_token_uri);</span></span>
+<span id="L80"><span class="lineNum">      80</span>              :         token_uri</span>
+<span id="L81"><span class="lineNum">      81</span>              :     }</span>
+<span id="L82"><span class="lineNum">      82</span>              : }</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.1-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>

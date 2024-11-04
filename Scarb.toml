@@ -25,3 +25,8 @@ url= "https://starknet-sepolia.public.blastapi.io"
 casm = true
 build-external-contracts = ["token_bound_accounts::accountV3::accountV3::AccountV3"]
 allowed-libfuncs-list.name = "experimental"
+
+[profile.dev.cairo]
+unstable-add-statements-code-locations-debug-info = true
+unstable-add-statements-functions-debug-info = true
+inlining-strategy = "avoid"

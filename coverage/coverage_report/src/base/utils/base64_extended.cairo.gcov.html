@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - coverage.lcov - src/base/utils/base64_extended.cairo</title>
+  <link rel="stylesheet" type="text/css" href="../../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../../index.html" title="Click to go to top-level">top level</a> - <a href="index.html" title="Click to go to directory src/base/utils">src/base/utils</a> - base64_extended.cairo<span style="font-size: 80%;"> (source / <a href="base64_extended.cairo.func-c.html" title="Click to go to function table">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">coverage.lcov</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
+            <td class="headerCovTableEntry">18</td>
+            <td class="headerCovTableEntry">18</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2024-11-04 15:04:52</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntry">2</td>
+          </tr>
+                  <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : use core::array::ArrayTrait;</span>
+<span id="L2"><span class="lineNum">       2</span>              : use coloniz::base::utils::byte_array_extra::FeltTryIntoByteArray;</span>
+<span id="L3"><span class="lineNum">       3</span>              : use alexandria_encoding::base64::{Base64UrlEncoder};</span>
+<span id="L4"><span class="lineNum">       4</span>              : </span>
+<span id="L5"><span class="lineNum">       5</span> <span class="tlaGNC tlaBgGNC">           6 : pub fn get_base64_encode(res: ByteArray) -&gt; ByteArray {</span></span>
+<span id="L6"><span class="lineNum">       6</span> <span class="tlaGNC">           6 :     let mut res_arr_u8 = ArrayTrait::&lt;u8&gt;::new();</span></span>
+<span id="L7"><span class="lineNum">       7</span>              :     let mut i = 0;</span>
+<span id="L8"><span class="lineNum">       8</span> <span class="tlaGNC">        5145 :     while i &lt; res.len() {</span></span>
+<span id="L9"><span class="lineNum">       9</span> <span class="tlaGNC">        3418 :         let mut res_data = res.at(i);</span></span>
+<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">        1709 :         res_arr_u8.append(res_data.unwrap());</span></span>
+<span id="L11"><span class="lineNum">      11</span> <span class="tlaGNC">        3418 :         i += 1;</span></span>
+<span id="L12"><span class="lineNum">      12</span>              :     };</span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">          12 :     let mut encoded_val = Base64UrlEncoder::encode(res_arr_u8);</span></span>
+<span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC">           6 :     let mut res_final: ByteArray = Default::default();</span></span>
+<span id="L15"><span class="lineNum">      15</span>              :     let mut j = 0;</span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">        4580 :     while j &lt; encoded_val.len() {</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">        4568 :         let encoded_val_data = encoded_val.at(j);</span></span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">        4568 :         res_final.append_byte(*encoded_val_data);</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">        4568 :         j += 1;</span></span>
+<span id="L20"><span class="lineNum">      20</span>              :     };</span>
+<span id="L21"><span class="lineNum">      21</span>              :     res_final</span>
+<span id="L22"><span class="lineNum">      22</span>              : }</span>
+<span id="L23"><span class="lineNum">      23</span>              : </span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           9 : pub fn convert_into_byteArray(ref svg: Array&lt;felt252&gt;) -&gt; ByteArray {</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">           9 :     let mut res: ByteArray = Default::default();</span></span>
+<span id="L26"><span class="lineNum">      26</span>              :     // converting felt252 array to byte array</span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">         174 :     while (!svg.is_empty()) {</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">          78 :         let each_felt: felt252 = svg.pop_front().unwrap();</span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">         156 :         let word: ByteArray = each_felt.try_into().unwrap();</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaGNC">         156 :         res.append(@word);</span></span>
+<span id="L31"><span class="lineNum">      31</span>              :     };</span>
+<span id="L32"><span class="lineNum">      32</span>              :     res</span>
+<span id="L33"><span class="lineNum">      33</span>              : }</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.1-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>

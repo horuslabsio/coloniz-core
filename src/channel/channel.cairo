@@ -60,6 +60,7 @@ pub mod ChannelComponent {
     #[derive(Drop, starknet::Event)]
     pub struct ChannelCreated {
         pub channel_id: u256,
+        pub community_id: u256,
         pub channel_owner: ContractAddress,
         pub channel_nft_address: ContractAddress,
         pub block_timestamp: u64,
@@ -171,6 +172,7 @@ pub mod ChannelComponent {
                 .emit(
                     ChannelCreated {
                         channel_id: new_channel.channel_id,
+                        community_id: community_id,
                         channel_owner: new_channel.channel_owner,
                         channel_nft_address: new_channel.channel_nft_address,
                         block_timestamp: get_block_timestamp(),

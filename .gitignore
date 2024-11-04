@@ -1,3 +1,5 @@
 target
 .snfoundry_cache/
+.snfoundry_versioned_programs/
+snfoundry_trace
 .DS_Store

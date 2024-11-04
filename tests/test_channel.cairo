@@ -83,6 +83,7 @@ fn test_create_channel_emits_events() {
                     ChannelComponent::Event::ChannelCreated(
                         ChannelComponent::ChannelCreated {
                             channel_id: channel_id,
+                            community_id: community_id,
                             channel_owner: USER_ONE.try_into().unwrap(),
                             channel_nft_address: channel_details.channel_nft_address,
                             block_timestamp: get_block_timestamp(),
