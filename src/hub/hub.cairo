@@ -55,6 +55,7 @@ pub mod ColonizHub {
     impl ProfileImpl = ProfileComponent::colonizProfile<ContractState>;
     #[abi(embed_v0)]
     impl PublicationImpl = PublicationComponent::colonizPublication<ContractState>;
+    impl PublicationPrivateImpl = PublicationComponent::InternalImpl<ContractState>;
 
     impl ProfilePrivateImpl = ProfileComponent::Private<ContractState>;
 
@@ -132,7 +133,7 @@ pub mod ColonizHub {
         self.handle_contract_address.write(handle_contract_address);
         self.handle_registry_contract_address.write(handle_registry_contract_address);
         self.channel._initializer(channel_nft_classhash);
-        self.channel._initializer(collect_nft_classhash);
+        self.publication._initializer(collect_nft_classhash);
         self.community._initializer(community_nft_classhash);
         self.jolt._initializer(owner);
     }
