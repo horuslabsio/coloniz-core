@@ -139,12 +139,11 @@ pub mod ChannelComponent {
             let _community_id = community_instance.get_community(community_id).community_id;
             assert(community_id == _community_id, COMMUNITY_DOES_NOT_EXIST);
 
-            // deploy channel nft
             let channel_nft_address = self
                 ._deploy_channel_nft(
-                    channel_id, channel_nft_classhash, channel_id.try_into().unwrap()
-                ); // use channel_id as salt since its unique
-
+                    channel_id, channel_nft_classhash, get_block_timestamp().try_into().unwrap()
+                );
+            // use channel_id as salt since its unique
             // check that owner is a member of the community
             let (membership_status, _) = community_instance
                 .is_community_member(channel_owner, community_id);
