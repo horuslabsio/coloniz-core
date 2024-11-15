@@ -165,7 +165,7 @@ pub mod CommunityComponent {
             // deploy community nft - use community_id as salt since its unique
             let community_nft_address = self
                 ._deploy_community_nft(
-                    community_id, community_nft_classhash, community_id.try_into().unwrap()
+                    community_id, community_nft_classhash, get_block_timestamp().try_into().unwrap()
                 );
 
             // create community nft
