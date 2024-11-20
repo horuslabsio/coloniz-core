@@ -1,7 +1,7 @@
-import {WalletClient, TBAChainID, TBAVersion, TokenboundClient} from "starknet-tokenbound-sdk"
+import { TBAChainID, TBAVersion, TokenboundClient, WalletClient } from "starknet-tokenbound-sdk";
 
 const walletClient: WalletClient = {
-    address: "0x07EadF65B6D96A7DEbB36380fF936F6701a053Be8f2824D6293f188fA542C502",
+    address:  "0x07EadF65B6D96A7DEbB36380fF936F6701a053Be8f2824D6293f188fA542C502",
     privateKey: process.env.ACCOUNT_TWO_PRIVATE_KEY!,
   };
   const options = {
