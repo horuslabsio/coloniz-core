@@ -1,9 +1,4 @@
-pub mod head;
-pub mod glass;
 pub mod color;
-pub mod beard;
-pub mod background;
-pub mod cloth;
 pub mod profile;
 pub mod handle;
 pub mod follow;
