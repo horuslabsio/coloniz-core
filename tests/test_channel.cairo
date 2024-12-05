@@ -27,12 +27,8 @@ const USER_FIVE: felt252 = 'RANDY';
 
 fn __setup__() -> ContractAddress {
     let community_nft_class_hash = declare("CommunityNFT").unwrap().contract_class().class_hash;
-    let channel_nft_class_hash = declare("ChannelNFT").unwrap().contract_class().class_hash;
-
     let channel_contract = declare("ColonizChannel").unwrap().contract_class();
-    let mut channel_constructor_calldata = array![
-        (*(channel_nft_class_hash)).into(), (*(community_nft_class_hash)).into()
-    ];
+    let mut channel_constructor_calldata = array![(*(community_nft_class_hash)).into()];
     let (channel_contract_address, _) = channel_contract
         .deploy(@channel_constructor_calldata)
         .unwrap_syscall();
@@ -85,7 +81,6 @@ fn test_create_channel_emits_events() {
                             channel_id: channel_id,
                             community_id: community_id,
                             channel_owner: USER_ONE.try_into().unwrap(),
-                            channel_nft_address: channel_details.channel_nft_address,
                             block_timestamp: get_block_timestamp(),
                         }
                     )
@@ -132,7 +127,6 @@ fn test_should_panic_if_channel_creator_is_not_community_member() {
     stop_cheat_caller_address(channel_contract_address);
 
     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());
-    // dispatcher.join_community(community_id);
     let channel_id = dispatcher.create_channel(community_id);
     assert(channel_id == 1, 'invalid channel creation');
     stop_cheat_caller_address(channel_contract_address);
@@ -156,12 +150,10 @@ fn test_profile_can_join_channel() {
     let channel_id = dispatcher.create_channel(community_id);
     stop_cheat_caller_address(channel_contract_address);
 
-    // join the community first
     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());
     dispatcher.join_community(community_id);
     stop_cheat_caller_address(channel_contract_address);
 
-    // join channel
     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());
     dispatcher.join_channel(channel_id);
     stop_cheat_caller_address(channel_contract_address);
@@ -172,75 +164,8 @@ fn test_profile_can_join_channel() {
     assert(channel_member.profile == USER_TWO.try_into().unwrap(), 'Invalid Channel Member');
     assert(channel_member.channel_id == channel_id, 'Invalid Channel Id');
     assert(channel_member.total_publications == 0, 'Invalid Total Publication');
-    assert(channel_member.channel_token_id != 0, 'Invalid nft mint token ');
 }
 
-#[test]
-fn test_channel_nft_minted_to_profile_on_joining() {
-    let channel_contract_address = __setup__();
-    let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };
-
-    // create a community
-    start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());
-    let community_id = dispatcher.create_community();
-    stop_cheat_caller_address(channel_contract_address);
-
-    // create a channel
-    start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());
-    let channel_id = dispatcher.create_channel(community_id);
-    stop_cheat_caller_address(channel_contract_address);
-
-    // join the community
-    start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());
-    dispatcher.join_community(community_id);
-    stop_cheat_caller_address(channel_contract_address);
-
-    // join the channel
-    start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());
-    dispatcher.join_channel(channel_id);
-    stop_cheat_caller_address(channel_contract_address);
-
-    // check that nft is minted to the profile
-    start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());
-    let (_, channel_member) = dispatcher
-        .is_channel_member(USER_TWO.try_into().unwrap(), channel_id);
-    assert(channel_member.channel_token_id != 0, 'Invalid nft mint token ');
-}
-
-#[test]
-fn test_channel_nft_is_burnt_on_leaving_channel() {
-    let channel_contract_address = __setup__();
-    let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };
-
-    // create a community
-    start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());
-    let community_id = dispatcher.create_community();
-    stop_cheat_caller_address(channel_contract_address);
-
-    // create a channel
-    start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());
-    let channel_id = dispatcher.create_channel(community_id);
-    stop_cheat_caller_address(channel_contract_address);
-
-    // join the community
-    start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());
-    dispatcher.join_community(community_id);
-    stop_cheat_caller_address(channel_contract_address);
-
-    // join the channel
-    start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());
-    dispatcher.join_channel(channel_id);
-    stop_cheat_caller_address(channel_contract_address);
-
-    // leave the channel
-    start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());
-    dispatcher.leave_channel(channel_id);
-    stop_cheat_caller_address(channel_contract_address);
-
-    let (_, channel_member) = dispatcher
-        .is_channel_member(USER_TWO.try_into().unwrap(), channel_id);
-    assert(channel_member.channel_token_id == 0, 'nft is burned ');
-}
 
 #[test]
 #[should_panic(expected: ('coloniz: already a Member',))]
@@ -399,7 +324,6 @@ fn test_joining_channel_emits_event() {
                             channel_id: channel_id,
                             transaction_executor: USER_TWO.try_into().unwrap(),
                             profile: channel_member.profile,
-                            token_id: channel_member.channel_token_id,
                             block_timestamp: get_block_timestamp(),
                         }
                     )
@@ -433,7 +357,6 @@ fn test_leave_channel() {
     stop_cheat_caller_address(channel_contract_address);
     let get_total_channel_members = dispatcher.get_total_channel_members(channel_id);
     assert(get_total_channel_members == 1, 'No reduction in total members');
-    assert(channel_member.channel_token_id == 0, 'NFT is not burn ');
     assert(channel_member.total_publications == 0, 'Invalid Total Publication');
     assert(channel_member.profile == contract_address_const::<0>(), 'Invalid Channel Member');
     assert(channel_member.channel_id == 0, 'Invalid Channel Id');
@@ -491,7 +414,6 @@ fn test_leave_channel_emits_event() {
     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());
     let (_, channel_member) = dispatcher
         .is_channel_member(USER_TWO.try_into().unwrap(), channel_id);
-    let channel_token_id = channel_member.channel_token_id;
     dispatcher.leave_channel(channel_id);
     spy
         .assert_emitted(
@@ -503,7 +425,6 @@ fn test_leave_channel_emits_event() {
                             channel_id: channel_id,
                             transaction_executor: USER_TWO.try_into().unwrap(),
                             profile: USER_TWO.try_into().unwrap(),
-                            token_id: channel_token_id,
                             block_timestamp: get_block_timestamp(),
                         }
                     )

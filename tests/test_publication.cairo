@@ -49,7 +49,6 @@ fn __setup__() -> (
     // declare follownft
     let follow_nft_classhash = declare("Follow").unwrap().contract_class();
     // declare channel_nft
-    let channel_nft_classhash = declare("ChannelNFT").unwrap().contract_class();
     // declare community_nft
     let community_nft_classhash = declare("CommunityNFT").unwrap().contract_class();
     // declare collectnft
@@ -61,7 +60,6 @@ fn __setup__() -> (
         nft_contract_address.into(),
         HUB_ADDRESS,
         (*follow_nft_classhash.class_hash).into(),
-        (*channel_nft_classhash.class_hash).into(),
         (*community_nft_classhash.class_hash).into(),
         (*collect_nft_classhash.class_hash).into(),
         ADMIN
