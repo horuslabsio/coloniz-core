@@ -2,6 +2,8 @@ use starknet::ContractAddress;
 use coloniz::base::constants::types::{
     Profile, PublicationType, Publication, RepostParams, PostParams, CommentParams
 };
+use coloniz::base::constants::types::ProfileVariants;
+
 // *************************************************************************
 //                              INTERFACE of coloniz PROFILE
 // *************************************************************************
@@ -15,7 +17,8 @@ pub trait IComposable<TState> {
         coloniznft_contract_address: ContractAddress,
         registry_hash: felt252,
         implementation_hash: felt252,
-        salt: felt252
+        salt: felt252,
+        profile_variants: ProfileVariants
     ) -> ContractAddress;
     fn set_profile_metadata_uri(
         ref self: TState, profile_address: ContractAddress, metadata_uri: ByteArray

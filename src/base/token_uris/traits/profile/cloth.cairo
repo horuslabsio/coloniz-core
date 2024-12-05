@@ -1,22 +1,12 @@
-// let make the face of the profile svg
-
 pub mod cloth {
     use coloniz::base::utils::byte_array_extra::FeltTryIntoByteArray;
+    use coloniz::base::constants::types::ClothVariants;
 
-    #[derive(Drop)]
-    enum ClothVariants {
-        CLOTH1,
-        ClOTH2, // 1
-        CLOTH3, // 2
-        CLOTH4, // 3
-        CLOTH5, // 4
+    pub fn clothVariant(variant: ClothVariants) -> ByteArray {
+        getClothVariant(variant)
     }
 
-    pub fn clothSvgStart() -> ByteArray {
-        getClothvariant(ClothVariants::ClOTH2)
-    }
-
-    pub fn getClothvariant(clothVariant: ClothVariants) -> ByteArray {
+    pub fn getClothVariant(clothVariant: ClothVariants) -> ByteArray {
         let mut decidedCloth: ByteArray = Default::default();
         match clothVariant {
             ClothVariants::CLOTH1 => {

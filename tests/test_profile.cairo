@@ -13,6 +13,7 @@ use snforge_std::{
 use coloniz::interfaces::IColonizNFT::{IColonizNFTDispatcher, IColonizNFTDispatcherTrait};
 use coloniz::profile::profile::ProfileComponent::{Event as ProfileEvent, CreatedProfile};
 use coloniz::interfaces::IProfile::{IProfileDispatcher, IProfileDispatcherTrait};
+use coloniz::base::constants::types::{ ProfileVariants, AccessoryVariants, FaceVariants, ClothVariants, BackgroundVariants, BodyVariants, BackVariants };
 
 const HUB_ADDRESS: felt252 = 'HUB';
 const USER: felt252 = 'USER1';
@@ -66,12 +67,20 @@ fn test_profile_creation() {
         __setup__();
     let colonizNFTDispatcher = IColonizNFTDispatcher { contract_address: nft_contract_address };
     let profileDispatcher = IProfileDispatcher { contract_address: profile_contract_address };
+    let profile_variant = ProfileVariants {
+        body: BodyVariants::Body1,
+        back: BackVariants::BLUEFLAG,
+        background: BackgroundVariants::BACKGROUND1,
+        cloth: ClothVariants::CLOTH1,
+        face: FaceVariants::FACE1,
+        accessory: AccessoryVariants::BLUEMASK
+    };
 
     //user 1 create profile
     start_cheat_caller_address(profile_contract_address, USER.try_into().unwrap());
     start_cheat_caller_address(nft_contract_address, USER.try_into().unwrap());
     let profile_address = profileDispatcher
-        .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2456);
+        .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2456, profile_variant);
 
     // test a new coloniz nft is minted
     let last_minted_id = colonizNFTDispatcher.get_last_minted_id();
@@ -98,12 +107,20 @@ fn test_profile_metadata() {
     ) =
         __setup__();
     let profileDispatcher = IProfileDispatcher { contract_address: profile_contract_address };
+    let profile_variant = ProfileVariants {
+        body: BodyVariants::Body1,
+        back: BackVariants::BLUEFLAG,
+        background: BackgroundVariants::BACKGROUND1,
+        cloth: ClothVariants::CLOTH1,
+        face: FaceVariants::FACE1,
+        accessory: AccessoryVariants::BLUEMASK
+    };
 
     //user 1 create profile
     start_cheat_caller_address(profile_contract_address, USER.try_into().unwrap());
     start_cheat_caller_address(nft_contract_address, USER.try_into().unwrap());
     let profile_address = profileDispatcher
-        .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2456);
+        .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2456, profile_variant);
 
     profileDispatcher
         .set_profile_metadata_uri(
@@ -131,13 +148,22 @@ fn test_profile_creation_event() {
     let colonizNFTDispatcher = IColonizNFTDispatcher { contract_address: nft_contract_address };
     let profileDispatcher = IProfileDispatcher { contract_address: profile_contract_address };
     let mut spy = spy_events();
+    
+    let profile_variant = ProfileVariants {
+        body: BodyVariants::Body1,
+        back: BackVariants::BLUEFLAG,
+        background: BackgroundVariants::BACKGROUND1,
+        cloth: ClothVariants::CLOTH1,
+        face: FaceVariants::FACE1,
+        accessory: AccessoryVariants::BLUEMASK
+    };
 
     //user 1 create profile
     start_cheat_caller_address(profile_contract_address, USER.try_into().unwrap());
     start_cheat_caller_address(nft_contract_address, USER.try_into().unwrap());
 
     let profile_address = profileDispatcher
-        .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2456);
+        .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2456, profile_variant);
 
     let token_id = colonizNFTDispatcher.get_user_token_id(USER.try_into().unwrap());
 

@@ -16,7 +16,11 @@ pub mod ProfileComponent {
     use coloniz::interfaces::IRegistry::{IRegistryDispatcherTrait, IRegistryLibraryDispatcher};
     use coloniz::interfaces::IERC721::{IERC721Dispatcher, IERC721DispatcherTrait};
     use coloniz::interfaces::IProfile::IProfile;
-    use coloniz::base::{constants::types::Profile, constants::errors::Errors::NOT_PROFILE_OWNER};
+    use coloniz::base::{
+        constants::types::Profile, 
+        constants::types::ProfileVariants, 
+        constants::errors::Errors::NOT_PROFILE_OWNER
+    };
 
     // *************************************************************************
     //                              STORAGE
@@ -65,7 +69,8 @@ pub mod ProfileComponent {
             coloniznft_contract_address: ContractAddress,
             registry_hash: felt252,
             implementation_hash: felt252,
-            salt: felt252
+            salt: felt252,
+            profile_variants: ProfileVariants
         ) -> ContractAddress {
             // mint coloniz nft
             let recipient = get_caller_address();
@@ -75,7 +80,7 @@ pub mod ProfileComponent {
                 .balance_of(recipient);
             if owns_coloniznft == 0 {
                 IColonizNFTDispatcher { contract_address: coloniznft_contract_address }
-                    .mint_coloniznft(recipient);
+                    .mint_coloniznft(recipient, profile_variants);
             }
             let token_id = IColonizNFTDispatcher { contract_address: coloniznft_contract_address }
                 .get_user_token_id(recipient);

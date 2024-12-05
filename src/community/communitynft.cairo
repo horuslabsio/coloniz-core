@@ -114,7 +114,7 @@ pub mod CommunityNFT {
         fn name(self: @ContractState) -> ByteArray {
             let mut collection_name = ArrayTrait::<felt252>::new();
             let community_id_felt252: felt252 = self.community_id.read().try_into().unwrap();
-            collection_name.append('coloniz Community | #');
+            collection_name.append('Coloniz Community | #');
             collection_name.append(community_id_felt252);
             let collection_name_byte = convert_into_byteArray(ref collection_name);
             collection_name_byte
@@ -122,7 +122,7 @@ pub mod CommunityNFT {
 
         /// @notice returns the collection symbol
         fn symbol(self: @ContractState) -> ByteArray {
-            return "coloniz:COMMUNITY";
+            return "CLZ:COMMUNITY";
         }
 
         /// @notice returns the token_uri for a particular token_id

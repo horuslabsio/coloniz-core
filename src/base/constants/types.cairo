@@ -20,6 +20,81 @@ pub struct Profile {
 }
 
 // *************************************************************************
+//                            TOKEN URIs
+// *************************************************************************
+#[derive(Copy, Drop, Serde, starknet::Store, Clone)]
+pub enum BackVariants {
+    BLUEFLAG,
+    BLUEGOLFSTICK,
+    FISHINGSTICK, 
+    REDFLAG,
+    STYLIZEDBATON,
+    WHITEGOLFSTICK,
+}
+
+#[derive(Copy, Drop, Serde, starknet::Store, Clone)]
+pub enum BodyVariants {
+    Body1,
+    Body2,
+    Body3,
+    Body4,
+    Body5,
+    Body6,
+    Body7,
+}
+
+#[derive(Copy, Drop, Serde, starknet::Store, Clone)]
+pub enum BackgroundVariants {
+    BACKGROUND1,
+    BACKGROUND2,
+    BACKGROUND3,
+    BACKGROUND4,
+    BACKGROUND5,
+}
+
+#[derive(Copy, Drop, Serde, starknet::Store, Clone)]
+pub enum ClothVariants {
+    CLOTH1,
+    ClOTH2,
+    CLOTH3,
+    CLOTH4,
+    CLOTH5,
+}
+
+#[derive(Copy, Drop, Serde, starknet::Store, Clone)]
+pub enum FaceVariants {
+    FACE1,
+    FACE2,
+    FACE3,
+    FACE4,
+    FACE5,
+    FACE6,
+    FACE7, 
+    FACE8,
+}
+
+#[derive(Copy, Drop, Serde, starknet::Store, Clone)]
+pub enum AccessoryVariants {
+    BLACKVISOR,
+    BLUEMASK,
+    CAP,
+    ORANGEMASK, 
+    PINKVISOR, 
+    REDMASK,
+    VRHEADSET,
+}
+
+#[derive(Copy, Drop, Serde, starknet::Store)]
+pub struct ProfileVariants {
+    pub body: BodyVariants,
+    pub back: BackVariants,
+    pub background: BackgroundVariants,
+    pub cloth: ClothVariants,
+    pub face: FaceVariants,
+    pub accessory: AccessoryVariants
+}
+
+// *************************************************************************
 //                            FOLLOW
 // *************************************************************************
 

@@ -30,3 +30,5 @@ allowed-libfuncs-list.name = "experimental"
 unstable-add-statements-code-locations-debug-info = true
 unstable-add-statements-functions-debug-info = true
 inlining-strategy = "avoid"
+
+[lib]

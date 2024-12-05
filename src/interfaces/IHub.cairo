@@ -2,6 +2,7 @@ use starknet::ContractAddress;
 use coloniz::base::constants::types::{
     Profile, PostParams, RepostParams, CommentParams, PublicationType, Publication
 };
+use coloniz::base::constants::types::ProfileVariants;
 
 // *************************************************************************
 //                              INTERFACE of HUB CONTRACT
@@ -16,7 +17,8 @@ pub trait IHub<TState> {
         coloniznft_contract_address: ContractAddress,
         registry_hash: felt252,
         implementation_hash: felt252,
-        salt: felt252
+        salt: felt252,
+        profile_variants: ProfileVariants
     ) -> ContractAddress;
 
     fn set_profile_metadata_uri(

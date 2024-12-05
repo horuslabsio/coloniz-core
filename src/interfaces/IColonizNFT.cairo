@@ -1,4 +1,5 @@
 use starknet::ContractAddress;
+use coloniz::base::constants::types::ProfileVariants;
 // *************************************************************************
 //                              INTERFACE of coloniz NFT
 // *************************************************************************
@@ -7,7 +8,7 @@ pub trait IColonizNFT<TState> {
     // *************************************************************************
     //                            EXTERNALS
     // *************************************************************************
-    fn mint_coloniznft(ref self: TState, address: ContractAddress);
+    fn mint_coloniznft(ref self: TState, address: ContractAddress, profile_variant: ProfileVariants);
     // *************************************************************************
     //                            GETTERS
     // *************************************************************************

@@ -1,19 +1,9 @@
-// let make the face of the profile svg
-
 pub mod background {
     use coloniz::base::utils::byte_array_extra::FeltTryIntoByteArray;
+    use coloniz::base::constants::types::BackgroundVariants;
 
-    #[derive(Drop)]
-    enum BackgroundVariants {
-        BACKGROUND1, // 1
-        BACKGROUND2, // 2
-        BACKGROUND3, // 3
-        BACKGROUND4, // 4
-        BACKGROUND5, // 5 
-    }
-
-    pub fn backgroundSvgStart() -> ByteArray {
-        getBackgroundVariant(BackgroundVariants::BACKGROUND2)
+    pub fn backgroundVariant(variant: BackgroundVariants) -> ByteArray {
+        getBackgroundVariant(variant)
     }
 
     pub fn getBackgroundVariant(backgroundVariant: BackgroundVariants) -> ByteArray {

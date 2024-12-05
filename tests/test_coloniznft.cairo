@@ -8,9 +8,10 @@ use snforge_std::{
     DeclareResultTrait
 };
 
-use openzeppelin::{token::erc721::interface::{ERC721ABIDispatcher, ERC721ABIDispatcherTrait}};
+use openzeppelin::{ token::erc721::interface::{ERC721ABIDispatcher, ERC721ABIDispatcherTrait} };
 
-use coloniz::interfaces::IColonizNFT::{IColonizNFTDispatcher, IColonizNFTDispatcherTrait};
+use coloniz::interfaces::IColonizNFT::{ IColonizNFTDispatcher, IColonizNFTDispatcherTrait };
+use coloniz::base::constants::types::{ ProfileVariants, AccessoryVariants, FaceVariants, ClothVariants, BackgroundVariants, BodyVariants, BackVariants };
 
 const ADMIN: felt252 = 'ADMIN';
 const USER_ONE: felt252 = 'BOB';
@@ -50,7 +51,17 @@ fn test_mint_coloniz_nft() {
     let dispatcher = IColonizNFTDispatcher { contract_address: nft_contract_address };
     let erc721_dispatcher = ERC721ABIDispatcher { contract_address: nft_contract_address };
     start_cheat_caller_address(nft_contract_address, ADMIN.try_into().unwrap());
-    dispatcher.mint_coloniznft(USER_ONE.try_into().unwrap());
+
+    let profile_variant = ProfileVariants {
+        body: BodyVariants::Body1,
+        back: BackVariants::BLUEFLAG,
+        background: BackgroundVariants::BACKGROUND1,
+        cloth: ClothVariants::CLOTH1,
+        face: FaceVariants::FACE1,
+        accessory: AccessoryVariants::BLUEMASK
+    };
+
+    dispatcher.mint_coloniznft(USER_ONE.try_into().unwrap(), profile_variant);
     let balance = erc721_dispatcher.balance_of(USER_ONE.try_into().unwrap());
     assert(balance == 1, 'nft not minted');
     stop_cheat_caller_address(nft_contract_address);
@@ -62,8 +73,18 @@ fn test_mint_coloniz_nft_twice_for_the_same_user() {
     let nft_contract_address = __setup__();
     let dispatcher = IColonizNFTDispatcher { contract_address: nft_contract_address };
     start_cheat_caller_address(nft_contract_address, ADMIN.try_into().unwrap());
-    dispatcher.mint_coloniznft(USER_ONE.try_into().unwrap());
-    dispatcher.mint_coloniznft(USER_ONE.try_into().unwrap());
+
+    let profile_variant = ProfileVariants {
+        body: BodyVariants::Body1,
+        back: BackVariants::BLUEFLAG,
+        background: BackgroundVariants::BACKGROUND1,
+        cloth: ClothVariants::CLOTH1,
+        face: FaceVariants::FACE1,
+        accessory: AccessoryVariants::BLUEMASK
+    };
+
+    dispatcher.mint_coloniznft(USER_ONE.try_into().unwrap(), profile_variant);
+    dispatcher.mint_coloniznft(USER_ONE.try_into().unwrap(), profile_variant);
     stop_cheat_caller_address(nft_contract_address);
 }
 
@@ -72,7 +93,17 @@ fn test_get_last_minted_id_after_minting() {
     let nft_contract_address = __setup__();
     let dispatcher = IColonizNFTDispatcher { contract_address: nft_contract_address };
     start_cheat_caller_address(nft_contract_address, ADMIN.try_into().unwrap());
-    dispatcher.mint_coloniznft(USER_ONE.try_into().unwrap());
+
+    let profile_variant = ProfileVariants {
+        body: BodyVariants::Body1,
+        back: BackVariants::BLUEFLAG,
+        background: BackgroundVariants::BACKGROUND1,
+        cloth: ClothVariants::CLOTH1,
+        face: FaceVariants::FACE1,
+        accessory: AccessoryVariants::BLUEMASK
+    };
+
+    dispatcher.mint_coloniznft(USER_ONE.try_into().unwrap(), profile_variant);
     let last_minted_id = dispatcher.get_last_minted_id();
     assert(last_minted_id == 1, 'invalid last minted id');
     stop_cheat_caller_address(nft_contract_address);
@@ -83,7 +114,16 @@ fn test_get_user_token_id_after_minting() {
     let nft_contract_address = __setup__();
     let dispatcher = IColonizNFTDispatcher { contract_address: nft_contract_address };
     start_cheat_caller_address(nft_contract_address, ADMIN.try_into().unwrap());
-    dispatcher.mint_coloniznft(USER_ONE.try_into().unwrap());
+
+    let profile_variant = ProfileVariants {
+        body: BodyVariants::Body1,
+        back: BackVariants::BLUEFLAG,
+        background: BackgroundVariants::BACKGROUND1,
+        cloth: ClothVariants::CLOTH1,
+        face: FaceVariants::FACE1,
+        accessory: AccessoryVariants::BLUEMASK
+    };
+    dispatcher.mint_coloniznft(USER_ONE.try_into().unwrap(), profile_variant);
     let user_token_id = dispatcher.get_user_token_id(USER_ONE.try_into().unwrap());
     assert(user_token_id == 1, 'invalid user token id');
     stop_cheat_caller_address(nft_contract_address);

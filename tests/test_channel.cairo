@@ -70,7 +70,6 @@ fn test_create_channel_emits_events() {
     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());
     let channel_id = dispatcher.create_channel(community_id);
     assert(channel_id == 1, 'invalid channel creation');
-    let channel_details = dispatcher.get_channel(channel_id);
     spy
         .assert_emitted(
             @array![
@@ -412,8 +411,6 @@ fn test_leave_channel_emits_event() {
 
     let mut spy = spy_events();
     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());
-    let (_, channel_member) = dispatcher
-        .is_channel_member(USER_TWO.try_into().unwrap(), channel_id);
     dispatcher.leave_channel(channel_id);
     spy
         .assert_emitted(

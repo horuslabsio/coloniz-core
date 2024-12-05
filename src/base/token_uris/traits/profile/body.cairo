@@ -1,21 +1,9 @@
-// let make the face of the profile svg
-
 pub mod body {
     use coloniz::base::utils::byte_array_extra::FeltTryIntoByteArray;
-
-    #[derive(Drop)]
-    enum BodyVariants {
-        Body1, // 1
-        Body2, // 2
-        Body3, // 3
-        Body4, // 4
-        Body5, // 5
-        Body6,
-        Body7,
-    }
-
-    pub fn bodySvgStart() -> ByteArray {
-        getBodyvariant(BodyVariants::Body7)
+    use coloniz::base::constants::types::BodyVariants;
+    
+    pub fn bodyVariant(variant: BodyVariants) -> ByteArray {
+        getBodyvariant(variant)
     }
 
     pub fn getBodyvariant(backVariant: BodyVariants) -> ByteArray {

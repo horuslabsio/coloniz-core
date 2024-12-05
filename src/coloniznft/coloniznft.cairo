@@ -14,6 +14,7 @@ pub mod ColonizNFT {
     use coloniz::interfaces::IColonizNFT;
     use coloniz::base::{
         constants::errors::Errors::ALREADY_MINTED,
+        constants::types::ProfileVariants,
         token_uris::profile_token_uri::ProfileTokenUri::get_token_uri,
     };
     use openzeppelin::{
@@ -57,6 +58,7 @@ pub mod ColonizNFT {
         last_minted_id: u256,
         mint_timestamp: Map<u256, u64>,
         user_token_id: Map<ContractAddress, u256>,
+        profile_variants: Map<u256, ProfileVariants>
     }
 
     // *************************************************************************
@@ -79,7 +81,7 @@ pub mod ColonizNFT {
     #[constructor]
     fn constructor(ref self: ContractState, admin: ContractAddress,) {
         self.admin.write(admin);
-        self.erc721.initializer("coloniz", "KST", "");
+        self.erc721.initializer("Coloniz Profile", "CLZ:PROFILE", "");
     }
 
     #[abi(embed_v0)]
@@ -89,7 +91,7 @@ pub mod ColonizNFT {
         // *************************************************************************
         /// @notice mints the coloniz NFT
         /// @param address address of user trying to mint the coloniz NFT
-        fn mint_coloniznft(ref self: ContractState, address: ContractAddress) {
+        fn mint_coloniznft(ref self: ContractState, address: ContractAddress, profile_variant: ProfileVariants) {
             let balance = self.erc721.balance_of(address);
             assert(balance.is_zero(), ALREADY_MINTED);
 
@@ -100,6 +102,7 @@ pub mod ColonizNFT {
             self.user_token_id.write(address, token_id);
             self.last_minted_id.write(token_id);
             self.mint_timestamp.write(token_id, timestamp);
+            self.profile_variants.write(token_id, profile_variant);
         }
 
         // *************************************************************************
@@ -136,7 +139,8 @@ pub mod ColonizNFT {
         /// @notice returns the token_uri for a particular token_id
         fn token_uri(self: @ContractState, token_id: u256) -> ByteArray {
             let mint_timestamp: u64 = self.get_token_mint_timestamp(token_id);
-            get_token_uri(token_id, mint_timestamp)
+            let variant = self.profile_variants.read(token_id);
+            get_token_uri(token_id, mint_timestamp, variant)
         }
     }
 }

@@ -5,8 +5,7 @@ pub mod ChannelComponent {
     // *************************************************************************
     use core::clone::Clone;
     use core::starknet::{
-        ContractAddress, contract_address_const, get_caller_address, get_block_timestamp, ClassHash,
-        syscalls::deploy_syscall, SyscallResultTrait
+        ContractAddress, contract_address_const, get_caller_address, get_block_timestamp
     };
     use starknet::storage::{
         StoragePointerReadAccess, StoragePointerWriteAccess, Map, StorageMapReadAccess,
@@ -18,7 +17,6 @@ pub mod ChannelComponent {
     use coloniz::community::community::CommunityComponent;
     use coloniz::interfaces::{
         IChannel::IChannel, ICommunity::ICommunity,
-        ICustomNFT::{ICustomNFTDispatcher, ICustomNFTDispatcherTrait}
     };
     use coloniz::base::{
         constants::errors::Errors::{
@@ -38,7 +36,6 @@ pub mod ChannelComponent {
         channel_counter: u256,
         channel_members: Map<(u256, ContractAddress), ChannelMember>,
         channel_moderators: Map<(u256, ContractAddress), bool>,
-        // channel_nft_classhash: ClassHash,
         channel_ban_status: Map<(u256, ContractAddress), bool>,
     }
 
@@ -183,7 +180,6 @@ pub mod ChannelComponent {
         fn leave_channel(ref self: ComponentState<TContractState>, channel_id: u256) {
             let mut channel = self.channels.read(channel_id);
             let profile = get_caller_address();
-            let channel_member = self.channel_members.read((channel_id, profile));
 
             // check that profile is a channel member
             let (is_channel_member, _) = self.is_channel_member(profile, channel_id);

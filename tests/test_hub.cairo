@@ -15,6 +15,7 @@ use coloniz::interfaces::IHandle::{IHandleDispatcher, IHandleDispatcherTrait};
 use coloniz::interfaces::IHandleRegistry::{
     IHandleRegistryDispatcher, IHandleRegistryDispatcherTrait
 };
+use coloniz::base::constants::types::{ ProfileVariants, AccessoryVariants, FaceVariants, ClothVariants, BackgroundVariants, BodyVariants, BackVariants };
 
 const ADMIN: felt252 = 13245;
 const ADDRESS1: felt252 = 1234;
@@ -76,12 +77,23 @@ fn __setup__() -> (ContractAddress, ContractAddress, ContractAddress, ContractAd
     // create profiles
     let dispatcher = IHubDispatcher { contract_address: hub_contract_address };
     start_cheat_caller_address(hub_contract_address, ADDRESS1.try_into().unwrap());
+
+    let profile_variant = ProfileVariants {
+        body: BodyVariants::Body1,
+        back: BackVariants::BLUEFLAG,
+        background: BackgroundVariants::BACKGROUND1,
+        cloth: ClothVariants::CLOTH1,
+        face: FaceVariants::FACE1,
+        accessory: AccessoryVariants::BLUEMASK
+    };
+
     let user_one_profile_address = dispatcher
         .create_profile(
             nft_contract_address,
             (*registry_class_hash.class_hash).into(),
             (*account_class_hash.class_hash).into(),
-            2478
+            2478,
+            profile_variant
         );
     stop_cheat_caller_address(hub_contract_address);
 
@@ -91,7 +103,8 @@ fn __setup__() -> (ContractAddress, ContractAddress, ContractAddress, ContractAd
             nft_contract_address,
             (*registry_class_hash.class_hash).into(),
             (*account_class_hash.class_hash).into(),
-            2478
+            2478,
+            profile_variant
         );
 
     stop_cheat_caller_address(hub_contract_address);
@@ -102,7 +115,8 @@ fn __setup__() -> (ContractAddress, ContractAddress, ContractAddress, ContractAd
             nft_contract_address,
             (*registry_class_hash.class_hash).into(),
             (*account_class_hash.class_hash).into(),
-            2478
+            2478,
+            profile_variant
         );
     stop_cheat_caller_address(hub_contract_address);
 

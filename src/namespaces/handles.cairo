@@ -109,7 +109,7 @@ pub mod Handles {
     #[constructor]
     fn constructor(ref self: ContractState, admin: ContractAddress) {
         self.admin.write(admin);
-        self.erc721.initializer("Coloniz Handles", "CHandles", "");
+        self.erc721.initializer("Coloniz Handles", "CLZ:HANDLES", "");
     }
 
     // *************************************************************************
