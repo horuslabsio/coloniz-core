@@ -38,7 +38,7 @@ pub mod ChannelComponent {
         channel_counter: u256,
         channel_members: Map<(u256, ContractAddress), ChannelMember>,
         channel_moderators: Map<(u256, ContractAddress), bool>,
-        channel_nft_classhash: ClassHash,
+        // channel_nft_classhash: ClassHash,
         channel_ban_status: Map<(u256, ContractAddress), bool>,
     }
 
@@ -54,7 +54,6 @@ pub mod ChannelComponent {
         ChannelModAdded: ChannelModAdded,
         ChannelModRemoved: ChannelModRemoved,
         ChannelBanStatusUpdated: ChannelBanStatusUpdated,
-        DeployedChannelNFT: DeployedChannelNFT
     }
 
     #[derive(Drop, starknet::Event)]
@@ -62,7 +61,6 @@ pub mod ChannelComponent {
         pub channel_id: u256,
         pub community_id: u256,
         pub channel_owner: ContractAddress,
-        pub channel_nft_address: ContractAddress,
         pub block_timestamp: u64,
     }
 
@@ -71,7 +69,6 @@ pub mod ChannelComponent {
         pub channel_id: u256,
         pub transaction_executor: ContractAddress,
         pub profile: ContractAddress,
-        pub token_id: u256,
         pub block_timestamp: u64,
     }
 
@@ -80,7 +77,6 @@ pub mod ChannelComponent {
         pub channel_id: u256,
         pub transaction_executor: ContractAddress,
         pub profile: ContractAddress,
-        pub token_id: u256,
         pub block_timestamp: u64,
     }
 
@@ -109,12 +105,6 @@ pub mod ChannelComponent {
         pub block_timestamp: u64,
     }
 
-    #[derive(Drop, starknet::Event)]
-    pub struct DeployedChannelNFT {
-        pub channel_id: u256,
-        pub channel_nft: ContractAddress,
-        pub block_timestamp: u64,
-    }
 
     // *************************************************************************
     //                              EXTERNAL FUNCTIONS
@@ -132,19 +122,12 @@ pub mod ChannelComponent {
         fn create_channel(ref self: ComponentState<TContractState>, community_id: u256) -> u256 {
             let channel_id = self.channel_counter.read() + 1;
             let channel_owner = get_caller_address();
-            let channel_nft_classhash = self.channel_nft_classhash.read();
 
             // check that community exists
             let community_instance = get_dep_component!(@self, Community);
             let _community_id = community_instance.get_community(community_id).community_id;
             assert(community_id == _community_id, COMMUNITY_DOES_NOT_EXIST);
 
-            let channel_nft_address = self
-                ._deploy_channel_nft(
-                    channel_id, channel_nft_classhash, get_block_timestamp().try_into().unwrap()
-                );
-            // use channel_id as salt since its unique
-            // check that owner is a member of the community
             let (membership_status, _) = community_instance
                 .is_community_member(channel_owner, community_id);
             assert(membership_status, NOT_COMMUNITY_MEMBER);
@@ -154,7 +137,6 @@ pub mod ChannelComponent {
                 community_id: community_id,
                 channel_owner: channel_owner,
                 channel_metadata_uri: "",
-                channel_nft_address: channel_nft_address,
                 channel_total_members: 0,
                 channel_censorship: false,
             };
@@ -173,7 +155,6 @@ pub mod ChannelComponent {
                         channel_id: new_channel.channel_id,
                         community_id: community_id,
                         channel_owner: new_channel.channel_owner,
-                        channel_nft_address: new_channel.channel_nft_address,
                         block_timestamp: get_block_timestamp(),
                     }
                 );
@@ -212,9 +193,6 @@ pub mod ChannelComponent {
             let total_members: u256 = channel.channel_total_members;
             assert(total_members > 1, CHANNEL_HAS_NO_MEMBER);
 
-            // burn user's community token
-            self._burn_channel_nft(channel.channel_nft_address, channel_member.channel_token_id);
-
             // update storage
             self
                 .channel_members
@@ -224,7 +202,7 @@ pub mod ChannelComponent {
                         profile: contract_address_const::<0>(),
                         channel_id: 0,
                         total_publications: 0,
-                        channel_token_id: 0,
+                        // channel_token_id: 0,
                     }
                 );
 
@@ -237,7 +215,6 @@ pub mod ChannelComponent {
                         channel_id: channel_id,
                         transaction_executor: get_caller_address(),
                         profile: profile,
-                        token_id: channel_member.channel_token_id,
                         block_timestamp: get_block_timestamp(),
                     }
                 )
@@ -422,9 +399,8 @@ pub mod ChannelComponent {
     > of InternalTrait<TContractState> {
         /// @notice initalizes channel component
         /// @param channel_nft_classhash classhash of channel NFT
-        fn _initializer(ref self: ComponentState<TContractState>, channel_nft_classhash: felt252) {
+        fn _initializer(ref self: ComponentState<TContractState>) {
             self.channel_counter.write(0);
-            self.channel_nft_classhash.write(channel_nft_classhash.try_into().unwrap());
         }
 
         /// @notice internal function to join a channel
@@ -441,14 +417,8 @@ pub mod ChannelComponent {
                 .is_community_member(profile, channel.community_id);
             assert(membership_status, NOT_COMMUNITY_MEMBER);
 
-            // mint a channel token to new joiner
-            let minted_token_id = self._mint_channel_nft(profile, channel.channel_nft_address);
-
             let channel_member = ChannelMember {
-                profile: profile,
-                channel_id: channel_id,
-                total_publications: 0,
-                channel_token_id: minted_token_id,
+                profile: profile, channel_id: channel_id, total_publications: 0,
             };
 
             // update storage
@@ -463,7 +433,7 @@ pub mod ChannelComponent {
                         channel_id: channel_id,
                         transaction_executor: get_caller_address(),
                         profile: profile,
-                        token_id: minted_token_id,
+                        // token_id: minted_token_id,
                         block_timestamp: get_block_timestamp(),
                     }
                 )
@@ -554,17 +524,9 @@ pub mod ChannelComponent {
             while index < length {
                 let profile = *profiles[index];
                 let ban_status = *ban_statuses[index];
-
-                // check profile is a channel member
                 let (is_channel_member, _) = self.is_channel_member(profile, channel_id);
                 assert(is_channel_member == true, NOT_CHANNEL_MEMBER);
-
-                // update storage
-                // let channel_member = self.channel_members.read((channel_id, profile));
-                // let updated_member = ChannelMember { ban_status: ban_status, ..channel_member };
-                // self.channel_members.write((channel_id, profile), updated_member);
                 self.channel_ban_status.write((channel_id, profile), ban_status);
-                // emit event
                 self
                     .emit(
                         ChannelBanStatusUpdated {
@@ -577,60 +539,6 @@ pub mod ChannelComponent {
                     );
                 index += 1;
             };
-        }
-
-        /// @notice internal function to deploy a channel nft
-        /// @param channel_id id of channel
-        /// @param salt for randomization
-        fn _deploy_channel_nft(
-            ref self: ComponentState<TContractState>,
-            channel_id: u256,
-            channel_nft_impl_class_hash: ClassHash,
-            salt: felt252
-        ) -> ContractAddress {
-            let mut constructor_calldata: Array<felt252> = array![
-                channel_id.low.into(), channel_id.high.into()
-            ];
-
-            let (account_address, _) = deploy_syscall(
-                channel_nft_impl_class_hash, salt, constructor_calldata.span(), true
-            )
-                .unwrap_syscall();
-
-            self
-                .emit(
-                    DeployedChannelNFT {
-                        channel_id: channel_id,
-                        channel_nft: account_address,
-                        block_timestamp: get_block_timestamp()
-                    }
-                );
-            account_address
-        }
-
-        /// @notice internal function to mint a channel nft
-        /// @param profile profile to be minted to
-        /// @param channel_nft_address address of channel nft
-        fn _mint_channel_nft(
-            ref self: ComponentState<TContractState>,
-            profile: ContractAddress,
-            channel_nft_address: ContractAddress
-        ) -> u256 {
-            let token_id = ICustomNFTDispatcher { contract_address: channel_nft_address }
-                .mint_nft(profile);
-            token_id
-        }
-
-        /// @notice internal function to burn a channel nft
-        /// @param channel_nft_address address of channel nft
-        /// @param token_id to burn
-        fn _burn_channel_nft(
-            ref self: ComponentState<TContractState>,
-            channel_nft_address: ContractAddress,
-            token_id: u256
-        ) {
-            ICustomNFTDispatcher { contract_address: channel_nft_address }
-                .burn_nft(get_caller_address(), token_id);
         }
     }
 }

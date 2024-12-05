@@ -120,7 +120,6 @@ pub mod ColonizHub {
         handle_contract_address: ContractAddress,
         handle_registry_contract_address: ContractAddress,
         follow_nft_classhash: felt252,
-        channel_nft_classhash: felt252,
         community_nft_classhash: felt252,
         collect_nft_classhash: felt252,
         owner: ContractAddress
@@ -132,7 +131,7 @@ pub mod ColonizHub {
             );
         self.handle_contract_address.write(handle_contract_address);
         self.handle_registry_contract_address.write(handle_registry_contract_address);
-        self.channel._initializer(channel_nft_classhash);
+        self.channel._initializer();
         self.publication._initializer(collect_nft_classhash);
         self.community._initializer(community_nft_classhash);
         self.jolt._initializer(owner);

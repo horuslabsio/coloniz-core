@@ -272,7 +272,6 @@ pub struct ChannelDetails {
     pub community_id: u256,
     pub channel_owner: ContractAddress,
     pub channel_metadata_uri: ByteArray,
-    pub channel_nft_address: ContractAddress,
     pub channel_total_members: u256,
     pub channel_censorship: bool,
 }
@@ -290,7 +289,6 @@ pub struct ChannelMember {
     pub profile: ContractAddress,
     pub channel_id: u256,
     pub total_publications: u256,
-    pub channel_token_id: u256,
 }
 
 // *************************************************************************
