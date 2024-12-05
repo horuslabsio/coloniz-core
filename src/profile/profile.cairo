@@ -17,8 +17,7 @@ pub mod ProfileComponent {
     use coloniz::interfaces::IERC721::{IERC721Dispatcher, IERC721DispatcherTrait};
     use coloniz::interfaces::IProfile::IProfile;
     use coloniz::base::{
-        constants::types::Profile, 
-        constants::types::ProfileVariants, 
+        constants::types::Profile, constants::types::ProfileVariants,
         constants::errors::Errors::NOT_PROFILE_OWNER
     };
 

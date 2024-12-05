@@ -13,8 +13,7 @@ pub mod ColonizNFT {
     use core::num::traits::zero::Zero;
     use coloniz::interfaces::IColonizNFT;
     use coloniz::base::{
-        constants::errors::Errors::ALREADY_MINTED,
-        constants::types::ProfileVariants,
+        constants::errors::Errors::ALREADY_MINTED, constants::types::ProfileVariants,
         token_uris::profile_token_uri::ProfileTokenUri::get_token_uri,
     };
     use openzeppelin::{
@@ -91,7 +90,9 @@ pub mod ColonizNFT {
         // *************************************************************************
         /// @notice mints the coloniz NFT
         /// @param address address of user trying to mint the coloniz NFT
-        fn mint_coloniznft(ref self: ContractState, address: ContractAddress, profile_variant: ProfileVariants) {
+        fn mint_coloniznft(
+            ref self: ContractState, address: ContractAddress, profile_variant: ProfileVariants
+        ) {
             let balance = self.erc721.balance_of(address);
             assert(balance.is_zero(), ALREADY_MINTED);
 

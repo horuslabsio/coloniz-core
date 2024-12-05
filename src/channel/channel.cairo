@@ -15,9 +15,7 @@ pub mod ChannelComponent {
 
     use coloniz::jolt::jolt::JoltComponent;
     use coloniz::community::community::CommunityComponent;
-    use coloniz::interfaces::{
-        IChannel::IChannel, ICommunity::ICommunity,
-    };
+    use coloniz::interfaces::{IChannel::IChannel, ICommunity::ICommunity,};
     use coloniz::base::{
         constants::errors::Errors::{
             NOT_CHANNEL_OWNER, ALREADY_MEMBER, NOT_CHANNEL_MEMBER, NOT_COMMUNITY_MEMBER,

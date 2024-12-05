@@ -26,7 +26,7 @@ pub struct Profile {
 pub enum BackVariants {
     BLUEFLAG,
     BLUEGOLFSTICK,
-    FISHINGSTICK, 
+    FISHINGSTICK,
     REDFLAG,
     STYLIZEDBATON,
     WHITEGOLFSTICK,
@@ -69,7 +69,7 @@ pub enum FaceVariants {
     FACE4,
     FACE5,
     FACE6,
-    FACE7, 
+    FACE7,
     FACE8,
 }
 
@@ -78,8 +78,8 @@ pub enum AccessoryVariants {
     BLACKVISOR,
     BLUEMASK,
     CAP,
-    ORANGEMASK, 
-    PINKVISOR, 
+    ORANGEMASK,
+    PINKVISOR,
     REDMASK,
     VRHEADSET,
 }

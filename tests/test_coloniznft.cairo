@@ -8,10 +8,13 @@ use snforge_std::{
     DeclareResultTrait
 };
 
-use openzeppelin::{ token::erc721::interface::{ERC721ABIDispatcher, ERC721ABIDispatcherTrait} };
+use openzeppelin::{token::erc721::interface::{ERC721ABIDispatcher, ERC721ABIDispatcherTrait}};
 
-use coloniz::interfaces::IColonizNFT::{ IColonizNFTDispatcher, IColonizNFTDispatcherTrait };
-use coloniz::base::constants::types::{ ProfileVariants, AccessoryVariants, FaceVariants, ClothVariants, BackgroundVariants, BodyVariants, BackVariants };
+use coloniz::interfaces::IColonizNFT::{IColonizNFTDispatcher, IColonizNFTDispatcherTrait};
+use coloniz::base::constants::types::{
+    ProfileVariants, AccessoryVariants, FaceVariants, ClothVariants, BackgroundVariants,
+    BodyVariants, BackVariants
+};
 
 const ADMIN: felt252 = 'ADMIN';
 const USER_ONE: felt252 = 'BOB';

@@ -15,7 +15,10 @@ use coloniz::interfaces::IHandle::{IHandleDispatcher, IHandleDispatcherTrait};
 use coloniz::interfaces::IHandleRegistry::{
     IHandleRegistryDispatcher, IHandleRegistryDispatcherTrait
 };
-use coloniz::base::constants::types::{ ProfileVariants, AccessoryVariants, FaceVariants, ClothVariants, BackgroundVariants, BodyVariants, BackVariants };
+use coloniz::base::constants::types::{
+    ProfileVariants, AccessoryVariants, FaceVariants, ClothVariants, BackgroundVariants,
+    BodyVariants, BackVariants
+};
 
 const ADMIN: felt252 = 13245;
 const ADDRESS1: felt252 = 1234;

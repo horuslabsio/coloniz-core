@@ -1,7 +1,7 @@
 pub mod body {
     use coloniz::base::utils::byte_array_extra::FeltTryIntoByteArray;
     use coloniz::base::constants::types::BodyVariants;
-    
+
     pub fn bodyVariant(variant: BodyVariants) -> ByteArray {
         getBodyvariant(variant)
     }

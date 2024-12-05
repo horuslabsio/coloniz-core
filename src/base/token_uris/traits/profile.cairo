@@ -17,7 +17,7 @@ pub mod profile {
     pub fn gen_profile_svg(profile_variant: ProfileVariants) -> ByteArray {
         let mut profilesvg: ByteArray =
             "<svg width=\"200\" height=\"200\" viewBox=\"0 0 52.917 52.917\" xmlns=\"http://www.w3.org/2000/svg\">";
-        
+
         profilesvg.append(@backgroundVariant(profile_variant.background));
         profilesvg.append(@bodyVariant(profile_variant.body));
         profilesvg.append(@clothVariant(profile_variant.cloth));

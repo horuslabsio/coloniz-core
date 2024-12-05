@@ -5,7 +5,9 @@ pub mod ProfileTokenUri {
     use coloniz::base::utils::byte_array_extra::FeltTryIntoByteArray;
     use coloniz::base::utils::base64_extended::{get_base64_encode, convert_into_byteArray};
 
-    fn get_attributes(token_id: u256, mint_timestamp: u64) -> Array<felt252> { // TODO: review necessary attributes
+    fn get_attributes(
+        token_id: u256, mint_timestamp: u64
+    ) -> Array<felt252> { // TODO: review necessary attributes
         let token_id_felt: felt252 = token_id.try_into().unwrap();
         let timestamp_felt: felt252 = mint_timestamp.try_into().unwrap();
         let token_id_byte: ByteArray = token_id_felt.try_into().unwrap();
@@ -41,7 +43,9 @@ pub mod ProfileTokenUri {
         json
     }
 
-    pub fn get_token_uri(token_id: u256, mint_timestamp: u64, profile_variant: ProfileVariants) -> ByteArray {
+    pub fn get_token_uri(
+        token_id: u256, mint_timestamp: u64, profile_variant: ProfileVariants
+    ) -> ByteArray {
         let baseuri = 'data:image/svg+xml;base64,';
         let mut svg = gen_profile_svg(profile_variant);
         let svg_encoded: ByteArray = get_base64_encode(svg);
