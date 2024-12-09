@@ -13,7 +13,10 @@ pub mod community;
 pub mod channel;
 
 use coloniz::base::token_uris::profile_token_uri::ProfileTokenUri::get_token_uri;
-use coloniz::base::constants::types::{ ProfileVariants, AccessoryVariants, FaceVariants, ClothVariants, BackgroundVariants, BodyVariants, ToolVariants };
+use coloniz::base::constants::types::{
+    ProfileVariants, AccessoryVariants, FaceVariants, ClothVariants, BackgroundVariants,
+    BodyVariants, ToolVariants
+};
 
 fn main() {
     let profile_variant = ProfileVariants {

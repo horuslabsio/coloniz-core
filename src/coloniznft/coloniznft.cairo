@@ -13,7 +13,8 @@ pub mod ColonizNFT {
     use core::num::traits::zero::Zero;
     use coloniz::interfaces::IColonizNFT;
     use coloniz::base::{
-        constants::errors::Errors::{ ALREADY_MINTED, UNAUTHORIZED }, constants::types::ProfileVariants,
+        constants::errors::Errors::{ALREADY_MINTED, UNAUTHORIZED},
+        constants::types::ProfileVariants,
         token_uris::profile_token_uri::ProfileTokenUri::get_token_uri,
     };
     use openzeppelin::{

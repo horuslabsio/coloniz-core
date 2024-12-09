@@ -1,5 +1,8 @@
 pub mod profile {
-    use coloniz::base::constants::types::{ ProfileVariants, AccessoryVariants, FaceVariants, ClothVariants, BackgroundVariants, BodyVariants, ToolVariants };
+    use coloniz::base::constants::types::{
+        ProfileVariants, AccessoryVariants, FaceVariants, ClothVariants, BackgroundVariants,
+        BodyVariants, ToolVariants
+    };
 
     #[derive(Drop)]
     pub struct ProfileAttributes {
@@ -18,7 +21,8 @@ pub mod profile {
             ToolVariants::TOOL3 => "FISHING ROD",
             ToolVariants::TOOL4 => "RED FLAG",
             ToolVariants::TOOL5 => "STYLIZED BATON",
-            ToolVariants::TOOL6 => "WHITE GOLFSTICK"
+            ToolVariants::TOOL6 => "WHITE GOLFSTICK",
+            ToolVariants::EMPTY => ""
         }
     }
 
@@ -40,7 +44,8 @@ pub mod profile {
             BackgroundVariants::BACKGROUND2 => "BROWN",
             BackgroundVariants::BACKGROUND3 => "GOLD",
             BackgroundVariants::BACKGROUND4 => "BLUE",
-            BackgroundVariants::BACKGROUND5 => "GREEN"
+            BackgroundVariants::BACKGROUND5 => "GREEN",
+            BackgroundVariants::EMPTY => ""
         }
     }
 
@@ -50,7 +55,8 @@ pub mod profile {
             ClothVariants::ClOTH2 => "BLUE WEAR",
             ClothVariants::CLOTH3 => "RED WEAR",
             ClothVariants::CLOTH4 => "ORANGE WEAR",
-            ClothVariants::CLOTH5 => "PINK WEAR"
+            ClothVariants::CLOTH5 => "PINK WEAR",
+            ClothVariants::EMPTY => ""
         }
     }
 
@@ -75,7 +81,8 @@ pub mod profile {
             AccessoryVariants::ACCESSORY4 => "PINK VISOR",
             AccessoryVariants::ACCESSORY5 => "BLACK VISOR",
             AccessoryVariants::ACCESSORY6 => "RED MASK",
-            AccessoryVariants::ACCESSORY7 => "VR HEADSET"
+            AccessoryVariants::ACCESSORY7 => "VR HEADSET",
+            AccessoryVariants::EMPTY => ""
         }
     }
 

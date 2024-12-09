@@ -30,6 +30,7 @@ pub enum ToolVariants {
     TOOL4,
     TOOL5,
     TOOL6,
+    EMPTY
 }
 
 #[derive(Copy, Drop, Serde, starknet::Store, Clone)]
@@ -40,7 +41,7 @@ pub enum BodyVariants {
     BODY4,
     BODY5,
     BODY6,
-    BODY7,
+    BODY7
 }
 
 #[derive(Copy, Drop, Serde, starknet::Store, Clone)]
@@ -50,6 +51,7 @@ pub enum BackgroundVariants {
     BACKGROUND3,
     BACKGROUND4,
     BACKGROUND5,
+    EMPTY
 }
 
 #[derive(Copy, Drop, Serde, starknet::Store, Clone)]
@@ -59,6 +61,7 @@ pub enum ClothVariants {
     CLOTH3,
     CLOTH4,
     CLOTH5,
+    EMPTY
 }
 
 #[derive(Copy, Drop, Serde, starknet::Store, Clone)]
@@ -82,6 +85,7 @@ pub enum AccessoryVariants {
     ACCESSORY5,
     ACCESSORY6,
     ACCESSORY7,
+    EMPTY
 }
 
 #[derive(Copy, Drop, Serde, starknet::Store)]

@@ -29,6 +29,7 @@ pub mod background {
                 decidedbackground =
                     "<rect style=\"display:inline;fill:teal;fill-opacity:1;stroke-width:.02627\" width=\"53.114\" height=\"53.52\" x=\".007\" y=\"-.277\" ry=\"0\"/>"
             },
+            BackgroundVariants::EMPTY => ""
         }
         decidedbackground
     }

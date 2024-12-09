@@ -3,10 +3,8 @@ pub mod ProfileTokenUri {
     use coloniz::base::utils::byte_array_extra::FeltTryIntoByteArray;
     use coloniz::base::utils::base64_extended::{get_base64_encode};
     use coloniz::base::token_uris::attributes::profile_attributes::profile::gen_profile_attributes;
- 
-    fn get_attributes(
-        profile_variant: ProfileVariants, mint_timestamp: u64
-    ) -> ByteArray {
+
+    fn get_attributes(profile_variant: ProfileVariants, mint_timestamp: u64) -> ByteArray {
         let timestamp_felt: felt252 = mint_timestamp.into();
         let profile_attributes = gen_profile_attributes(profile_variant);
 
