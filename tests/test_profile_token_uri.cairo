@@ -1,17 +1,21 @@
-// use coloniz::base::token_uris::profile_token_uri::ProfileTokenUri::get_token_uri;
+use coloniz::base::token_uris::profile_token_uri::ProfileTokenUri::get_token_uri;
+use coloniz::base::constants::types::{ ProfileVariants, AccessoryVariants, FaceVariants, ClothVariants, BackgroundVariants, BodyVariants, ToolVariants };
 
-// #[test]
-// fn test_profile_token_uri() {
-//     let token_uri_1_3: ByteArray = get_token_uri(1, 3);
-//     let token_uri_10_99: ByteArray = get_token_uri(10, 99);
-//     let token_uri_100_990: ByteArray = get_token_uri(100, 990);
-//     let check_token_uri_1_3: ByteArray =
-//         "data:image/svg+xml;base64,eyJuYW1lIjoiUHJvZmlsZSAjASIsImRlc2NyaXB0aW9uIjoiUHJvZmlsZSAjAyIsImltYWdlIjoiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCM2FXUjBhRDBpTWpBd0lpQm9aV2xuYUhROUlqSXdNQ0lnZUcxc2JuTTlJbWgwZEhBNkx5OTNkM2N1ZHpNdWIzSm5Mekl3TURBdmMzWm5JajQ4WTJseVkyeGxJR040UFNJeE1EQWlJR041UFNJeE1EQWlJSEk5SWpnd0lpQm1hV3hzUFNKeVpXUWlMejQ4TDNOMlp6ND0iLCJhdHRyaWJ1dGVzIjpbeyJkaXNwbGF5X3R5cGUiOiJudW1iZXIiLCJ0cmFpdF90eXBlIjoiSUQiLCJ2YWx1ZSI6IgEifSx7InRyYWl0X3R5cGUiOiJIRVggSUQiLCJ2YWx1ZSI6IgEifSx7InRyYWl0X3R5cGUiOiJESUdJVFMiLCJ2YWx1ZSI6IgEifSx7ImRpc3BsYXlfdHlwZSI6ImRhdGUiLCJ0cmFpdF90eXBlIjoiTUlOVEVEIEFUIiwidmFsdWUiOiIDIn0scGF2aXRyYV19";
-//     let check_token_uri_10_99: ByteArray =
-//         "data:image/svg+xml;base64,eyJuYW1lIjoiUHJvZmlsZSAjCiIsImRlc2NyaXB0aW9uIjoiUHJvZmlsZSAjYyIsImltYWdlIjoiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCM2FXUjBhRDBpTWpBd0lpQm9aV2xuYUhROUlqSXdNQ0lnZUcxc2JuTTlJbWgwZEhBNkx5OTNkM2N1ZHpNdWIzSm5Mekl3TURBdmMzWm5JajQ4WTJseVkyeGxJR040UFNJeE1EQWlJR041UFNJeE1EQWlJSEk5SWpnd0lpQm1hV3hzUFNKeVpXUWlMejQ4TDNOMlp6ND0iLCJhdHRyaWJ1dGVzIjpbeyJkaXNwbGF5X3R5cGUiOiJudW1iZXIiLCJ0cmFpdF90eXBlIjoiSUQiLCJ2YWx1ZSI6IgoifSx7InRyYWl0X3R5cGUiOiJIRVggSUQiLCJ2YWx1ZSI6IgoifSx7InRyYWl0X3R5cGUiOiJESUdJVFMiLCJ2YWx1ZSI6IgEifSx7ImRpc3BsYXlfdHlwZSI6ImRhdGUiLCJ0cmFpdF90eXBlIjoiTUlOVEVEIEFUIiwidmFsdWUiOiJjIn0scGF2aXRyYV19";
-//     let check_token_uri_100_990: ByteArray =
-//         "data:image/svg+xml;base64,eyJuYW1lIjoiUHJvZmlsZSAjZCIsImRlc2NyaXB0aW9uIjoiUHJvZmlsZSAjA94iLCJpbWFnZSI6ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwaU1qQXdJaUJvWldsbmFIUTlJakl3TUNJZ2VHMXNibk05SW1oMGRIQTZMeTkzZDNjdWR6TXViM0puTHpJd01EQXZjM1puSWo0OFkybHlZMnhsSUdONFBTSXhNREFpSUdONVBTSXhNREFpSUhJOUlqZ3dJaUJtYVd4c1BTSnlaV1FpTHo0OEwzTjJaejQ9IiwiYXR0cmlidXRlcyI6W3siZGlzcGxheV90eXBlIjoibnVtYmVyIiwidHJhaXRfdHlwZSI6IklEIiwidmFsdWUiOiJkIn0seyJ0cmFpdF90eXBlIjoiSEVYIElEIiwidmFsdWUiOiJkIn0seyJ0cmFpdF90eXBlIjoiRElHSVRTIiwidmFsdWUiOiIBIn0seyJkaXNwbGF5X3R5cGUiOiJkYXRlIiwidHJhaXRfdHlwZSI6Ik1JTlRFRCBBVCIsInZhbHVlIjoiA94ifSxwYXZpdHJhXX0=";
-//     assert(token_uri_1_3 == check_token_uri_1_3, 'token_uri_1_3 failed');
-//     assert(token_uri_10_99 == check_token_uri_10_99, 'token_uri_10_99 failed');
-//     assert(token_uri_100_990 == check_token_uri_100_990, 'token_uri_100_990 failed');
-// }
+#[test]
+fn test_profile_token_uri() {
+    let profile_variant = ProfileVariants {
+        body: BodyVariants::BODY1,
+        tool: ToolVariants::TOOL1,
+        background: BackgroundVariants::BACKGROUND1,
+        cloth: ClothVariants::CLOTH1,
+        face: FaceVariants::FACE1,
+        accessory: AccessoryVariants::ACCESSORY1
+    };
+
+    let base_uri: ByteArray = "https://api.coloniz.com/images/";
+    let image_url = format!("{}{}", base_uri, 1);
+    let token_uri: ByteArray = get_token_uri(profile_variant, 1, 3, image_url);
+    let expected_token_uri: ByteArray = "eyJuYW1lIjoiUHJvZmlsZSAjMSIsImltYWdlIjoiaHR0cHM6Ly9hcGkuY29sb25pei5jb20vaW1hZ2VzLzEiLCJhdHRyaWJ1dGVzIjpbeyJ0cmFpdF90eXBlIjoiTUlOVCBUSU1FU1RBTVAiLCJ2YWx1ZSI6IjMifSx7InRyYWl0X3R5cGUiOiJjaGFyYWN0ZXIiLCJ2YWx1ZSI6IllFTExPVyBDT0xPTklTVCJ9LHsidHJhaXRfdHlwZSI6ImJhY2tncm91bmQiLCJ2YWx1ZSI6IlBFQUNIIn0seyJ0cmFpdF90eXBlIjoiY2xvdGhpbmciLCJ2YWx1ZSI6IlNXRUFURVIifSx7InRyYWl0X3R5cGUiOiJmYWNlIiwidmFsdWUiOiJST1VORCBFWUVTIn0seyJ0cmFpdF90eXBlIjoidG9vbCIsInZhbHVlIjoiQkxVRSBGTEFHIn0seyJ0cmFpdF90eXBlIjoiYWNjZXNzb3J5IiwidmFsdWUiOiJCTFVFIE1BU0sifV19";
+
+    assert(token_uri == expected_token_uri, 'invalid token uri');
+}

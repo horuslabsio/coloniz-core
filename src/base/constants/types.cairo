@@ -23,24 +23,24 @@ pub struct Profile {
 //                            TOKEN URIs
 // *************************************************************************
 #[derive(Copy, Drop, Serde, starknet::Store, Clone)]
-pub enum BackVariants {
-    BLUEFLAG,
-    BLUEGOLFSTICK,
-    FISHINGSTICK,
-    REDFLAG,
-    STYLIZEDBATON,
-    WHITEGOLFSTICK,
+pub enum ToolVariants {
+    TOOL1,
+    TOOL2,
+    TOOL3,
+    TOOL4,
+    TOOL5,
+    TOOL6,
 }
 
 #[derive(Copy, Drop, Serde, starknet::Store, Clone)]
 pub enum BodyVariants {
-    Body1,
-    Body2,
-    Body3,
-    Body4,
-    Body5,
-    Body6,
-    Body7,
+    BODY1,
+    BODY2,
+    BODY3,
+    BODY4,
+    BODY5,
+    BODY6,
+    BODY7,
 }
 
 #[derive(Copy, Drop, Serde, starknet::Store, Clone)]
@@ -75,19 +75,19 @@ pub enum FaceVariants {
 
 #[derive(Copy, Drop, Serde, starknet::Store, Clone)]
 pub enum AccessoryVariants {
-    BLACKVISOR,
-    BLUEMASK,
-    CAP,
-    ORANGEMASK,
-    PINKVISOR,
-    REDMASK,
-    VRHEADSET,
+    ACCESSORY1,
+    ACCESSORY2,
+    ACCESSORY3,
+    ACCESSORY4,
+    ACCESSORY5,
+    ACCESSORY6,
+    ACCESSORY7,
 }
 
 #[derive(Copy, Drop, Serde, starknet::Store)]
 pub struct ProfileVariants {
     pub body: BodyVariants,
-    pub back: BackVariants,
+    pub tool: ToolVariants,
     pub background: BackgroundVariants,
     pub cloth: ClothVariants,
     pub face: FaceVariants,

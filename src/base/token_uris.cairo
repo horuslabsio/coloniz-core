@@ -3,3 +3,4 @@ pub mod handle_token_uri;
 pub mod profile_token_uri;
 pub mod community_token_uri;
 pub mod traits;
+pub mod attributes;

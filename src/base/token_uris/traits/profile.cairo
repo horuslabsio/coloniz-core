@@ -22,7 +22,7 @@ pub mod profile {
         profilesvg.append(@bodyVariant(profile_variant.body));
         profilesvg.append(@clothVariant(profile_variant.cloth));
         profilesvg.append(@accessoryVariant(profile_variant.accessory));
-        profilesvg.append(@backVariant(profile_variant.back));
+        profilesvg.append(@backVariant(profile_variant.tool));
         profilesvg.append(@faceVariant(profile_variant.face));
         profilesvg.append(@"</svg>");
         profilesvg

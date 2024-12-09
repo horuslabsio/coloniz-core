@@ -1,74 +1,73 @@
 pub mod ProfileTokenUri {
-    use core::array::ArrayTrait;
     use coloniz::base::constants::types::ProfileVariants;
-    use coloniz::base::token_uris::traits::profile::profile::gen_profile_svg;
     use coloniz::base::utils::byte_array_extra::FeltTryIntoByteArray;
-    use coloniz::base::utils::base64_extended::{get_base64_encode, convert_into_byteArray};
-
+    use coloniz::base::utils::base64_extended::{get_base64_encode};
+    use coloniz::base::token_uris::attributes::profile_attributes::profile::gen_profile_attributes;
+ 
     fn get_attributes(
-        token_id: u256, mint_timestamp: u64
-    ) -> Array<felt252> { // TODO: review necessary attributes
-        let token_id_felt: felt252 = token_id.try_into().unwrap();
-        let timestamp_felt: felt252 = mint_timestamp.try_into().unwrap();
-        let token_id_byte: ByteArray = token_id_felt.try_into().unwrap();
-        let token_id_byte_len: felt252 = token_id_byte.len().try_into().unwrap();
-        let mut attributes = ArrayTrait::<felt252>::new();
-        let sample_traits = 'pavitra';
-        attributes.append('","attributes":[{"display');
-        attributes.append('_type":"number","trait_');
-        attributes.append('type":"ID","value":"');
-        attributes.append(token_id_felt);
-        attributes.append('"},{"trait_type":"HEX ');
-        attributes.append('ID","value":"');
-        attributes.append(token_id_felt); // TODO to hex string 
-        attributes.append('"},{"trait_type":"DIGITS"');
-        attributes.append(',"value":"');
-        attributes.append(token_id_byte_len);
-        attributes.append('"},{"display_type":"date","trai');
-        attributes.append('t_type":"MINTED AT","value":"');
-        attributes.append(timestamp_felt);
-        attributes.append('"},');
-        attributes.append(sample_traits);
-        attributes.append(']}');
+        profile_variant: ProfileVariants, mint_timestamp: u64
+    ) -> ByteArray {
+        let timestamp_felt: felt252 = mint_timestamp.into();
+        let profile_attributes = gen_profile_attributes(profile_variant);
+
+        let mut attributes: ByteArray = Default::default();
+        attributes.append(@"\"attributes\":[");
+        attributes.append(@"{\"trait_type\":\"MINT TIMESTAMP\",\"value\":\"");
+        attributes.append(@format!("{}", timestamp_felt));
+        attributes.append(@"\"},");
+
+        attributes.append(@"{\"trait_type\":\"character\",\"value\":\"");
+        attributes.append(@profile_attributes.body);
+        attributes.append(@"\"},");
+
+        attributes.append(@"{\"trait_type\":\"background\",\"value\":\"");
+        attributes.append(@profile_attributes.background);
+        attributes.append(@"\"},");
+
+        attributes.append(@"{\"trait_type\":\"clothing\",\"value\":\"");
+        attributes.append(@profile_attributes.cloth);
+        attributes.append(@"\"},");
+
+        attributes.append(@"{\"trait_type\":\"face\",\"value\":\"");
+        attributes.append(@profile_attributes.face);
+        attributes.append(@"\"},");
+
+        attributes.append(@"{\"trait_type\":\"tool\",\"value\":\"");
+        attributes.append(@profile_attributes.tool);
+        attributes.append(@"\"},");
+
+        attributes.append(@"{\"trait_type\":\"accessory\",\"value\":\"");
+        attributes.append(@profile_attributes.accessory);
+        attributes.append(@"\"}");
+
+        attributes.append(@"]}");
+
         attributes
     }
 
-    fn get_json(token_id: u256) -> Array<felt252> {
-        let token_id_felt: felt252 = token_id.try_into().unwrap();
-        let mut json = ArrayTrait::<felt252>::new();
-        json.append('{"name":"Profile #');
-        json.append(token_id_felt);
-        json.append('","image":"data:image/svg');
-        json.append('+xml;base64,');
+    fn get_json(token_id: u256, image_url: ByteArray) -> ByteArray {
+        let profile_json: ByteArray = "{\"name\":\"Profile #";
+        let profile_name: ByteArray = format!("{}{}", profile_json, token_id);
+
+        let mut json: ByteArray = Default::default();
+        json.append(@profile_name);
+        json.append(@"\",\"image\":\"");
+        json.append(@image_url);
+        json.append(@"\",");
         json
     }
 
     pub fn get_token_uri(
-        token_id: u256, mint_timestamp: u64, profile_variant: ProfileVariants
+        profile_variant: ProfileVariants, token_id: u256, mint_timestamp: u64, image_url: ByteArray
     ) -> ByteArray {
-        let baseuri = 'data:image/svg+xml;base64,';
-        let mut svg = gen_profile_svg(profile_variant);
-        let svg_encoded: ByteArray = get_base64_encode(svg);
-        // getting json byte array
-        // json - json + svg_base64_encoded
-        let mut json = get_json(token_id);
-        let mut json_byte_array: ByteArray = convert_into_byteArray(ref json);
-        json_byte_array.append(@svg_encoded);
-        // getting attributes
-        let mut attribute = get_attributes(token_id, mint_timestamp);
-        let mut attribute_byte_array: ByteArray = convert_into_byteArray(ref attribute);
+        let mut json_byte_array = get_json(token_id, image_url);
+        let mut attribute_byte_array = get_attributes(profile_variant, mint_timestamp);
+
         // tokenuri_to_encode = json + attribute
         let mut tokenuri_to_encode: ByteArray = Default::default();
-        // concat json
         tokenuri_to_encode.append(@json_byte_array);
-        // concat attribute
         tokenuri_to_encode.append(@attribute_byte_array);
-        // ecoding the encode
-        let encoded_token_uri = get_base64_encode(tokenuri_to_encode);
-        // baseuri + base64_encoded(json,attribute)
-        let mut token_uri: ByteArray = baseuri.try_into().unwrap();
-        // concat the base uri and the encoded token uri
-        token_uri.append(@encoded_token_uri);
+        let token_uri = get_base64_encode(tokenuri_to_encode);
         token_uri
     }
 }

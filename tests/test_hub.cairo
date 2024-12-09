@@ -17,7 +17,7 @@ use coloniz::interfaces::IHandleRegistry::{
 };
 use coloniz::base::constants::types::{
     ProfileVariants, AccessoryVariants, FaceVariants, ClothVariants, BackgroundVariants,
-    BodyVariants, BackVariants
+    BodyVariants, ToolVariants
 };
 
 const ADMIN: felt252 = 13245;
@@ -82,12 +82,12 @@ fn __setup__() -> (ContractAddress, ContractAddress, ContractAddress, ContractAd
     start_cheat_caller_address(hub_contract_address, ADDRESS1.try_into().unwrap());
 
     let profile_variant = ProfileVariants {
-        body: BodyVariants::Body1,
-        back: BackVariants::BLUEFLAG,
+        body: BodyVariants::BODY1,
+        tool: ToolVariants::TOOL1,
         background: BackgroundVariants::BACKGROUND1,
         cloth: ClothVariants::CLOTH1,
         face: FaceVariants::FACE1,
-        accessory: AccessoryVariants::BLUEMASK
+        accessory: AccessoryVariants::ACCESSORY1
     };
 
     let user_one_profile_address = dispatcher

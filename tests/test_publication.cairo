@@ -21,7 +21,7 @@ use coloniz::interfaces::IChannel::{IChannelDispatcher, IChannelDispatcherTrait}
 use coloniz::interfaces::IERC20::{IERC20Dispatcher, IERC20DispatcherTrait};
 use coloniz::base::constants::types::{
     ProfileVariants, AccessoryVariants, FaceVariants, ClothVariants, BackgroundVariants,
-    BodyVariants, BackVariants
+    BodyVariants, ToolVariants
 };
 
 
@@ -67,12 +67,12 @@ fn __setup__() -> (
     let publication_contract = declare("ColonizPublication").unwrap().contract_class();
     // create profile variant
     let profile_variant = ProfileVariants {
-        body: BodyVariants::Body1,
-        back: BackVariants::BLUEFLAG,
+        body: BodyVariants::BODY1,
+        tool: ToolVariants::TOOL1,
         background: BackgroundVariants::BACKGROUND1,
         cloth: ClothVariants::CLOTH1,
         face: FaceVariants::FACE1,
-        accessory: AccessoryVariants::BLUEMASK
+        accessory: AccessoryVariants::ACCESSORY1
     };
 
     let mut publication_constructor_calldata = array![

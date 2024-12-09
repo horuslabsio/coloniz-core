@@ -15,7 +15,7 @@ use coloniz::profile::profile::ProfileComponent::{Event as ProfileEvent, Created
 use coloniz::interfaces::IProfile::{IProfileDispatcher, IProfileDispatcherTrait};
 use coloniz::base::constants::types::{
     ProfileVariants, AccessoryVariants, FaceVariants, ClothVariants, BackgroundVariants,
-    BodyVariants, BackVariants
+    BodyVariants, ToolVariants
 };
 
 const HUB_ADDRESS: felt252 = 'HUB';
@@ -71,12 +71,12 @@ fn test_profile_creation() {
     let colonizNFTDispatcher = IColonizNFTDispatcher { contract_address: nft_contract_address };
     let profileDispatcher = IProfileDispatcher { contract_address: profile_contract_address };
     let profile_variant = ProfileVariants {
-        body: BodyVariants::Body1,
-        back: BackVariants::BLUEFLAG,
+        body: BodyVariants::BODY1,
+        tool: ToolVariants::TOOL1,
         background: BackgroundVariants::BACKGROUND1,
         cloth: ClothVariants::CLOTH1,
         face: FaceVariants::FACE1,
-        accessory: AccessoryVariants::BLUEMASK
+        accessory: AccessoryVariants::ACCESSORY1
     };
 
     //user 1 create profile
@@ -113,12 +113,12 @@ fn test_profile_metadata() {
         __setup__();
     let profileDispatcher = IProfileDispatcher { contract_address: profile_contract_address };
     let profile_variant = ProfileVariants {
-        body: BodyVariants::Body1,
-        back: BackVariants::BLUEFLAG,
+        body: BodyVariants::BODY1,
+        tool: ToolVariants::TOOL1,
         background: BackgroundVariants::BACKGROUND1,
         cloth: ClothVariants::CLOTH1,
         face: FaceVariants::FACE1,
-        accessory: AccessoryVariants::BLUEMASK
+        accessory: AccessoryVariants::ACCESSORY1
     };
 
     //user 1 create profile
@@ -157,12 +157,12 @@ fn test_profile_creation_event() {
     let mut spy = spy_events();
 
     let profile_variant = ProfileVariants {
-        body: BodyVariants::Body1,
-        back: BackVariants::BLUEFLAG,
+        body: BodyVariants::BODY1,
+        tool: ToolVariants::TOOL1,
         background: BackgroundVariants::BACKGROUND1,
         cloth: ClothVariants::CLOTH1,
         face: FaceVariants::FACE1,
-        accessory: AccessoryVariants::BLUEMASK
+        accessory: AccessoryVariants::ACCESSORY1
     };
 
     //user 1 create profile

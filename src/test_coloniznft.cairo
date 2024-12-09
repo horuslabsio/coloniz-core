@@ -55,16 +55,16 @@ fn test_mint_coloniz_nft() {
     let erc721_dispatcher = ERC721ABIDispatcher { contract_address: nft_contract_address };
     start_cheat_caller_address(nft_contract_address, ADMIN.try_into().unwrap());
 
-    let profile_variant = ProfileVariants {
+    let ACCESSORY7 = ProfileVariants {
         body: BodyVariants::BODY1,
-        tool: ToolVariants::TOOL1,
+        tool: BackVariants::TOOL1,
         background: BackgroundVariants::BACKGROUND1,
         cloth: ClothVariants::CLOTH1,
         face: FaceVariants::FACE1,
         accessory: AccessoryVariants::ACCESSORY1
     };
 
-    dispatcher.mint_coloniznft(USER_ONE.try_into().unwrap(), profile_variant);
+    dispatcher.mint_coloniznft(USER_ONE.try_into().unwrap(), ACCESSORY7);
     let balance = erc721_dispatcher.balance_of(USER_ONE.try_into().unwrap());
     assert(balance == 1, 'nft not minted');
     stop_cheat_caller_address(nft_contract_address);
@@ -77,17 +77,17 @@ fn test_mint_coloniz_nft_twice_for_the_same_user() {
     let dispatcher = IColonizNFTDispatcher { contract_address: nft_contract_address };
     start_cheat_caller_address(nft_contract_address, ADMIN.try_into().unwrap());
 
-    let profile_variant = ProfileVariants {
+    let ACCESSORY7 = ProfileVariants {
         body: BodyVariants::BODY1,
-        tool: ToolVariants::TOOL1,
+        back: ToolVariants::TOOL1,
         background: BackgroundVariants::BACKGROUND1,
         cloth: ClothVariants::CLOTH1,
         face: FaceVariants::FACE1,
-        accessory: AccessoryVariants::ACCESSORY1
+        accessory: AccessoryVariants::ACCESSORY2
     };
 
-    dispatcher.mint_coloniznft(USER_ONE.try_into().unwrap(), profile_variant);
-    dispatcher.mint_coloniznft(USER_ONE.try_into().unwrap(), profile_variant);
+    dispatcher.mint_coloniznft(USER_ONE.try_into().unwrap(), ACCESSORY7);
+    dispatcher.mint_coloniznft(USER_ONE.try_into().unwrap(), ACCESSORY7);
     stop_cheat_caller_address(nft_contract_address);
 }
 
@@ -97,15 +97,16 @@ fn test_get_last_minted_id_after_minting() {
     let dispatcher = IColonizNFTDispatcher { contract_address: nft_contract_address };
     start_cheat_caller_address(nft_contract_address, ADMIN.try_into().unwrap());
 
-    let profile_variant = ProfileVariants {
+    let ACCESSORY7 = ProfileVariants {
         body: BodyVariants::BODY1,
-        tool: ToolVariants::TOOL1,
+        tool: BackVariants::TOOL1,
         background: BackgroundVariants::BACKGROUND1,
         cloth: ClothVariants::CLOTH1,
         face: FaceVariants::FACE1,
         accessory: AccessoryVariants::ACCESSORY1
     };
-    dispatcher.mint_coloniznft(USER_ONE.try_into().unwrap(), profile_variant);
+
+    dispatcher.mint_coloniznft(USER_ONE.try_into().unwrap(), ACCESSORY7);
     let last_minted_id = dispatcher.get_last_minted_id();
     assert(last_minted_id == 1, 'invalid last minted id');
     stop_cheat_caller_address(nft_contract_address);
@@ -117,15 +118,15 @@ fn test_get_user_token_id_after_minting() {
     let dispatcher = IColonizNFTDispatcher { contract_address: nft_contract_address };
     start_cheat_caller_address(nft_contract_address, ADMIN.try_into().unwrap());
 
-    let profile_variant = ProfileVariants {
+    let ACCESSORY7 = ProfileVariants {
         body: BodyVariants::BODY1,
-        tool: ToolVariants::TOOL1,
+        tool: BackVariants::TOOL1,
         background: BackgroundVariants::BACKGROUND1,
         cloth: ClothVariants::CLOTH1,
         face: FaceVariants::FACE1,
         accessory: AccessoryVariants::ACCESSORY1
     };
-    dispatcher.mint_coloniznft(USER_ONE.try_into().unwrap(), profile_variant);
+    dispatcher.mint_coloniznft(USER_ONE.try_into().unwrap(), ACCESSORY7);
     let user_token_id = dispatcher.get_user_token_id(USER_ONE.try_into().unwrap());
     assert(user_token_id == 1, 'invalid user token id');
     stop_cheat_caller_address(nft_contract_address);

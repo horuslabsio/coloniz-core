@@ -57,6 +57,7 @@ pub mod ColonizNFT {
         last_minted_id: u256,
         mint_timestamp: Map<u256, u64>,
         user_token_id: Map<ContractAddress, u256>,
+        base_uri: felt252,
         profile_variants: Map<u256, ProfileVariants>
     }
 
@@ -140,8 +141,9 @@ pub mod ColonizNFT {
         /// @notice returns the token_uri for a particular token_id
         fn token_uri(self: @ContractState, token_id: u256) -> ByteArray {
             let mint_timestamp: u64 = self.get_token_mint_timestamp(token_id);
-            let variant = self.profile_variants.read(token_id);
-            get_token_uri(token_id, mint_timestamp, variant)
+            let profile_variant = self.profile_variants.read(token_id);
+            let image_url = format!("{}{}", self.base_uri.read(), token_id);
+            get_token_uri(profile_variant, token_id, mint_timestamp, image_url)
         }
     }
 }
