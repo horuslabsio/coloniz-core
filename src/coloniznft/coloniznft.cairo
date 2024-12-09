@@ -4,7 +4,7 @@ pub mod ColonizNFT {
     //                             IMPORTS
     // *************************************************************************
     use starknet::{
-        ContractAddress, get_block_timestamp,
+        ContractAddress, get_block_timestamp, get_caller_address,
         storage::{
             StoragePointerWriteAccess, StoragePointerReadAccess, Map, StorageMapReadAccess,
             StorageMapWriteAccess
@@ -13,7 +13,7 @@ pub mod ColonizNFT {
     use core::num::traits::zero::Zero;
     use coloniz::interfaces::IColonizNFT;
     use coloniz::base::{
-        constants::errors::Errors::ALREADY_MINTED, constants::types::ProfileVariants,
+        constants::errors::Errors::{ ALREADY_MINTED, UNAUTHORIZED }, constants::types::ProfileVariants,
         token_uris::profile_token_uri::ProfileTokenUri::get_token_uri,
     };
     use openzeppelin::{
@@ -57,7 +57,7 @@ pub mod ColonizNFT {
         last_minted_id: u256,
         mint_timestamp: Map<u256, u64>,
         user_token_id: Map<ContractAddress, u256>,
-        base_uri: felt252,
+        base_uri: ByteArray,
         profile_variants: Map<u256, ProfileVariants>
     }
 
@@ -107,6 +107,12 @@ pub mod ColonizNFT {
             self.profile_variants.write(token_id, profile_variant);
         }
 
+        fn set_base_uri(ref self: ContractState, base_uri: ByteArray) {
+            let admin = self.admin.read();
+            assert(get_caller_address() == admin, UNAUTHORIZED);
+            self.base_uri.write(base_uri);
+        }
+
         // *************************************************************************
         //                            GETTERS
         // *************************************************************************
@@ -123,6 +129,10 @@ pub mod ColonizNFT {
         /// @notice gets the last minted NFT
         fn get_last_minted_id(self: @ContractState) -> u256 {
             self.last_minted_id.read()
+        }
+
+        fn get_profile_variant(self: @ContractState, token_id: u256) -> ProfileVariants {
+            self.profile_variants.read(token_id)
         }
 
         // *************************************************************************
