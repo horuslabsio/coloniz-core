@@ -62,7 +62,7 @@ fn __setup__() -> (ContractAddress, ContractAddress, ContractAddress, ContractAd
     let community_nft_classhash = declare("CommunityNFT").unwrap().contract_class();
 
     // declare collectnft
-    let collect_nft_classhash = declare("CollectNFT").unwrap().contract_class();
+    // let collect_nft_classhash = declare("CollectNFT").unwrap().contract_class();
 
     // deploy hub contract
     let hub_class_hash = declare("ColonizHub").unwrap().contract_class();
@@ -72,7 +72,7 @@ fn __setup__() -> (ContractAddress, ContractAddress, ContractAddress, ContractAd
         handle_registry_contract_address.into(),
         (*follow_nft_classhash.class_hash).into(),
         (*community_nft_classhash.class_hash).into(),
-        (*collect_nft_classhash.class_hash).into(),
+        // (*collect_nft_classhash.class_hash).into(),
         OWNER
     ];
     let (hub_contract_address, _) = hub_class_hash.deploy(@calldata).unwrap_syscall();
