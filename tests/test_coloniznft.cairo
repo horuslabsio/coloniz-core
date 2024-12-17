@@ -33,8 +33,8 @@ fn test_metadata() {
     start_cheat_caller_address(nft_contract_address, ADMIN.try_into().unwrap());
     let nft_name = dispatcher.name();
     let nft_symbol = dispatcher.symbol();
-    assert(nft_name == "coloniz", 'invalid name');
-    assert(nft_symbol == "KST", 'invalid symbol');
+    assert(nft_name == "Coloniz", 'invalid name');
+    assert(nft_symbol == "CLZ:PROFILE", 'invalid symbol');
     stop_cheat_caller_address(nft_contract_address);
 }
 

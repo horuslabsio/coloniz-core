@@ -30,7 +30,7 @@ const FOLLOWER4: felt252 = 24262;
 
 fn __setup__() -> ContractAddress {
     let follow_nft_contract = declare("Follow").unwrap().contract_class();
-    let mut follow_nft_constructor_calldata = array![HUB_ADDRESS, FOLLOWED_ADDRESS, ADMIN];
+    let mut follow_nft_constructor_calldata = array![HUB_ADDRESS, FOLLOWED_ADDRESS, 10, 0, ADMIN];
     let (follow_nft_contract_address, _) = follow_nft_contract
         .deploy(@follow_nft_constructor_calldata)
         .unwrap();
@@ -209,8 +209,9 @@ fn test_metadata() {
     let dispatcher = IFollowNFTDispatcher { contract_address: follow_nft_contract_address };
     let nft_name = dispatcher.name();
     let nft_symbol = dispatcher.symbol();
-    assert(nft_name == "coloniz:FOLLOWER", 'invalid name');
-    assert(nft_symbol == "KFL", 'invalid symbol');
+    println!("{:?}", nft_name);
+    assert(nft_name == "Coloniz Followers | #10", 'invalid name');
+    assert(nft_symbol == "CLZ:FOLLOWERS", 'invalid symbol');
     stop_cheat_caller_address(follow_nft_contract_address);
 }
 

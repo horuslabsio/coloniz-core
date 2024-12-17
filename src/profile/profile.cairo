@@ -95,7 +95,11 @@ pub mod ProfileComponent {
 
             // deploy follow nft contract
             let mut constructor_calldata: Array<felt252> = array![
-                self.hub_address.read().into(), profile_address.into(), recipient.into()
+                self.hub_address.read().into(),
+                profile_address.into(),
+                token_id.low.into(),
+                token_id.high.into(),
+                recipient.into()
             ];
             let (follow_nft_address, _) = deploy_syscall(
                 self.follow_nft_classhash.read(),

@@ -124,13 +124,11 @@ fn __setup__() -> (ContractAddress, ContractAddress, ContractAddress, ContractAd
     stop_cheat_caller_address(hub_contract_address);
 
     // mint and link handle for user_one
-    start_cheat_caller_address(handle_contract_address, user_one_profile_address);
     let handleDispatcher = IHandleDispatcher { contract_address: handle_contract_address };
     let handleRegistryDispatcher = IHandleRegistryDispatcher {
         contract_address: handle_registry_contract_address
     };
-    let minted_handle_id = handleDispatcher.mint_handle(TEST_LOCAL_NAME);
-    stop_cheat_caller_address(handle_contract_address);
+    let minted_handle_id = handleDispatcher.mint_handle(TEST_LOCAL_NAME, user_one_profile_address);
 
     start_cheat_caller_address(handle_registry_contract_address, user_one_profile_address);
     handleRegistryDispatcher.link(minted_handle_id, user_one_profile_address);

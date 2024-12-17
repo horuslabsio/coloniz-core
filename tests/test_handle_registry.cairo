@@ -70,7 +70,7 @@ fn test_resolve() {
 
     // Mint Handle to USER_ONE
     start_cheat_caller_address(handle_contract_address, USER_ONE.try_into().unwrap());
-    let token_id = handle_dispatcher.mint_handle(TEST_LOCAL_NAME);
+    let token_id = handle_dispatcher.mint_handle(TEST_LOCAL_NAME, USER_ONE.try_into().unwrap());
 
     // Link handle to USER_ONE
     handle_registry_dispatcher.link(token_id, USER_ONE.try_into().unwrap());
@@ -92,7 +92,7 @@ fn test_link() {
 
     // mint handle
     start_cheat_caller_address(handle_contract_address, USER_ONE.try_into().unwrap());
-    let handle_id = handleDispatcher.mint_handle(TEST_LOCAL_NAME);
+    let handle_id = handleDispatcher.mint_handle(TEST_LOCAL_NAME, USER_ONE.try_into().unwrap());
 
     // link token to profile
     start_cheat_caller_address(handle_registry_address, USER_ONE.try_into().unwrap());
@@ -115,7 +115,7 @@ fn test_linking_fails_if_profile_address_is_not_owner() {
 
     // mint handle
     start_cheat_caller_address(handle_contract_address, USER_TWO.try_into().unwrap());
-    let handle_id = handleDispatcher.mint_handle(TEST_LOCAL_NAME);
+    let handle_id = handleDispatcher.mint_handle(TEST_LOCAL_NAME, USER_TWO.try_into().unwrap());
     stop_cheat_caller_address(handle_contract_address);
 
     // link token to profile
@@ -135,7 +135,7 @@ fn test_does_not_link_twice_for_same_handle() {
 
     // mint handle
     start_cheat_caller_address(handle_contract_address, USER_ONE.try_into().unwrap());
-    let handle_id = handleDispatcher.mint_handle(TEST_LOCAL_NAME);
+    let handle_id = handleDispatcher.mint_handle(TEST_LOCAL_NAME, USER_ONE.try_into().unwrap());
 
     // link token to profile
     start_cheat_caller_address(handle_registry_address, USER_ONE.try_into().unwrap());
@@ -156,7 +156,7 @@ fn test_unlink() {
 
     // mint handle
     start_cheat_caller_address(handle_contract_address, USER_ONE.try_into().unwrap());
-    let handle_id = handleDispatcher.mint_handle(TEST_LOCAL_NAME);
+    let handle_id = handleDispatcher.mint_handle(TEST_LOCAL_NAME, USER_ONE.try_into().unwrap());
     stop_cheat_caller_address(handle_contract_address);
 
     // link token to profile
@@ -183,7 +183,7 @@ fn test_unlink_fails_if_caller_is_not_owner() {
 
     // mint handle
     start_cheat_caller_address(handle_contract_address, USER_ONE.try_into().unwrap());
-    let handle_id = handleDispatcher.mint_handle(TEST_LOCAL_NAME);
+    let handle_id = handleDispatcher.mint_handle(TEST_LOCAL_NAME, USER_ONE.try_into().unwrap());
     stop_cheat_caller_address(handle_contract_address);
 
     // link token to profile
@@ -206,7 +206,7 @@ fn test_linked_event_emission() {
 
     // mint handle
     start_cheat_caller_address(handle_contract_address, USER_ONE.try_into().unwrap());
-    let handle_id = handleDispatcher.mint_handle(TEST_LOCAL_NAME);
+    let handle_id = handleDispatcher.mint_handle(TEST_LOCAL_NAME, USER_ONE.try_into().unwrap());
     stop_cheat_caller_address(handle_contract_address);
 
     // link token to profile
@@ -238,7 +238,7 @@ fn test_unlinked_event_emission() {
 
     // mint handle
     start_cheat_caller_address(handle_contract_address, USER_ONE.try_into().unwrap());
-    let handle_id = handleDispatcher.mint_handle(TEST_LOCAL_NAME);
+    let handle_id = handleDispatcher.mint_handle(TEST_LOCAL_NAME, USER_ONE.try_into().unwrap());
     stop_cheat_caller_address(handle_contract_address);
 
     // link token to profile

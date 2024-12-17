@@ -54,6 +54,7 @@ pub mod Follow {
         ownable: OwnableComponent::Storage,
         admin: ContractAddress,
         followed_profile_address: ContractAddress,
+        token_id: u256,
         follower_count: u256,
         follow_id_by_follower_profile_address: Map<ContractAddress, u256>,
         follow_data_by_follow_id: Map<u256, FollowData>,
@@ -118,12 +119,18 @@ pub mod Follow {
         ref self: ContractState,
         hub: ContractAddress,
         profile_address: ContractAddress,
+        token_id: u256,
         admin: ContractAddress
     ) {
         self.admin.write(admin);
-        self.erc721.initializer("Coloniz Followers", "CLZ:FOLLOWERS", "");
+        self.token_id.write(token_id);
         self.coloniz_hub.write(hub);
         self.followed_profile_address.write(profile_address);
+
+        let prefix: ByteArray = "Coloniz Followers | #";
+        let profile_id: felt252 = self.token_id.read().low.into();
+        let name = format!("{}{}", prefix, profile_id);
+        self.erc721.initializer(name, "CLZ:FOLLOWERS", "");
     }
 
     // *************************************************************************
@@ -277,7 +284,9 @@ pub mod Follow {
         // *************************************************************************
         /// @notice returns the collection name
         fn name(self: @ContractState) -> ByteArray {
-            return "Coloniz Followers";
+            let prefix: ByteArray = "Coloniz Followers | #";
+            let profile_id: felt252 = self.token_id.read().low.into();
+            format!("{}{}", prefix, profile_id)
         }
 
         /// @notice returns the collection symbol
