@@ -44,16 +44,14 @@ fn __setup__() -> (ContractAddress, ContractAddress, ContractAddress, ContractAd
 
     // deploy handle registry contract
     let handle_registry_class_hash = declare("HandleRegistry").unwrap().contract_class();
-    let mut calldata: Array<felt252> = array![handle_contract_address.into()];
+    let mut calldata: Array<felt252> = array![handle_contract_address.into(), ADMIN];
     let (handle_registry_contract_address, _) = handle_registry_class_hash
         .deploy(@calldata)
         .unwrap_syscall();
 
     // deploy tokenbound registry
     let registry_class_hash = declare("Registry").unwrap().contract_class();
-    let (registry_contract_address, _) = registry_class_hash
-        .deploy(@array![])
-        .unwrap_syscall();
+    let (registry_contract_address, _) = registry_class_hash.deploy(@array![]).unwrap_syscall();
 
     // declare tokenbound account
     let account_class_hash = declare("AccountV3").unwrap().contract_class();
@@ -71,7 +69,7 @@ fn __setup__() -> (ContractAddress, ContractAddress, ContractAddress, ContractAd
     let hub_class_hash = declare("ColonizHub").unwrap().contract_class();
     let mut calldata: Array<felt252> = array![
         nft_contract_address.into(),
-        handle_contract_address.into(), 
+        handle_contract_address.into(),
         handle_registry_contract_address.into(),
         (*follow_nft_classhash.class_hash).into(),
         (*community_nft_classhash.class_hash).into(),

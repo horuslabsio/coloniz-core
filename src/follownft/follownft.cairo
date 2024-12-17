@@ -4,7 +4,7 @@ pub mod Follow {
     //                            IMPORT
     // *************************************************************************
     use starknet::{
-        ContractAddress, get_block_timestamp,
+        ContractAddress, ClassHash, get_block_timestamp,
         storage::{
             StoragePointerWriteAccess, StoragePointerReadAccess, Map, StorageMapReadAccess,
             StorageMapWriteAccess
@@ -16,13 +16,15 @@ pub mod Follow {
         constants::{errors::Errors, types::FollowData},
         utils::hubrestricted::HubRestricted::hub_only, token_uris::follow_token_uri::FollowTokenUri,
     };
-    use openzeppelin_access::ownable::OwnableComponent; 
+    use openzeppelin_access::ownable::OwnableComponent;
     use openzeppelin_token::erc721::{ERC721Component, ERC721HooksEmptyImpl};
     use openzeppelin_introspection::{src5::SRC5Component};
+    use openzeppelin_upgrades::UpgradeableComponent;
 
     component!(path: OwnableComponent, storage: ownable, event: OwnableEvent);
     component!(path: SRC5Component, storage: src5, event: SRC5Event);
     component!(path: ERC721Component, storage: erc721, event: ERC721Event);
+    component!(path: UpgradeableComponent, storage: upgradeable, event: UpgradeableEvent);
 
     // allow to check what interface is supported
     #[abi(embed_v0)]
@@ -40,6 +42,8 @@ pub mod Follow {
     impl OwnableImpl = OwnableComponent::OwnableImpl<ContractState>;
     impl OwnableInternalImpl = OwnableComponent::InternalImpl<ContractState>;
 
+    impl UpgradeableInternalImpl = UpgradeableComponent::InternalImpl<ContractState>;
+
     // *************************************************************************
     //                            STORAGE
     // *************************************************************************
@@ -51,6 +55,8 @@ pub mod Follow {
         src5: SRC5Component::Storage,
         #[substorage(v0)]
         ownable: OwnableComponent::Storage,
+        #[substorage(v0)]
+        upgradeable: UpgradeableComponent::Storage,
         admin: ContractAddress,
         followed_profile_address: ContractAddress,
         token_id: u256,
@@ -72,6 +78,8 @@ pub mod Follow {
         SRC5Event: SRC5Component::Event,
         #[flat]
         OwnableEvent: OwnableComponent::Event,
+        #[flat]
+        UpgradeableEvent: UpgradeableComponent::Event,
         Followed: Followed,
         Unfollowed: Unfollowed,
         FollowerBlocked: FollowerBlocked,
@@ -122,6 +130,7 @@ pub mod Follow {
         admin: ContractAddress
     ) {
         self.admin.write(admin);
+        self.ownable.initializer(admin);
         self.token_id.write(token_id);
         self.coloniz_hub.write(hub);
         self.followed_profile_address.write(profile_address);
@@ -226,6 +235,15 @@ pub mod Follow {
                     }
                 );
             return true;
+        }
+
+        /// @notice upgrades the nft contract
+        /// @param new_class_hash classhash to upgrade to
+        fn upgrade(ref self: ContractState, new_class_hash: ClassHash) {
+            self.ownable.assert_only_owner();
+
+            // Replace the class hash upgrading the contract
+            self.upgradeable.upgrade(new_class_hash);
         }
 
         // *************************************************************************

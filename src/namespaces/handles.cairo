@@ -8,15 +8,17 @@ pub mod Handles {
     use core::poseidon::PoseidonTrait;
     use core::hash::{HashStateTrait, HashStateExTrait};
     use starknet::{
-        ContractAddress, get_caller_address, get_block_timestamp,
+        ContractAddress, ClassHash, get_caller_address, get_block_timestamp,
         storage::{
             StoragePointerWriteAccess, StoragePointerReadAccess, Map, StorageMapReadAccess,
             StorageMapWriteAccess
         }
     };
-    use openzeppelin_access::ownable::OwnableComponent; 
+    use openzeppelin_access::ownable::OwnableComponent;
     use openzeppelin_token::erc721::{ERC721Component, ERC721HooksEmptyImpl};
     use openzeppelin_introspection::{src5::SRC5Component};
+    use openzeppelin_upgrades::UpgradeableComponent;
+
     use coloniz::base::{
         constants::errors::Errors, utils::byte_array_extra::FeltTryIntoByteArray,
         token_uris::handle_token_uri::HandleTokenUri,
@@ -26,6 +28,7 @@ pub mod Handles {
     component!(path: OwnableComponent, storage: ownable, event: OwnableEvent);
     component!(path: SRC5Component, storage: src5, event: SRC5Event);
     component!(path: ERC721Component, storage: erc721, event: ERC721Event);
+    component!(path: UpgradeableComponent, storage: upgradeable, event: UpgradeableEvent);
 
     // allow to check what interface is supported
     #[abi(embed_v0)]
@@ -43,6 +46,8 @@ pub mod Handles {
     impl OwnableImpl = OwnableComponent::OwnableImpl<ContractState>;
     impl OwnableInternalImpl = OwnableComponent::InternalImpl<ContractState>;
 
+    impl UpgradeableInternalImpl = UpgradeableComponent::InternalImpl<ContractState>;
+
     // *************************************************************************
     //                            STORAGE
     // *************************************************************************
@@ -54,6 +59,8 @@ pub mod Handles {
         src5: SRC5Component::Storage,
         #[substorage(v0)]
         ownable: OwnableComponent::Storage,
+        #[substorage(v0)]
+        upgradeable: UpgradeableComponent::Storage,
         admin: ContractAddress,
         total_supply: u256,
         local_names: Map::<u256, felt252>,
@@ -82,6 +89,8 @@ pub mod Handles {
         SRC5Event: SRC5Component::Event,
         #[flat]
         OwnableEvent: OwnableComponent::Event,
+        #[flat]
+        UpgradeableEvent: UpgradeableComponent::Event,
         HandleMinted: HandleMinted,
         HandleBurnt: HandleBurnt,
     }
@@ -108,6 +117,7 @@ pub mod Handles {
     #[constructor]
     fn constructor(ref self: ContractState, admin: ContractAddress) {
         self.admin.write(admin);
+        self.ownable.initializer(admin);
         self.erc721.initializer("Coloniz Handles", "CLZ:HANDLES", "");
     }
 
@@ -145,6 +155,15 @@ pub mod Handles {
                         block_timestamp: get_block_timestamp()
                     }
                 );
+        }
+
+        /// @notice upgrades the nft contract
+        /// @param new_class_hash classhash to upgrade to
+        fn upgrade(ref self: ContractState, new_class_hash: ClassHash) {
+            self.ownable.assert_only_owner();
+
+            // Replace the class hash upgrading the contract
+            self.upgradeable.upgrade(new_class_hash);
         }
 
         // *************************************************************************

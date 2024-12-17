@@ -1,4 +1,4 @@
-use starknet::ContractAddress;
+use starknet::{ContractAddress, ClassHash};
 use coloniz::base::constants::types::{
     Profile, PostParams, RepostParams, CommentParams, PublicationType, Publication
 };
@@ -73,4 +73,9 @@ pub trait IHub<TState> {
     // *************************************************************************
     fn get_handle_id(self: @TState, profile_address: ContractAddress) -> u256;
     fn get_handle(self: @TState, handle_id: u256) -> ByteArray;
+
+    // *************************************************************************
+    //                            UPGRADEABILITY
+    // *************************************************************************
+    fn upgrade(ref self: TState, new_class_hash: ClassHash);
 }

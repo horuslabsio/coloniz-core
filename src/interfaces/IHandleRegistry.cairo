@@ -1,4 +1,4 @@
-use starknet::ContractAddress;
+use starknet::{ContractAddress, ClassHash};
 // *************************************************************************
 //                              INTERFACE OF HANDLE REGISTRY
 // *************************************************************************
@@ -9,6 +9,7 @@ pub trait IHandleRegistry<TState> {
     // *************************************************************************
     fn link(ref self: TState, handle_id: u256, profile_address: ContractAddress);
     fn unlink(ref self: TState, handle_id: u256, profile_address: ContractAddress);
+    fn upgrade(ref self: TState, new_class_hash: ClassHash);
     // *************************************************************************
     //                              GETTERS
     // *************************************************************************

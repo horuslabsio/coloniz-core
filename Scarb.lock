@@ -58,6 +58,7 @@ dependencies = [
  "openzeppelin_access",
  "openzeppelin_introspection",
  "openzeppelin_token",
+ "openzeppelin_upgrades",
  "snforge_std",
  "token_bound_accounts",
 ]
@@ -108,6 +109,12 @@ dependencies = [
  "openzeppelin_governance",
  "openzeppelin_introspection",
 ]
+
+[[package]]
+name = "openzeppelin_upgrades"
+version = "0.17.0"
+source = "registry+https://scarbs.xyz/"
+checksum = "sha256:a0fa5934f2924e1e85ec8f8c5b7dcd95c25295c029d3a745ba87b3191146004d"
 
 [[package]]
 name = "openzeppelin_utils"

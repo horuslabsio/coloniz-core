@@ -4,7 +4,7 @@ pub mod ColonizNFT {
     //                             IMPORTS
     // *************************************************************************
     use starknet::{
-        ContractAddress, get_block_timestamp, get_caller_address,
+        ContractAddress, ClassHash, get_block_timestamp, get_caller_address,
         storage::{
             StoragePointerWriteAccess, StoragePointerReadAccess, Map, StorageMapReadAccess,
             StorageMapWriteAccess
@@ -20,9 +20,12 @@ pub mod ColonizNFT {
     use openzeppelin_access::ownable::OwnableComponent;
     use openzeppelin_token::erc721::{ERC721Component, ERC721HooksEmptyImpl};
     use openzeppelin_introspection::{src5::SRC5Component};
+    use openzeppelin_upgrades::UpgradeableComponent;
+
     component!(path: OwnableComponent, storage: ownable, event: OwnableEvent);
     component!(path: SRC5Component, storage: src5, event: SRC5Event);
     component!(path: ERC721Component, storage: erc721, event: ERC721Event);
+    component!(path: UpgradeableComponent, storage: upgradeable, event: UpgradeableEvent);
 
     // allow to check what interface is supported
     #[abi(embed_v0)]
@@ -41,6 +44,8 @@ pub mod ColonizNFT {
     impl OwnableImpl = OwnableComponent::OwnableImpl<ContractState>;
     impl OwnableInternalImpl = OwnableComponent::InternalImpl<ContractState>;
 
+    impl UpgradeableInternalImpl = UpgradeableComponent::InternalImpl<ContractState>;
+
 
     // *************************************************************************
     //                              STORAGE
@@ -53,6 +58,8 @@ pub mod ColonizNFT {
         src5: SRC5Component::Storage,
         #[substorage(v0)]
         ownable: OwnableComponent::Storage,
+        #[substorage(v0)]
+        upgradeable: UpgradeableComponent::Storage,
         admin: ContractAddress,
         last_minted_id: u256,
         mint_timestamp: Map<u256, u64>,
@@ -73,14 +80,17 @@ pub mod ColonizNFT {
         SRC5Event: SRC5Component::Event,
         #[flat]
         OwnableEvent: OwnableComponent::Event,
+        #[flat]
+        UpgradeableEvent: UpgradeableComponent::Event
     }
 
     // *************************************************************************
     //                              CONSTRUCTOR
     // *************************************************************************
     #[constructor]
-    fn constructor(ref self: ContractState, admin: ContractAddress,) {
+    fn constructor(ref self: ContractState, admin: ContractAddress) {
         self.admin.write(admin);
+        self.ownable.initializer(admin);
         self.erc721.initializer("Coloniz Profile", "CLZ:PROFILE", "");
     }
 
@@ -107,10 +117,21 @@ pub mod ColonizNFT {
             self.profile_variants.write(token_id, profile_variant);
         }
 
+        /// @notice sets token base uri
+        /// @param base_uri base uri to set
         fn set_base_uri(ref self: ContractState, base_uri: ByteArray) {
             let admin = self.admin.read();
             assert(get_caller_address() == admin, UNAUTHORIZED);
             self.base_uri.write(base_uri);
+        }
+
+        /// @notice upgrades the nft contract
+        /// @param new_class_hash classhash to upgrade to
+        fn upgrade(ref self: ContractState, new_class_hash: ClassHash) {
+            self.ownable.assert_only_owner();
+
+            // Replace the class hash upgrading the contract
+            self.upgradeable.upgrade(new_class_hash);
         }
 
         // *************************************************************************

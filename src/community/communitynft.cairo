@@ -3,13 +3,14 @@ pub mod CommunityNFT {
     // *************************************************************************
     //                             IMPORTS
     // *************************************************************************
-    use starknet::{ContractAddress, get_block_timestamp};
+    use starknet::{ContractAddress, ClassHash, get_block_timestamp};
     use core::num::traits::zero::Zero;
     use openzeppelin_introspection::src5::SRC5Component;
     use openzeppelin_token::erc721::{ERC721Component, ERC721HooksEmptyImpl};
+    use openzeppelin_access::ownable::OwnableComponent;
+    use openzeppelin_upgrades::UpgradeableComponent;
 
     use coloniz::interfaces::ICustomNFT::ICustomNFT;
-
     use coloniz::base::{
         constants::errors::Errors::{ALREADY_MINTED, NOT_TOKEN_OWNER, TOKEN_DOES_NOT_EXIST},
         utils::base64_extended::convert_into_byteArray,
@@ -23,12 +24,21 @@ pub mod CommunityNFT {
     // *************************************************************************
     //                             COMPONENTS
     // *************************************************************************
+    component!(path: OwnableComponent, storage: ownable, event: OwnableEvent);
     component!(path: ERC721Component, storage: erc721, event: ERC721Event);
     component!(path: SRC5Component, storage: src5, event: SRC5Event);
+    component!(path: UpgradeableComponent, storage: upgradeable, event: UpgradeableEvent);
 
     // ERC721 Mixin
     impl ERC721MixinImpl = ERC721Component::ERC721MixinImpl<ContractState>;
     impl ERC721InternalImpl = ERC721Component::InternalImpl<ContractState>;
+
+    // add an owner
+    #[abi(embed_v0)]
+    impl OwnableImpl = OwnableComponent::OwnableImpl<ContractState>;
+    impl OwnableInternalImpl = OwnableComponent::InternalImpl<ContractState>;
+
+    impl UpgradeableInternalImpl = UpgradeableComponent::InternalImpl<ContractState>;
 
     // *************************************************************************
     //                             STORAGE
@@ -39,6 +49,10 @@ pub mod CommunityNFT {
         erc721: ERC721Component::Storage,
         #[substorage(v0)]
         src5: SRC5Component::Storage,
+        #[substorage(v0)]
+        ownable: OwnableComponent::Storage,
+        #[substorage(v0)]
+        upgradeable: UpgradeableComponent::Storage,
         last_minted_id: u256,
         mint_timestamp: Map<u256, u64>,
         user_token_id: Map<ContractAddress, u256>,
@@ -54,14 +68,19 @@ pub mod CommunityNFT {
         #[flat]
         ERC721Event: ERC721Component::Event,
         #[flat]
-        SRC5Event: SRC5Component::Event
+        SRC5Event: SRC5Component::Event,
+        #[flat]
+        OwnableEvent: OwnableComponent::Event,
+        #[flat]
+        UpgradeableEvent: UpgradeableComponent::Event
     }
 
     // *************************************************************************
     //                             CONSTRUCTOR
     // *************************************************************************
     #[constructor]
-    fn constructor(ref self: ContractState, community_id: u256) {
+    fn constructor(ref self: ContractState, community_id: u256, admin: ContractAddress) {
+        self.ownable.initializer(admin);
         self.community_id.write(community_id);
     }
 
@@ -96,6 +115,15 @@ pub mod CommunityNFT {
             assert(self.erc721.exists(token_id), TOKEN_DOES_NOT_EXIST);
             self.erc721.burn(token_id);
             self.user_token_id.write(user_address, 0);
+        }
+
+        /// @notice upgrades the nft contract
+        /// @param new_class_hash classhash to upgrade to
+        fn upgrade(ref self: ContractState, new_class_hash: ClassHash) {
+            self.ownable.assert_only_owner();
+
+            // Replace the class hash upgrading the contract
+            self.upgradeable.upgrade(new_class_hash);
         }
 
         // *************************************************************************

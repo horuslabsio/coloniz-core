@@ -19,7 +19,7 @@ pub mod CollectNFT {
         Map, StoragePointerWriteAccess, StoragePointerReadAccess, StorageMapReadAccess,
         StorageMapWriteAccess
     };
-    use openzeppelin_access::ownable::OwnableComponent; 
+    use openzeppelin_access::ownable::OwnableComponent;
     use openzeppelin_token::erc721::{ERC721Component, ERC721HooksEmptyImpl};
     use openzeppelin_introspection::{src5::SRC5Component};
 

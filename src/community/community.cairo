@@ -165,7 +165,10 @@ pub mod CommunityComponent {
             // deploy community nft - use community_id as salt since its unique
             let community_nft_address = self
                 ._deploy_community_nft(
-                    community_id, community_nft_classhash, get_block_timestamp().try_into().unwrap()
+                    community_id,
+                    community_owner,
+                    community_nft_classhash,
+                    get_block_timestamp().try_into().unwrap()
                 );
 
             // create community nft
@@ -895,11 +898,12 @@ pub mod CommunityComponent {
         fn _deploy_community_nft(
             ref self: ComponentState<TContractState>,
             community_id: u256,
+            community_owner: ContractAddress,
             community_nft_impl_class_hash: ClassHash,
             salt: felt252
         ) -> ContractAddress {
             let mut constructor_calldata: Array<felt252> = array![
-                community_id.low.into(), community_id.high.into()
+                community_id.low.into(), community_id.high.into(), community_owner.into()
             ];
 
             let (account_address, _) = deploy_syscall(

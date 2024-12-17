@@ -39,12 +39,7 @@ const ADMIN: felt252 = 'ADMIN';
 //                              SETUP
 // *************************************************************************
 fn __setup__() -> (
-    ContractAddress,
-    ContractAddress,
-    felt252,
-    felt252,
-    ContractAddress,
-    ProfileVariants
+    ContractAddress, ContractAddress, felt252, felt252, ContractAddress, ProfileVariants
 ) {
     // deploy NFT
     let nft_contract = declare("ColonizNFT").unwrap().contract_class();
@@ -131,9 +126,7 @@ fn test_post_community_post() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     // Create profile
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
     let community_id = community_dispatcher.create_community();
     // Check if community is created
@@ -175,9 +168,7 @@ fn test_if_is_community_post() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     // Create profile
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
     let community_id = community_dispatcher.create_community();
     // Check if community is created
@@ -227,9 +218,7 @@ fn test_community_censorship_post_status_tobe_true() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     // Create profile
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
     let community_id = community_dispatcher.create_community();
     // Check if community is created
@@ -275,9 +264,7 @@ fn test_community_censorship_post_status_tobe_false() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     // Create profile
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
     let community_id = community_dispatcher.create_community();
     community_dispatcher.set_community_censorship_status(community_id, true);
@@ -324,9 +311,7 @@ fn test_channel_censorship_post_status_tobe_true() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     // Create profile
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
     let community_id = community_dispatcher.create_community();
     // Check if community is created
@@ -371,9 +356,7 @@ fn test_channel_censorship_post_status_tobe_false() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     // Create profile
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
     let community_id = community_dispatcher.create_community();
 
@@ -422,9 +405,7 @@ fn test_if_is_channel_post() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     // Create profile
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
     let community_id = community_dispatcher.create_community();
     // Check if community is created
@@ -476,9 +457,7 @@ fn test_should_fail_if_user_is_not_a_community_member() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     // Create profile
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
     let community_id = community_dispatcher.create_community();
     // Check if channel is created
@@ -499,9 +478,7 @@ fn test_should_fail_if_user_is_not_a_community_member() {
     let content_URI: ByteArray = "ipfs://helloworld";
     // Create profile
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Attempt to post
     let _pub_assigned_id = publication_dispatcher
         .post(
@@ -539,9 +516,7 @@ fn test_should_fail_if_user_is_not_a_channel_member() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     // Create profile
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
     let community_id = community_dispatcher.create_community();
     // Check if channel is created
@@ -562,9 +537,7 @@ fn test_should_fail_if_user_is_not_a_channel_member() {
     let content_URI: ByteArray = "ipfs://helloworld";
     // Create profile
     let user_two_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Attempt to post
     community_dispatcher.join_community(community_id);
     channel_dispatcher.join_channel(channel_id);
@@ -584,9 +557,7 @@ fn test_should_fail_if_user_is_not_a_channel_member() {
     let content_URI: ByteArray = "ipfs://helloworld";
     // Create profile
     let user_three_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Attempt to post
     community_dispatcher.join_community(community_id);
     let _pub_assigned_id = publication_dispatcher
@@ -624,9 +595,7 @@ fn test_post_channel_post() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     // Create profile
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
     let community_id = community_dispatcher.create_community();
     // Check if community is created
@@ -667,9 +636,7 @@ fn test_upvote() {
 
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_two_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     let community_id = community_dispatcher.create_community();
     let channel_id = channel_dispatcher.create_channel(community_id);
     let pub_assigned_id = publication_dispatcher
@@ -711,9 +678,7 @@ fn test_downvote() {
 
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_two_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     let community_id = community_dispatcher.create_community();
     let channel_id = channel_dispatcher.create_channel(community_id);
     let pub_assigned_id = publication_dispatcher
@@ -757,9 +722,7 @@ fn test_upvote_event_emission() {
     let content_URI: ByteArray = "ipfs://helloworld";
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
 
     let community_id = community_dispatcher.create_community();
     let channel_id = channel_dispatcher.create_channel(community_id);
@@ -814,9 +777,7 @@ fn test_downvote_event_emission() {
     let content_URI: ByteArray = "ipfs://helloworld";
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
 
     let community_id = community_dispatcher.create_community();
     let channel_id = channel_dispatcher.create_channel(community_id);
@@ -870,9 +831,7 @@ fn test_upvote_should_fail_if_user_already_upvoted() {
 
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_two_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     let community_id = community_dispatcher.create_community();
     let channel_id = channel_dispatcher.create_channel(community_id);
     let pub_assigned_id = publication_dispatcher
@@ -914,9 +873,7 @@ fn test_downvote_should_fail_if_user_already_downvoted() {
 
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_two_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     let community_id = community_dispatcher.create_community();
     let channel_id = channel_dispatcher.create_channel(community_id);
     let pub_assigned_id = publication_dispatcher
@@ -959,9 +916,7 @@ fn test_post_event_emission() {
     let content_URI: ByteArray = "ipfs://helloworld";
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
 
     let community_id = community_dispatcher.create_community();
     let channel_id = channel_dispatcher.create_channel(community_id);
@@ -1015,9 +970,7 @@ fn test_comment() {
     let content_URI: ByteArray = "ipfs://helloworld";
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
 
     let community_id = community_dispatcher.create_community();
     let channel_id = channel_dispatcher.create_channel(community_id);
@@ -1034,9 +987,7 @@ fn test_comment() {
 
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_two_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     community_dispatcher.join_community(community_id);
     channel_dispatcher.join_channel(channel_id);
     let content_URI_1 = "ipfs://QmSkDCsS32eLpcymxtn1cEn7Rc5hfefLBgfvZyjaryrga/";
@@ -1100,9 +1051,7 @@ fn test_comment_event_emission() {
     let content_URI: ByteArray = "ipfs://helloworld";
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
 
     let community_id = community_dispatcher.create_community();
     let channel_id = channel_dispatcher.create_channel(community_id);
@@ -1119,9 +1068,7 @@ fn test_comment_event_emission() {
 
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_two_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     community_dispatcher.join_community(community_id);
     channel_dispatcher.join_channel(channel_id);
     let user_two_comment_on_user_one_assigned_pub_id = publication_dispatcher
@@ -1181,9 +1128,7 @@ fn test_repost() {
     let content_URI: ByteArray = "ipfs://helloworld";
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
 
     let community_id = community_dispatcher.create_community();
     let channel_id = channel_dispatcher.create_channel(community_id);
@@ -1200,9 +1145,7 @@ fn test_repost() {
 
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_two_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     community_dispatcher.join_community(community_id);
     channel_dispatcher.join_channel(channel_id);
     let repost_params = RepostParams {
@@ -1255,9 +1198,7 @@ fn test_repost_event_emission() {
     let content_URI: ByteArray = "ipfs://helloworld";
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
 
     let community_id = community_dispatcher.create_community();
     let channel_id = channel_dispatcher.create_channel(community_id);
@@ -1275,9 +1216,7 @@ fn test_repost_event_emission() {
 
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_two_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     community_dispatcher.join_community(community_id);
     channel_dispatcher.join_channel(channel_id);
     let repost_params = RepostParams {
@@ -1334,9 +1273,7 @@ fn test_get_publication_content_uri() {
     let content_URI: ByteArray = "ipfs://helloworld";
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
 
     let community_id = community_dispatcher.create_community();
     let channel_id = channel_dispatcher.create_channel(community_id);
@@ -1376,9 +1313,7 @@ fn test_get_publication_type() {
     let content_URI: ByteArray = "ipfs://helloworld";
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
 
     let community_id = community_dispatcher.create_community();
     let channel_id = channel_dispatcher.create_channel(community_id);
@@ -1423,9 +1358,7 @@ fn test_should_fail_if_banned_profile_from_posting() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     // Create profile
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
     let community_id = community_dispatcher.create_community();
     // Check if community is created
@@ -1442,9 +1375,7 @@ fn test_should_fail_if_banned_profile_from_posting() {
         );
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     community_dispatcher.join_community(community_id);
     channel_dispatcher.join_channel(channel_id);
     stop_cheat_caller_address(publication_contract_address);
@@ -1494,9 +1425,7 @@ fn test_should_fail_if_not_community_member_while_posting() {
 
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     let community_id = community_dispatcher.create_community();
     let channel_id = channel_dispatcher.create_channel(community_id);
     let _pub_assigned_id = publication_dispatcher
@@ -1511,9 +1440,7 @@ fn test_should_fail_if_not_community_member_while_posting() {
     stop_cheat_caller_address(publication_contract_address);
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_two_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 24998, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 24998, profile_variant);
     let _pub_assigned_id = publication_dispatcher
         .post(
             PostParams {
@@ -1550,9 +1477,7 @@ fn test_tip() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     // Create profile
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
     let community_id = community_dispatcher.create_community();
     // Check if community is created
@@ -1571,9 +1496,7 @@ fn test_tip() {
     // USER_TWO joins community
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let _user_two_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     community_dispatcher.join_community(community_id);
     channel_dispatcher.join_channel(channel_id);
     stop_cheat_caller_address(publication_contract_address);
@@ -1627,9 +1550,7 @@ fn test_collect() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     // Create profile
     let user_one_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
     let community_id = community_dispatcher.create_community();
     // Check if community is created
@@ -1648,18 +1569,14 @@ fn test_collect() {
 
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let _user_two_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     community_dispatcher.join_community(community_id);
     channel_dispatcher.join_channel(channel_id);
     stop_cheat_caller_address(publication_contract_address);
 
     start_cheat_caller_address(publication_contract_address, USER_THREE.try_into().unwrap());
     let _user_three_profile_address = publication_dispatcher
-        .create_profile(
-            registry_contract_address, account_class_hash, 2478, profile_variant
-        );
+        .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     community_dispatcher.join_community(community_id);
     channel_dispatcher.join_channel(channel_id);
     stop_cheat_caller_address(publication_contract_address);

@@ -5,7 +5,7 @@ pub mod HandleRegistry {
     // *************************************************************************
     use core::num::traits::zero::Zero;
     use starknet::{
-        ContractAddress, get_caller_address, get_block_timestamp, contract_address_const,
+        ContractAddress, ClassHash, get_caller_address, get_block_timestamp, contract_address_const,
         storage::{
             StoragePointerWriteAccess, StoragePointerReadAccess, Map, StorageMapReadAccess,
             StorageMapWriteAccess
@@ -16,11 +16,27 @@ pub mod HandleRegistry {
     use coloniz::base::{constants::errors::Errors};
     use coloniz::interfaces::IHandle::{IHandleDispatcher, IHandleDispatcherTrait};
 
+    use openzeppelin_access::ownable::OwnableComponent;
+    use openzeppelin_upgrades::UpgradeableComponent;
+
+    component!(path: UpgradeableComponent, storage: upgradeable, event: UpgradeableEvent);
+    component!(path: OwnableComponent, storage: ownable, event: OwnableEvent);
+
+    #[abi(embed_v0)]
+    impl OwnableMixinImpl = OwnableComponent::OwnableMixinImpl<ContractState>;
+
+    impl OwnableInternalImpl = OwnableComponent::InternalImpl<ContractState>;
+    impl UpgradeableInternalImpl = UpgradeableComponent::InternalImpl<ContractState>;
+
     // *************************************************************************
     //                            STORAGE
     // *************************************************************************
     #[storage]
     pub struct Storage {
+        #[substorage(v0)]
+        ownable: OwnableComponent::Storage,
+        #[substorage(v0)]
+        upgradeable: UpgradeableComponent::Storage,
         handle_address: ContractAddress,
         handle_to_profile_address: Map::<u256, ContractAddress>,
         profile_address_to_handle: Map::<ContractAddress, u256>,
@@ -32,6 +48,10 @@ pub mod HandleRegistry {
     #[event]
     #[derive(Drop, starknet::Event)]
     pub enum Event {
+        #[flat]
+        OwnableEvent: OwnableComponent::Event,
+        #[flat]
+        UpgradeableEvent: UpgradeableComponent::Event,
         Linked: HandleLinked,
         Unlinked: HandleUnlinked,
     }
@@ -56,8 +76,11 @@ pub mod HandleRegistry {
     //                            CONSTRUCTOR
     // *************************************************************************
     #[constructor]
-    fn constructor(ref self: ContractState, handle_address: ContractAddress) {
+    fn constructor(
+        ref self: ContractState, handle_address: ContractAddress, owner: ContractAddress
+    ) {
         self.handle_address.write(handle_address);
+        self.ownable.initializer(owner);
     }
 
     // *************************************************************************
@@ -78,6 +101,15 @@ pub mod HandleRegistry {
         fn unlink(ref self: ContractState, handle_id: u256, profile_address: ContractAddress) {
             let caller = get_caller_address();
             self._unlink(handle_id, profile_address, caller);
+        }
+
+        /// @notice upgrades the hub contract
+        /// @param new_class_hash classhash to upgrade to
+        fn upgrade(ref self: ContractState, new_class_hash: ClassHash) {
+            self.ownable.assert_only_owner();
+
+            // Replace the class hash upgrading the contract
+            self.upgradeable.upgrade(new_class_hash);
         }
 
         // *************************************************************************

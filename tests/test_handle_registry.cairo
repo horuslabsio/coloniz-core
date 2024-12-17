@@ -36,7 +36,7 @@ fn __setup__() -> (ContractAddress, ContractAddress) {
 
     // deploy handle registry contract
     let handle_registry_class_hash = declare("HandleRegistry").unwrap().contract_class();
-    let mut calldata: Array<felt252> = array![handle_contract_address.into()];
+    let mut calldata: Array<felt252> = array![handle_contract_address.into(), ADMIN_ADDRESS];
     let (handle_registry_contract_address, _) = handle_registry_class_hash
         .deploy(@calldata)
         .unwrap_syscall();

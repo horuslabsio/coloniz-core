@@ -1,4 +1,4 @@
-use starknet::ContractAddress;
+use starknet::{ContractAddress, ClassHash};
 
 #[starknet::interface]
 trait IColonizHub<TState> {
@@ -17,18 +17,18 @@ trait IColonizHub<TState> {
     ) -> bool;
     fn get_handle_id(self: @TState, profile_address: ContractAddress) -> u256;
     fn get_handle(self: @TState, handle_id: u256) -> ByteArray;
+    fn upgrade(ref self: TState, new_class_hash: ClassHash);
 }
 
 #[starknet::contract]
 pub mod ColonizHub {
     use core::array::SpanTrait;
     use starknet::{
-        ContractAddress, get_caller_address, get_contract_address,
+        ContractAddress, ClassHash, get_caller_address, get_contract_address,
         storage::{StoragePointerWriteAccess, StoragePointerReadAccess}
     };
     use coloniz::profile::profile::ProfileComponent;
     use coloniz::publication::publication::PublicationComponent;
-    use openzeppelin_access::ownable::OwnableComponent;
     use coloniz::community::community::CommunityComponent;
     use coloniz::channel::channel::ChannelComponent;
     use coloniz::jolt::jolt::JoltComponent;
@@ -41,6 +41,9 @@ pub mod ColonizHub {
         BLOCKED_STATUS, INVALID_PROFILE_ADDRESS, SELF_FOLLOWING
     };
 
+    use openzeppelin_access::ownable::OwnableComponent;
+    use openzeppelin_upgrades::UpgradeableComponent;
+
     // *************************************************************************
     //                              COMPONENTS
     // *************************************************************************
@@ -50,27 +53,29 @@ pub mod ColonizHub {
     component!(path: JoltComponent, storage: jolt, event: JoltEvent);
     component!(path: ChannelComponent, storage: channel, event: ChannelEvent);
     component!(path: CommunityComponent, storage: community, event: CommunityEvent);
+    component!(path: UpgradeableComponent, storage: upgradeable, event: UpgradeableEvent);
 
     #[abi(embed_v0)]
     impl ProfileImpl = ProfileComponent::colonizProfile<ContractState>;
     #[abi(embed_v0)]
     impl PublicationImpl = PublicationComponent::colonizPublication<ContractState>;
-    impl PublicationPrivateImpl = PublicationComponent::InternalImpl<ContractState>;
-
-    impl ProfilePrivateImpl = ProfileComponent::Private<ContractState>;
-
-
     #[abi(embed_v0)]
     impl communityImpl = CommunityComponent::colonizCommunity<ContractState>;
-    impl communityPrivateImpl = CommunityComponent::Private<ContractState>;
-
     #[abi(embed_v0)]
     impl channelImpl = ChannelComponent::colonizChannel<ContractState>;
-    impl channelPrivateImpl = ChannelComponent::InternalImpl<ContractState>;
-
     #[abi(embed_v0)]
     impl joltImpl = JoltComponent::Jolt<ContractState>;
+    #[abi(embed_v0)]
+    impl OwnableMixinImpl = OwnableComponent::OwnableMixinImpl<ContractState>;
+
+    impl OwnableInternalImpl = OwnableComponent::InternalImpl<ContractState>;
     impl joltPrivateImpl = JoltComponent::Private<ContractState>;
+    impl PublicationPrivateImpl = PublicationComponent::InternalImpl<ContractState>;
+    impl ProfilePrivateImpl = ProfileComponent::Private<ContractState>;
+    impl channelPrivateImpl = ChannelComponent::InternalImpl<ContractState>;
+    impl communityPrivateImpl = CommunityComponent::Private<ContractState>;
+    impl UpgradeableInternalImpl = UpgradeableComponent::InternalImpl<ContractState>;
+
     // *************************************************************************
     //                              STORAGE
     // *************************************************************************
@@ -88,6 +93,8 @@ pub mod ColonizHub {
         community: CommunityComponent::Storage,
         #[substorage(v0)]
         channel: ChannelComponent::Storage,
+        #[substorage(v0)]
+        upgradeable: UpgradeableComponent::Storage,
         handle_contract_address: ContractAddress,
         handle_registry_contract_address: ContractAddress
     }
@@ -108,6 +115,8 @@ pub mod ColonizHub {
         CommunityEvent: CommunityComponent::Event,
         #[flat]
         ChannelEvent: ChannelComponent::Event,
+        #[flat]
+        UpgradeableEvent: UpgradeableComponent::Event
     }
 
     // *************************************************************************
@@ -135,6 +144,7 @@ pub mod ColonizHub {
         self.publication._initializer(collect_nft_classhash);
         self.community._initializer(community_nft_classhash);
         self.jolt._initializer(owner);
+        self.ownable.initializer(owner);
     }
 
     #[abi(embed_v0)]
@@ -189,6 +199,15 @@ pub mod ColonizHub {
                 let address_to_block = addresses.pop_front().unwrap();
                 self._set_block_status(blocker_profile_address, *address_to_block, block_status);
             }
+        }
+
+        /// @notice upgrades the hub contract
+        /// @param new_class_hash classhash to upgrade to
+        fn upgrade(ref self: ContractState, new_class_hash: ClassHash) {
+            self.ownable.assert_only_owner();
+
+            // Replace the class hash upgrading the contract
+            self.upgradeable.upgrade(new_class_hash);
         }
 
         // *************************************************************************

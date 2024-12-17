@@ -73,9 +73,7 @@ pub mod ProfileComponent {
             let coloniz_nft_address = self.coloniz_nft_address.read();
             // mint coloniz nft
             let recipient = get_caller_address();
-            let owns_coloniznft = IERC721Dispatcher {
-                contract_address: coloniz_nft_address
-            }
+            let owns_coloniznft = IERC721Dispatcher { contract_address: coloniz_nft_address }
                 .balance_of(recipient);
             if owns_coloniznft == 0 {
                 IColonizNFTDispatcher { contract_address: coloniz_nft_address }
@@ -89,9 +87,7 @@ pub mod ProfileComponent {
             let profile_address = IRegistryDispatcher {
                 contract_address: registry_contract_address
             }
-                .create_account(
-                    implementation_hash, coloniz_nft_address, token_id, salt, chain_id
-                );
+                .create_account(implementation_hash, coloniz_nft_address, token_id, salt, chain_id);
 
             // deploy follow nft contract
             let mut constructor_calldata: Array<felt252> = array![

@@ -1,4 +1,4 @@
-use starknet::ContractAddress;
+use starknet::{ContractAddress, ClassHash};
 use coloniz::base::constants::types::ProfileVariants;
 // *************************************************************************
 //                              INTERFACE of coloniz NFT
@@ -12,6 +12,7 @@ pub trait IColonizNFT<TState> {
         ref self: TState, address: ContractAddress, profile_variant: ProfileVariants
     );
     fn set_base_uri(ref self: TState, base_uri: ByteArray);
+    fn upgrade(ref self: TState, new_class_hash: ClassHash);
     // *************************************************************************
     //                            GETTERS
     // *************************************************************************
