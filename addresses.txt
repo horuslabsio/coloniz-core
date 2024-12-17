@@ -1,7 +1,9 @@
 SEPOLIA ADDRESSES:
 
-Hub Address -
-Follow NFT -
-Coloniz NFT -
-Handles -
-Handles Registry -
+Hub Address - 0x00fde7695a162a807214e78cd1f3a09c21fc0b7a07aeeb875049dcfaaa1a07a2
+Coloniz NFT - 0x01d3ec880419c6714800fc406d0696dde969f51c0521ca0b5c76b1f69af3eb46
+Handles - 0x752dd216dcebb660204c7302ff0a99494e7f8c464cb4fe48112d39e12f3df14
+Handles Registry - 0x4b5eef8900d4329f8fe60d3d79a6ef8ac79c2d979fce15da18f53ab25e79e83
+Follow NFT - 
+Community NFT -
+Admin - 0x02F659cf8CCE41168B8c0A8BedCE468E33BE1B7bd26E920266C025Dc0F8FBD1b
