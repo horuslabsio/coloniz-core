@@ -51,6 +51,9 @@ fn __setup__() -> (ContractAddress, ContractAddress, ContractAddress, ContractAd
 
     // deploy tokenbound registry
     let registry_class_hash = declare("Registry").unwrap().contract_class();
+    let (registry_contract_address, _) = registry_class_hash
+        .deploy(@array![])
+        .unwrap_syscall();
 
     // declare tokenbound account
     let account_class_hash = declare("AccountV3").unwrap().contract_class();
@@ -68,7 +71,7 @@ fn __setup__() -> (ContractAddress, ContractAddress, ContractAddress, ContractAd
     let hub_class_hash = declare("ColonizHub").unwrap().contract_class();
     let mut calldata: Array<felt252> = array![
         nft_contract_address.into(),
-        handle_contract_address.into(),
+        handle_contract_address.into(), 
         handle_registry_contract_address.into(),
         (*follow_nft_classhash.class_hash).into(),
         (*community_nft_classhash.class_hash).into(),
@@ -92,8 +95,7 @@ fn __setup__() -> (ContractAddress, ContractAddress, ContractAddress, ContractAd
 
     let user_one_profile_address = dispatcher
         .create_profile(
-            nft_contract_address,
-            (*registry_class_hash.class_hash).into(),
+            registry_contract_address,
             (*account_class_hash.class_hash).into(),
             2478,
             profile_variant
@@ -103,8 +105,7 @@ fn __setup__() -> (ContractAddress, ContractAddress, ContractAddress, ContractAd
     start_cheat_caller_address(hub_contract_address, ADDRESS2.try_into().unwrap());
     let user_two_profile_address = dispatcher
         .create_profile(
-            nft_contract_address,
-            (*registry_class_hash.class_hash).into(),
+            registry_contract_address,
             (*account_class_hash.class_hash).into(),
             2478,
             profile_variant
@@ -115,8 +116,7 @@ fn __setup__() -> (ContractAddress, ContractAddress, ContractAddress, ContractAd
     start_cheat_caller_address(hub_contract_address, ADDRESS3.try_into().unwrap());
     let user_three_profile_address = dispatcher
         .create_profile(
-            nft_contract_address,
-            (*registry_class_hash.class_hash).into(),
+            registry_contract_address,
             (*account_class_hash.class_hash).into(),
             2478,
             profile_variant

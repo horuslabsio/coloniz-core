@@ -36,7 +36,7 @@ pub mod PublicationComponent {
     use coloniz::jolt::jolt::JoltComponent;
     use coloniz::community::community::CommunityComponent;
     use coloniz::channel::channel::ChannelComponent;
-    use openzeppelin::access::ownable::OwnableComponent;
+    use openzeppelin_access::ownable::OwnableComponent;
 
 
     // *************************************************************************

@@ -209,7 +209,6 @@ fn test_metadata() {
     let dispatcher = IFollowNFTDispatcher { contract_address: follow_nft_contract_address };
     let nft_name = dispatcher.name();
     let nft_symbol = dispatcher.symbol();
-    println!("{:?}", nft_name);
     assert(nft_name == "Coloniz Followers | #10", 'invalid name');
     assert(nft_symbol == "CLZ:FOLLOWERS", 'invalid symbol');
     stop_cheat_caller_address(follow_nft_contract_address);

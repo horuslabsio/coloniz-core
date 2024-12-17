@@ -14,10 +14,9 @@ pub mod Handles {
             StorageMapWriteAccess
         }
     };
-    use openzeppelin::{
-        access::ownable::OwnableComponent, token::erc721::{ERC721Component, ERC721HooksEmptyImpl},
-        introspection::{src5::SRC5Component}
-    };
+    use openzeppelin_access::ownable::OwnableComponent; 
+    use openzeppelin_token::erc721::{ERC721Component, ERC721HooksEmptyImpl};
+    use openzeppelin_introspection::{src5::SRC5Component};
     use coloniz::base::{
         constants::errors::Errors, utils::byte_array_extra::FeltTryIntoByteArray,
         token_uris::handle_token_uri::HandleTokenUri,

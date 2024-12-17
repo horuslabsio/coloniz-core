@@ -19,8 +19,8 @@ pub mod JoltComponent {
     };
     use coloniz::interfaces::{IJolt::IJolt, IERC20::{IERC20Dispatcher, IERC20DispatcherTrait}};
 
-    use openzeppelin::access::ownable::OwnableComponent;
-    use openzeppelin::access::ownable::OwnableComponent::{OwnableMixinImpl, InternalImpl};
+    use openzeppelin_access::ownable::OwnableComponent;
+    use openzeppelin_access::ownable::OwnableComponent::{OwnableMixinImpl, InternalImpl};
 
     // *************************************************************************
     //                            STORAGE

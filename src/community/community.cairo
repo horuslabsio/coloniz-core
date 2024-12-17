@@ -13,7 +13,7 @@ pub mod CommunityComponent {
             StorageMapWriteAccess
         }
     };
-    use openzeppelin::access::ownable::OwnableComponent;
+    use openzeppelin_access::ownable::OwnableComponent;
 
     use coloniz::jolt::jolt::JoltComponent;
     use coloniz::interfaces::{

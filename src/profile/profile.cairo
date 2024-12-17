@@ -13,7 +13,7 @@ pub mod ProfileComponent {
         }
     };
     use coloniz::interfaces::IColonizNFT::{IColonizNFTDispatcher, IColonizNFTDispatcherTrait};
-    use coloniz::interfaces::IRegistry::{IRegistryDispatcherTrait, IRegistryLibraryDispatcher};
+    use coloniz::interfaces::IRegistry::{IRegistryDispatcherTrait, IRegistryDispatcher};
     use coloniz::interfaces::IERC721::{IERC721Dispatcher, IERC721DispatcherTrait};
     use coloniz::interfaces::IProfile::IProfile;
     use coloniz::base::{
@@ -65,32 +65,32 @@ pub mod ProfileComponent {
         /// @param salt random salt for deployment
         fn create_profile(
             ref self: ComponentState<TContractState>,
-            coloniznft_contract_address: ContractAddress,
-            registry_hash: felt252,
+            registry_contract_address: ContractAddress,
             implementation_hash: felt252,
             salt: felt252,
             profile_variants: ProfileVariants
         ) -> ContractAddress {
+            let coloniz_nft_address = self.coloniz_nft_address.read();
             // mint coloniz nft
             let recipient = get_caller_address();
             let owns_coloniznft = IERC721Dispatcher {
-                contract_address: coloniznft_contract_address
+                contract_address: coloniz_nft_address
             }
                 .balance_of(recipient);
             if owns_coloniznft == 0 {
-                IColonizNFTDispatcher { contract_address: coloniznft_contract_address }
+                IColonizNFTDispatcher { contract_address: coloniz_nft_address }
                     .mint_coloniznft(recipient, profile_variants);
             }
-            let token_id = IColonizNFTDispatcher { contract_address: coloniznft_contract_address }
+            let token_id = IColonizNFTDispatcher { contract_address: coloniz_nft_address }
                 .get_user_token_id(recipient);
             let tx_info = get_tx_info().unbox();
             let chain_id = tx_info.chain_id;
             // create tokenbound account
-            let profile_address = IRegistryLibraryDispatcher {
-                class_hash: registry_hash.try_into().unwrap()
+            let profile_address = IRegistryDispatcher {
+                contract_address: registry_contract_address
             }
                 .create_account(
-                    implementation_hash, coloniznft_contract_address, token_id, salt, chain_id
+                    implementation_hash, coloniz_nft_address, token_id, salt, chain_id
                 );
 
             // deploy follow nft contract

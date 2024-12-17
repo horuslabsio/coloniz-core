@@ -11,7 +11,7 @@ pub mod ChannelComponent {
         StoragePointerReadAccess, StoragePointerWriteAccess, Map, StorageMapReadAccess,
         StorageMapWriteAccess
     };
-    use openzeppelin::access::ownable::OwnableComponent;
+    use openzeppelin_access::ownable::OwnableComponent;
 
     use coloniz::jolt::jolt::JoltComponent;
     use coloniz::community::community::CommunityComponent;

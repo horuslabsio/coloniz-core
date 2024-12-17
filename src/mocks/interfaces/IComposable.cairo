@@ -14,8 +14,7 @@ pub trait IComposable<TState> {
     // *************************************************************************
     fn create_profile(
         ref self: TState,
-        coloniznft_contract_address: ContractAddress,
-        registry_hash: felt252,
+        registry_contract_address: ContractAddress,
         implementation_hash: felt252,
         salt: felt252,
         profile_variants: ProfileVariants

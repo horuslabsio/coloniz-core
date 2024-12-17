@@ -3,7 +3,7 @@ pub mod ColonizChannel {
     use coloniz::channel::channel::ChannelComponent;
     use coloniz::community::community::CommunityComponent;
     use coloniz::jolt::jolt::JoltComponent;
-    use openzeppelin::access::ownable::OwnableComponent;
+    use openzeppelin_access::ownable::OwnableComponent;
 
     component!(path: ChannelComponent, storage: channel, event: ChannelEvent);
     component!(path: CommunityComponent, storage: community, event: CommunityEvent);

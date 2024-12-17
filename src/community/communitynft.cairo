@@ -5,8 +5,8 @@ pub mod CommunityNFT {
     // *************************************************************************
     use starknet::{ContractAddress, get_block_timestamp};
     use core::num::traits::zero::Zero;
-    use openzeppelin::introspection::src5::SRC5Component;
-    use openzeppelin::token::erc721::{ERC721Component, ERC721HooksEmptyImpl};
+    use openzeppelin_introspection::src5::SRC5Component;
+    use openzeppelin_token::erc721::{ERC721Component, ERC721HooksEmptyImpl};
 
     use coloniz::interfaces::ICustomNFT::ICustomNFT;
 

@@ -41,8 +41,6 @@ const ADMIN: felt252 = 'ADMIN';
 fn __setup__() -> (
     ContractAddress,
     ContractAddress,
-    ContractAddress,
-    felt252,
     felt252,
     felt252,
     ContractAddress,
@@ -97,10 +95,8 @@ fn __setup__() -> (
     let account_class_hash = declare("AccountV3").unwrap().contract_class();
 
     return (
-        nft_contract_address,
         registry_contract_address,
         publication_contract_address,
-        (*registry_class_hash.class_hash).into(),
         (*account_class_hash.class_hash).into(),
         (*collect_nft_classhash.class_hash).into(),
         usdt_contract_address,
@@ -115,10 +111,8 @@ fn __setup__() -> (
 #[test]
 fn test_post_community_post() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -138,7 +132,7 @@ fn test_post_community_post() {
     // Create profile
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     // Check if community is created
     let community_id = community_dispatcher.create_community();
@@ -161,10 +155,8 @@ fn test_post_community_post() {
 #[test]
 fn test_if_is_community_post() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -184,7 +176,7 @@ fn test_if_is_community_post() {
     // Create profile
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     // Check if community is created
     let community_id = community_dispatcher.create_community();
@@ -215,10 +207,8 @@ fn test_if_is_community_post() {
 #[test]
 fn test_community_censorship_post_status_tobe_true() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -238,7 +228,7 @@ fn test_community_censorship_post_status_tobe_true() {
     // Create profile
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     // Check if community is created
     let community_id = community_dispatcher.create_community();
@@ -265,10 +255,8 @@ fn test_community_censorship_post_status_tobe_true() {
 #[test]
 fn test_community_censorship_post_status_tobe_false() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -288,7 +276,7 @@ fn test_community_censorship_post_status_tobe_false() {
     // Create profile
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     // Check if community is created
     let community_id = community_dispatcher.create_community();
@@ -316,10 +304,8 @@ fn test_community_censorship_post_status_tobe_false() {
 #[test]
 fn test_channel_censorship_post_status_tobe_true() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -339,7 +325,7 @@ fn test_channel_censorship_post_status_tobe_true() {
     // Create profile
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     // Check if community is created
     let community_id = community_dispatcher.create_community();
@@ -365,10 +351,8 @@ fn test_channel_censorship_post_status_tobe_true() {
 #[test]
 fn test_channel_censorship_post_status_tobe_false() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -388,7 +372,7 @@ fn test_channel_censorship_post_status_tobe_false() {
     // Create profile
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     // Check if community is created
     let community_id = community_dispatcher.create_community();
@@ -418,10 +402,8 @@ fn test_channel_censorship_post_status_tobe_false() {
 #[test]
 fn test_if_is_channel_post() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -441,7 +423,7 @@ fn test_if_is_channel_post() {
     // Create profile
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     // Check if community is created
     let community_id = community_dispatcher.create_community();
@@ -474,10 +456,8 @@ fn test_if_is_channel_post() {
 #[test]
 fn test_should_fail_if_user_is_not_a_community_member() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -497,7 +477,7 @@ fn test_should_fail_if_user_is_not_a_community_member() {
     // Create profile
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     // Check if community is created
     let community_id = community_dispatcher.create_community();
@@ -520,7 +500,7 @@ fn test_should_fail_if_user_is_not_a_community_member() {
     // Create profile
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     // Attempt to post
     let _pub_assigned_id = publication_dispatcher
@@ -539,10 +519,8 @@ fn test_should_fail_if_user_is_not_a_community_member() {
 #[test]
 fn test_should_fail_if_user_is_not_a_channel_member() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -562,7 +540,7 @@ fn test_should_fail_if_user_is_not_a_channel_member() {
     // Create profile
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     // Check if community is created
     let community_id = community_dispatcher.create_community();
@@ -585,7 +563,7 @@ fn test_should_fail_if_user_is_not_a_channel_member() {
     // Create profile
     let user_two_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     // Attempt to post
     community_dispatcher.join_community(community_id);
@@ -607,7 +585,7 @@ fn test_should_fail_if_user_is_not_a_channel_member() {
     // Create profile
     let user_three_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     // Attempt to post
     community_dispatcher.join_community(community_id);
@@ -626,10 +604,8 @@ fn test_should_fail_if_user_is_not_a_channel_member() {
 #[test]
 fn test_post_channel_post() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -649,7 +625,7 @@ fn test_post_channel_post() {
     // Create profile
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     // Check if community is created
     let community_id = community_dispatcher.create_community();
@@ -672,10 +648,8 @@ fn test_post_channel_post() {
 #[test]
 fn test_upvote() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -694,7 +668,7 @@ fn test_upvote() {
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_two_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     let community_id = community_dispatcher.create_community();
     let channel_id = channel_dispatcher.create_channel(community_id);
@@ -718,10 +692,8 @@ fn test_upvote() {
 #[test]
 fn test_downvote() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -740,7 +712,7 @@ fn test_downvote() {
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_two_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     let community_id = community_dispatcher.create_community();
     let channel_id = channel_dispatcher.create_channel(community_id);
@@ -763,10 +735,8 @@ fn test_downvote() {
 #[test]
 fn test_upvote_event_emission() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -788,7 +758,7 @@ fn test_upvote_event_emission() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
 
     let community_id = community_dispatcher.create_community();
@@ -823,10 +793,8 @@ fn test_upvote_event_emission() {
 #[test]
 fn test_downvote_event_emission() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -847,7 +815,7 @@ fn test_downvote_event_emission() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
 
     let community_id = community_dispatcher.create_community();
@@ -883,10 +851,8 @@ fn test_downvote_event_emission() {
 #[should_panic(expected: ('coloniz: already react to post!',))]
 fn test_upvote_should_fail_if_user_already_upvoted() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -905,7 +871,7 @@ fn test_upvote_should_fail_if_user_already_upvoted() {
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_two_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     let community_id = community_dispatcher.create_community();
     let channel_id = channel_dispatcher.create_channel(community_id);
@@ -929,10 +895,8 @@ fn test_upvote_should_fail_if_user_already_upvoted() {
 #[should_panic(expected: ('coloniz: already react to post!',))]
 fn test_downvote_should_fail_if_user_already_downvoted() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -951,7 +915,7 @@ fn test_downvote_should_fail_if_user_already_downvoted() {
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_two_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     let community_id = community_dispatcher.create_community();
     let channel_id = channel_dispatcher.create_channel(community_id);
@@ -974,10 +938,8 @@ fn test_downvote_should_fail_if_user_already_downvoted() {
 #[test]
 fn test_post_event_emission() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -998,7 +960,7 @@ fn test_post_event_emission() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
 
     let community_id = community_dispatcher.create_community();
@@ -1034,10 +996,8 @@ fn test_post_event_emission() {
 #[test]
 fn test_comment() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -1056,7 +1016,7 @@ fn test_comment() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
 
     let community_id = community_dispatcher.create_community();
@@ -1075,7 +1035,7 @@ fn test_comment() {
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_two_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     community_dispatcher.join_community(community_id);
     channel_dispatcher.join_channel(channel_id);
@@ -1118,10 +1078,8 @@ fn test_comment() {
 #[test]
 fn test_comment_event_emission() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -1143,7 +1101,7 @@ fn test_comment_event_emission() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
 
     let community_id = community_dispatcher.create_community();
@@ -1162,7 +1120,7 @@ fn test_comment_event_emission() {
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_two_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     community_dispatcher.join_community(community_id);
     channel_dispatcher.join_channel(channel_id);
@@ -1204,10 +1162,8 @@ fn test_comment_event_emission() {
 #[test]
 fn test_repost() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -1226,7 +1182,7 @@ fn test_repost() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
 
     let community_id = community_dispatcher.create_community();
@@ -1245,7 +1201,7 @@ fn test_repost() {
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_two_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     community_dispatcher.join_community(community_id);
     channel_dispatcher.join_channel(channel_id);
@@ -1279,10 +1235,8 @@ fn test_repost() {
 #[test]
 fn test_repost_event_emission() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -1302,7 +1256,7 @@ fn test_repost_event_emission() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
 
     let community_id = community_dispatcher.create_community();
@@ -1322,7 +1276,7 @@ fn test_repost_event_emission() {
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_two_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     community_dispatcher.join_community(community_id);
     channel_dispatcher.join_channel(channel_id);
@@ -1362,10 +1316,8 @@ fn test_repost_event_emission() {
 #[test]
 fn test_get_publication_content_uri() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -1383,7 +1335,7 @@ fn test_get_publication_content_uri() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
 
     let community_id = community_dispatcher.create_community();
@@ -1406,10 +1358,8 @@ fn test_get_publication_content_uri() {
 #[test]
 fn test_get_publication_type() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -1427,7 +1377,7 @@ fn test_get_publication_type() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
 
     let community_id = community_dispatcher.create_community();
@@ -1451,10 +1401,8 @@ fn test_get_publication_type() {
 #[should_panic(expected: ('coloniz: Profile is banned!',))]
 fn test_should_fail_if_banned_profile_from_posting() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -1476,7 +1424,7 @@ fn test_should_fail_if_banned_profile_from_posting() {
     // Create profile
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     // Check if community is created
     let community_id = community_dispatcher.create_community();
@@ -1495,7 +1443,7 @@ fn test_should_fail_if_banned_profile_from_posting() {
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     community_dispatcher.join_community(community_id);
     channel_dispatcher.join_channel(channel_id);
@@ -1526,10 +1474,8 @@ fn test_should_fail_if_banned_profile_from_posting() {
 #[should_panic(expected: ('coloniz: Not Community Member',))]
 fn test_should_fail_if_not_community_member_while_posting() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -1549,7 +1495,7 @@ fn test_should_fail_if_not_community_member_while_posting() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     let community_id = community_dispatcher.create_community();
     let channel_id = channel_dispatcher.create_channel(community_id);
@@ -1566,7 +1512,7 @@ fn test_should_fail_if_not_community_member_while_posting() {
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_two_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 24998, profile_variant
+            registry_contract_address, account_class_hash, 24998, profile_variant
         );
     let _pub_assigned_id = publication_dispatcher
         .post(
@@ -1583,10 +1529,8 @@ fn test_should_fail_if_not_community_member_while_posting() {
 #[test]
 fn test_tip() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         erc20_contract_address,
@@ -1607,7 +1551,7 @@ fn test_tip() {
     // Create profile
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     // Check if community is created
     let community_id = community_dispatcher.create_community();
@@ -1628,7 +1572,7 @@ fn test_tip() {
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let _user_two_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     community_dispatcher.join_community(community_id);
     channel_dispatcher.join_channel(channel_id);
@@ -1662,10 +1606,8 @@ fn test_tip() {
 #[test]
 fn test_collect() {
     let (
-        nft_contract_address,
-        _,
+        registry_contract_address,
         publication_contract_address,
-        registry_class_hash,
         account_class_hash,
         _,
         _,
@@ -1686,7 +1628,7 @@ fn test_collect() {
     // Create profile
     let user_one_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     // Check if community is created
     let community_id = community_dispatcher.create_community();
@@ -1707,7 +1649,7 @@ fn test_collect() {
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let _user_two_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     community_dispatcher.join_community(community_id);
     channel_dispatcher.join_channel(channel_id);
@@ -1716,7 +1658,7 @@ fn test_collect() {
     start_cheat_caller_address(publication_contract_address, USER_THREE.try_into().unwrap());
     let _user_three_profile_address = publication_dispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2478, profile_variant
+            registry_contract_address, account_class_hash, 2478, profile_variant
         );
     community_dispatcher.join_community(community_id);
     channel_dispatcher.join_channel(channel_id);

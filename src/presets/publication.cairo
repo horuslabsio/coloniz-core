@@ -4,7 +4,7 @@ pub mod ColonizPublication {
     use coloniz::publication::publication::PublicationComponent;
     use coloniz::profile::profile::ProfileComponent;
     use coloniz::jolt::jolt::JoltComponent;
-    use openzeppelin::access::ownable::OwnableComponent;
+    use openzeppelin_access::ownable::OwnableComponent;
     use coloniz::community::community::CommunityComponent;
     use coloniz::channel::channel::ChannelComponent;
 

@@ -16,10 +16,9 @@ pub mod Follow {
         constants::{errors::Errors, types::FollowData},
         utils::hubrestricted::HubRestricted::hub_only, token_uris::follow_token_uri::FollowTokenUri,
     };
-    use openzeppelin::{
-        access::ownable::OwnableComponent, token::erc721::{ERC721Component, ERC721HooksEmptyImpl},
-        introspection::{src5::SRC5Component}
-    };
+    use openzeppelin_access::ownable::OwnableComponent; 
+    use openzeppelin_token::erc721::{ERC721Component, ERC721HooksEmptyImpl};
+    use openzeppelin_introspection::{src5::SRC5Component};
 
     component!(path: OwnableComponent, storage: ownable, event: OwnableEvent);
     component!(path: SRC5Component, storage: src5, event: SRC5Event);

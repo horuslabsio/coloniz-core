@@ -3,7 +3,7 @@ pub mod ColonizCommunity {
     use starknet::ContractAddress;
     use coloniz::community::community::CommunityComponent;
     use coloniz::jolt::jolt::JoltComponent;
-    use openzeppelin::access::ownable::OwnableComponent;
+    use openzeppelin_access::ownable::OwnableComponent;
 
     component!(path: CommunityComponent, storage: community, event: CommunityEvent);
     component!(path: JoltComponent, storage: jolt, event: JoltEvent);

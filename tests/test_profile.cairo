@@ -25,7 +25,7 @@ const USER: felt252 = 'USER1';
 //                              SETUP
 // *************************************************************************
 
-fn __setup__() -> (ContractAddress, ContractAddress, felt252, felt252, ContractAddress) {
+fn __setup__() -> (ContractAddress, ContractAddress, felt252, ContractAddress) {
     // deploy NFT
     let nft_contract = declare("ColonizNFT").unwrap().contract_class();
     let mut calldata: Array<felt252> = array![USER];
@@ -53,7 +53,6 @@ fn __setup__() -> (ContractAddress, ContractAddress, felt252, felt252, ContractA
     return (
         nft_contract_address,
         registry_contract_address,
-        (*registry_class_hash.class_hash).into(),
         (*account_class_hash.class_hash).into(),
         profile_contract_address
     );
@@ -65,7 +64,7 @@ fn __setup__() -> (ContractAddress, ContractAddress, felt252, felt252, ContractA
 #[test]
 fn test_profile_creation() {
     let (
-        nft_contract_address, _, registry_class_hash, account_class_hash, profile_contract_address
+        nft_contract_address, registry_contract_address, account_class_hash, profile_contract_address
     ) =
         __setup__();
     let colonizNFTDispatcher = IColonizNFTDispatcher { contract_address: nft_contract_address };
@@ -84,7 +83,7 @@ fn test_profile_creation() {
     start_cheat_caller_address(nft_contract_address, USER.try_into().unwrap());
     let profile_address = profileDispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2456, profile_variant
+            registry_contract_address, account_class_hash, 2456, profile_variant
         );
 
     // test a new coloniz nft is minted
@@ -108,7 +107,7 @@ fn test_profile_creation() {
 #[test]
 fn test_profile_metadata() {
     let (
-        nft_contract_address, _, registry_class_hash, account_class_hash, profile_contract_address
+        nft_contract_address, registry_contract_address, account_class_hash, profile_contract_address
     ) =
         __setup__();
     let profileDispatcher = IProfileDispatcher { contract_address: profile_contract_address };
@@ -126,7 +125,7 @@ fn test_profile_metadata() {
     start_cheat_caller_address(nft_contract_address, USER.try_into().unwrap());
     let profile_address = profileDispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2456, profile_variant
+            registry_contract_address, account_class_hash, 2456, profile_variant
         );
 
     profileDispatcher
@@ -149,7 +148,7 @@ fn test_profile_metadata() {
 #[test]
 fn test_profile_creation_event() {
     let (
-        nft_contract_address, _, registry_class_hash, account_class_hash, profile_contract_address
+        nft_contract_address, registry_contract_address, account_class_hash, profile_contract_address
     ) =
         __setup__();
     let colonizNFTDispatcher = IColonizNFTDispatcher { contract_address: nft_contract_address };
@@ -171,7 +170,7 @@ fn test_profile_creation_event() {
 
     let profile_address = profileDispatcher
         .create_profile(
-            nft_contract_address, registry_class_hash, account_class_hash, 2456, profile_variant
+            registry_contract_address, account_class_hash, 2456, profile_variant
         );
 
     let token_id = colonizNFTDispatcher.get_user_token_id(USER.try_into().unwrap());

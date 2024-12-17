@@ -28,7 +28,7 @@ pub mod ColonizHub {
     };
     use coloniz::profile::profile::ProfileComponent;
     use coloniz::publication::publication::PublicationComponent;
-    use openzeppelin::access::ownable::OwnableComponent;
+    use openzeppelin_access::ownable::OwnableComponent;
     use coloniz::community::community::CommunityComponent;
     use coloniz::channel::channel::ChannelComponent;
     use coloniz::jolt::jolt::JoltComponent;
