@@ -141,12 +141,12 @@ pub mod ColonizNFT {
         // *************************************************************************
         /// @notice returns the collection name
         fn name(self: @ContractState) -> ByteArray {
-            return "coloniz";
+            return "Coloniz";
         }
 
         /// @notice returns the collection symbol
         fn symbol(self: @ContractState) -> ByteArray {
-            return "KST";
+            return "CLZ:PROFILE";
         }
 
         /// @notice returns the token_uri for a particular token_id

@@ -22,7 +22,7 @@ pub mod Handles {
         constants::errors::Errors, utils::byte_array_extra::FeltTryIntoByteArray,
         token_uris::handle_token_uri::HandleTokenUri,
     };
-    use coloniz::interfaces::{IHandle::IHandle};
+    use coloniz::interfaces::IHandle::IHandle;
 
     component!(path: OwnableComponent, storage: ownable, event: OwnableEvent);
     component!(path: SRC5Component, storage: src5, event: SRC5Event);
@@ -120,10 +120,11 @@ pub mod Handles {
         /// @notice mints a handle to a profile address
         /// @param address profile address to mint handle to
         /// @param local_name username to be minted
-        fn mint_handle(ref self: ContractState, local_name: felt252,) -> u256 {
-            let address = get_caller_address();
+        fn mint_handle(
+            ref self: ContractState, local_name: felt252, profile: ContractAddress
+        ) -> u256 {
             self._validate_local_name(local_name);
-            let token_id = self._mint_handle(address, local_name);
+            let token_id = self._mint_handle(profile, local_name);
             token_id
         }
 
@@ -204,7 +205,7 @@ pub mod Handles {
 
         /// @notice returns the collection symbol
         fn symbol(self: @ContractState) -> ByteArray {
-            return "CHandles";
+            return "CLZ:HANDLES";
         }
 
         /// @notice returns the token URI of a particular handle
@@ -278,3 +279,4 @@ pub mod Handles {
         }
     }
 }
+

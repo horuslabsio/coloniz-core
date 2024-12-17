@@ -121,7 +121,7 @@ pub mod Follow {
         admin: ContractAddress
     ) {
         self.admin.write(admin);
-        self.erc721.initializer("coloniz:FOLLOWER", "KFL", "");
+        self.erc721.initializer("Coloniz Followers", "CLZ:FOLLOWERS", "");
         self.coloniz_hub.write(hub);
         self.followed_profile_address.write(profile_address);
     }
@@ -277,12 +277,12 @@ pub mod Follow {
         // *************************************************************************
         /// @notice returns the collection name
         fn name(self: @ContractState) -> ByteArray {
-            return "coloniz:FOLLOWER";
+            return "Coloniz Followers";
         }
 
         /// @notice returns the collection symbol
         fn symbol(self: @ContractState) -> ByteArray {
-            return "KFL";
+            return "CLZ:FOLLOWERS";
         }
 
         /// @notice returns the token URI of a particular follow NFT

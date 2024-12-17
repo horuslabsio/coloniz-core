@@ -1,12 +1,14 @@
 // *************************************************************************
 //                              INTERFACE of HANDLE NFT
 // *************************************************************************
+use starknet::ContractAddress;
+
 #[starknet::interface]
 pub trait IHandle<TState> {
     // *************************************************************************
     //                              EXTERNALS
     // *************************************************************************
-    fn mint_handle(ref self: TState, local_name: felt252,) -> u256;
+    fn mint_handle(ref self: TState, local_name: felt252, profile: ContractAddress) -> u256;
     fn burn_handle(ref self: TState, token_id: u256);
     // *************************************************************************
     //                            GETTERS
