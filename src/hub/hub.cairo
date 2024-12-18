@@ -28,7 +28,7 @@ pub mod ColonizHub {
         storage::{StoragePointerWriteAccess, StoragePointerReadAccess}
     };
     use coloniz::profile::profile::ProfileComponent;
-    use coloniz::publication::publication::PublicationComponent;
+    // use coloniz::publication::publication::PublicationComponent;
     use coloniz::community::community::CommunityComponent;
     use coloniz::channel::channel::ChannelComponent;
     use coloniz::jolt::jolt::JoltComponent;
@@ -48,7 +48,7 @@ pub mod ColonizHub {
     //                              COMPONENTS
     // *************************************************************************
     component!(path: ProfileComponent, storage: profile, event: ProfileEvent);
-    component!(path: PublicationComponent, storage: publication, event: PublicationEvent);
+    // component!(path: PublicationComponent, storage: publication, event: PublicationEvent);
     component!(path: OwnableComponent, storage: ownable, event: OwnableEvent);
     component!(path: JoltComponent, storage: jolt, event: JoltEvent);
     component!(path: ChannelComponent, storage: channel, event: ChannelEvent);
@@ -57,8 +57,8 @@ pub mod ColonizHub {
 
     #[abi(embed_v0)]
     impl ProfileImpl = ProfileComponent::colonizProfile<ContractState>;
-    #[abi(embed_v0)]
-    impl PublicationImpl = PublicationComponent::colonizPublication<ContractState>;
+    // #[abi(embed_v0)]
+    // impl PublicationImpl = PublicationComponent::colonizPublication<ContractState>;
     #[abi(embed_v0)]
     impl communityImpl = CommunityComponent::colonizCommunity<ContractState>;
     #[abi(embed_v0)]
@@ -70,7 +70,7 @@ pub mod ColonizHub {
 
     impl OwnableInternalImpl = OwnableComponent::InternalImpl<ContractState>;
     impl joltPrivateImpl = JoltComponent::Private<ContractState>;
-    impl PublicationPrivateImpl = PublicationComponent::InternalImpl<ContractState>;
+    // impl PublicationPrivateImpl = PublicationComponent::InternalImpl<ContractState>;
     impl ProfilePrivateImpl = ProfileComponent::Private<ContractState>;
     impl channelPrivateImpl = ChannelComponent::InternalImpl<ContractState>;
     impl communityPrivateImpl = CommunityComponent::Private<ContractState>;
@@ -83,8 +83,8 @@ pub mod ColonizHub {
     struct Storage {
         #[substorage(v0)]
         profile: ProfileComponent::Storage,
-        #[substorage(v0)]
-        publication: PublicationComponent::Storage,
+        // #[substorage(v0)]
+        // publication: PublicationComponent::Storage,
         #[substorage(v0)]
         jolt: JoltComponent::Storage,
         #[substorage(v0)]
@@ -106,7 +106,7 @@ pub mod ColonizHub {
     #[derive(Drop, starknet::Event)]
     enum Event {
         ProfileEvent: ProfileComponent::Event,
-        PublicationEvent: PublicationComponent::Event,
+        // PublicationEvent: PublicationComponent::Event,
         #[flat]
         JoltEvent: JoltComponent::Event,
         #[flat]
@@ -130,7 +130,7 @@ pub mod ColonizHub {
         handle_registry_contract_address: ContractAddress,
         follow_nft_classhash: felt252,
         community_nft_classhash: felt252,
-        collect_nft_classhash: felt252,
+        // collect_nft_classhash: felt252,
         owner: ContractAddress
     ) {
         self
@@ -141,7 +141,7 @@ pub mod ColonizHub {
         self.handle_contract_address.write(handle_contract_address);
         self.handle_registry_contract_address.write(handle_registry_contract_address);
         self.channel._initializer();
-        self.publication._initializer(collect_nft_classhash);
+        // self.publication._initializer(collect_nft_classhash);
         self.community._initializer(community_nft_classhash);
         self.jolt._initializer(owner);
         self.ownable.initializer(owner);
