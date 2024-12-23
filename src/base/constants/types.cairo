@@ -57,7 +57,7 @@ pub enum BackgroundVariants {
 #[derive(Copy, Drop, Serde, starknet::Store, Clone)]
 pub enum ClothVariants {
     CLOTH1,
-    ClOTH2,
+    CLOTH2,
     CLOTH3,
     CLOTH4,
     CLOTH5,
