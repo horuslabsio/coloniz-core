@@ -52,7 +52,7 @@ pub mod profile {
     fn get_cloth_attribute(cloth: ClothVariants) -> ByteArray {
         match cloth {
             ClothVariants::CLOTH1 => "SWEATER",
-            ClothVariants::ClOTH2 => "BLUE WEAR",
+            ClothVariants::CLOTH2 => "BLUE WEAR",
             ClothVariants::CLOTH3 => "RED WEAR",
             ClothVariants::CLOTH4 => "ORANGE WEAR",
             ClothVariants::CLOTH5 => "PINK WEAR",
