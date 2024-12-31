@@ -68,7 +68,7 @@
 <span id="L6"><span class="lineNum">       6</span> <span class="tlaUNC tlaBgUNC">           0 :     pub fn get_svg_handle(token_id: u256, local_name: felt252, namespace: felt252) -&gt; ByteArray {</span></span>
 <span id="L7"><span class="lineNum">       7</span> <span class="tlaUNC">           0 :         let mut svg = ArrayTrait::&lt;felt252&gt;::new();</span></span>
 <span id="L8"><span class="lineNum">       8</span> <span class="tlaUNC">           0 :         let color_code = get_random_color(local_name);</span></span>
-<span id="L9"><span class="lineNum">       9</span>              :         /// TODO chnage the circle svg to desired svg</span>
+<span id="L9"><span class="lineNum">       9</span>              :         /// TODO change the circle svg to desired svg</span>
 <span id="L10"><span class="lineNum">      10</span> <span class="tlaUNC">           0 :         svg.append('&lt;svg width=&quot;100&quot; height=&quot;100&quot;');</span></span>
 <span id="L11"><span class="lineNum">      11</span> <span class="tlaUNC">           0 :         svg.append('xmlns=&quot;http://www.w3.org/2000/');</span></span>
 <span id="L12"><span class="lineNum">      12</span> <span class="tlaUNC">           0 :         svg.append('svg&quot;&gt; &lt;circle cx=&quot;50&quot; cy=&quot;50&quot;');</span></span>

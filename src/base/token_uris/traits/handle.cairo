@@ -6,7 +6,7 @@ pub mod handle {
     pub fn get_svg_handle(token_id: u256, local_name: felt252, namespace: felt252) -> ByteArray {
         let mut svg = ArrayTrait::<felt252>::new();
         let color_code = get_random_color(local_name);
-        /// TODO chnage the circle svg to desired svg
+        /// TODO change the circle svg to desired svg
         svg.append('<svg width="100" height="100"');
         svg.append('xmlns="http://www.w3.org/2000/');
         svg.append('svg"> <circle cx="50" cy="50"');
