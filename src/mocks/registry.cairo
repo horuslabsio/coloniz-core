@@ -30,7 +30,7 @@ pub mod Registry {
     }
 
     /// @notice Emitted when a new tokenbound account is deployed/created
-    /// @param account_address the deployed contract address of the tokenbound acccount
+    /// @param account_address the deployed contract address of the tokenbound account
     /// @param token_contract the contract address of the NFT
     /// @param token_id the ID of the NFT
     #[derive(Drop, starknet::Event)]
