@@ -243,6 +243,7 @@ fn test_jolt_event_is_emitted_on_tipping() {
         Jolted {
             jolt_id: jolt_id,
             jolt_type: 'TIP',
+            amount: 2000000000000000000,
             sender: ADDRESS1.try_into().unwrap(),
             recipient: ADDRESS2.try_into().unwrap(),
             block_timestamp: 36000,
@@ -409,6 +410,7 @@ fn test_jolt_event_is_emitted_on_transfer() {
             jolt_id: jolt_id,
             jolt_type: 'TRANSFER',
             sender: ADDRESS1.try_into().unwrap(),
+            amount: 2000000000000000000,
             recipient: ADDRESS2.try_into().unwrap(),
             block_timestamp: 36000,
         }
@@ -551,6 +553,7 @@ fn test_jolt_event_is_emitted_on_request() {
             jolt_id: jolt_id,
             jolt_type: 'REQUEST',
             sender: ADDRESS1.try_into().unwrap(),
+            amount: 2000000000000000000,
             recipient: ADDRESS2.try_into().unwrap(),
             expiration_timestamp: 154600,
             block_timestamp: 36000,
@@ -844,6 +847,7 @@ fn test_jolt_event_is_emitted_on_request_fulfillment() {
             jolt_id: jolt_id,
             jolt_type: 'REQUEST FULFILLMENT',
             sender: ADDRESS1.try_into().unwrap(),
+            amount: 2000000000000000000,
             recipient: ADDRESS2.try_into().unwrap(),
             expiration_timestamp: 8460,
             block_timestamp: 5840,
@@ -1055,6 +1059,7 @@ fn test_jolt_event_is_emitted_on_subscription() {
             jolt_id: jolt_id,
             jolt_type: 'SUBSCRIPTION',
             sender: ADDRESS1.try_into().unwrap(),
+            amount: 1000000000000000000,
             recipient: ADMIN.try_into().unwrap(),
             block_timestamp: 36000,
         }
@@ -1285,6 +1290,7 @@ fn test_auto_renewal_emits_susbcription_event() {
             jolt_id: renewal_jolt_id,
             jolt_type: 'SUBSCRIPTION',
             sender: ADDRESS1.try_into().unwrap(),
+            amount: 1000000000000000000,
             recipient: ADMIN.try_into().unwrap(),
             block_timestamp: 36000,
         }

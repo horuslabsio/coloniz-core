@@ -53,6 +53,7 @@ pub mod JoltComponent {
         pub jolt_id: u256,
         pub jolt_type: felt252,
         pub sender: ContractAddress,
+        pub amount: u256,
         pub recipient: ContractAddress,
         pub block_timestamp: u64,
     }
@@ -62,6 +63,7 @@ pub mod JoltComponent {
         pub jolt_id: u256,
         pub jolt_type: felt252,
         pub sender: ContractAddress,
+        pub amount: u256,
         pub recipient: ContractAddress,
         pub expiration_timestamp: u64,
         pub block_timestamp: u64,
@@ -72,6 +74,7 @@ pub mod JoltComponent {
         pub jolt_id: u256,
         pub jolt_type: felt252,
         pub sender: ContractAddress,
+        pub amount: u256,
         pub recipient: ContractAddress,
         pub expiration_timestamp: u64,
         pub block_timestamp: u64,
@@ -464,6 +467,7 @@ pub mod JoltComponent {
                         jolt_id,
                         jolt_type: 'TIP',
                         sender,
+                        amount,
                         recipient: recipient,
                         block_timestamp: get_block_timestamp(),
                     }
@@ -502,6 +506,7 @@ pub mod JoltComponent {
                         jolt_id,
                         jolt_type: 'TRANSFER',
                         sender,
+                        amount,
                         recipient: recipient,
                         block_timestamp: get_block_timestamp(),
                     }
@@ -558,6 +563,7 @@ pub mod JoltComponent {
                         jolt_id,
                         jolt_type: 'SUBSCRIPTION',
                         sender,
+                        amount: subscription_data.amount,
                         recipient: subscription_data.fee_address,
                         block_timestamp: get_block_timestamp(),
                     }
@@ -597,6 +603,7 @@ pub mod JoltComponent {
                         jolt_id,
                         jolt_type: 'REQUEST',
                         sender,
+                        amount,
                         recipient: recipient,
                         expiration_timestamp,
                         block_timestamp: get_block_timestamp(),
@@ -637,6 +644,7 @@ pub mod JoltComponent {
                         jolt_id,
                         jolt_type: 'REQUEST FULFILLMENT',
                         sender: jolt_details.recipient,
+                        amount: jolt_details.amount,
                         recipient: jolt_details.sender,
                         expiration_timestamp: jolt_details.expiration_stamp,
                         block_timestamp: get_block_timestamp(),
@@ -704,6 +712,7 @@ pub mod JoltComponent {
                         jolt_id,
                         jolt_type: 'SUBSCRIPTION',
                         sender,
+                        amount,
                         recipient: fee_address,
                         block_timestamp: get_block_timestamp(),
                     }
