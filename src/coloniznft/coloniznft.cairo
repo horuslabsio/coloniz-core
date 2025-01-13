@@ -173,7 +173,8 @@ pub mod ColonizNFT {
         fn token_uri(self: @ContractState, token_id: u256) -> ByteArray {
             let mint_timestamp: u64 = self.get_token_mint_timestamp(token_id);
             let profile_variant = self.profile_variants.read(token_id);
-            let image_url = format!("{}{}", self.base_uri.read(), token_id);
+            let extension: ByteArray = ".png";
+            let image_url = format!("{}{}{}", self.base_uri.read(), token_id, extension);
             get_token_uri(profile_variant, token_id, mint_timestamp, image_url)
         }
     }
