@@ -1,12 +1,21 @@
 import { Call } from "starknet-tokenbound-sdk";
 import { coloniz_HUB_CONTRACT_ADDRESS, PROFILE_ADDRESS_ONE, PROFILE_ADDRESS_TWO } from "../helpers/constants";
 import tokenbound from "../index";
+import { cairo, CallData,CairoCustomEnum } from "starknet";
 
-// "0x072426e3716e48a68accd60e3c67e666e08327a6f74cfe3a4accba5f9dddea3c"
+
+
+
+export const GateKeepType = {
+    None: "None",
+    NFTGating: "NFTGating",
+    PermissionedGating:"PermissionedGating",
+    PaidGating: "PaidGating",
+  } as const;
 
 const execute_create_community = async() =>{
     let call:Call = {
-        to: "0x02408783725e0ad8badb2683f3ad243bd2cc5f431d970aaa532182501e3e6ae7",  // "0x630c718a29c62798e2b96e9f16fc65f4b22855fa49a4bd9339bcc950af037f5", // "0xa21ac387d13c35370bd5539fd9f7cdcbcdec82a6a18e424a83611379facfa3", // coloniz_HUB_CONTRACT_ADDRESS,
+        to: coloniz_HUB_CONTRACT_ADDRESS,  
         selector:"0x8945c258076d05a649eb76dca07fe609b43b360775b41226e3a345e9593ab4",
          calldata:[]
         }
@@ -182,7 +191,6 @@ const execute_upvote = async () => {
     }
 };
 
-
 const execute_downvote = async () => {
     let call: Call = {
         to: coloniz_HUB_CONTRACT_ADDRESS,
@@ -198,8 +206,34 @@ const execute_downvote = async () => {
     }
 };
 
+
+// execute gatekeep
+const execute_gatekeep = async() =>{
+    let comm_id = 3;
+    let gatekeep_type = new CairoCustomEnum({ [GateKeepType.PaidGating]: {} });
+    let permissioned_address = [1,"0x07da6cca38Afcf430ea53581F2eFD957bCeDfF798211309812181C555978DCC3"];
+    let erc20_address:string = "0x006e1698dcd0665757dd213a59aff489624bab8c970ce0482c23937a78879b04";
+    let amount = cairo.uint256(50);
+    let erc721_address = "0x0"
+    let paid_gating_details = cairo.tuple(erc20_address, amount)
+
+    let call: Call = {
+        to: coloniz_HUB_CONTRACT_ADDRESS,
+        selector:
+            "0x3494f4762774ed2020c6906a4da6be06137fc4a0a5ee07fbb404b10c1ae60e8",
+        calldata: CallData.compile([comm_id, gatekeep_type, erc721_address , permissioned_address, paid_gating_details]),
+    }
+    try {
+        const Resp = await tokenbound?.execute("0x075a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f", [call]);
+        console.log("execution-response=:", Resp);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 // execute_get_community();
-execute_create_community();
+// execute_create_community();
+execute_gatekeep()
 // execute_create_channel();
 // execute_join_community();
 // execute_make_post();
