@@ -1,31 +1,35 @@
 import { Call } from "starknet-tokenbound-sdk";
 import { coloniz_HUB_CONTRACT_ADDRESS, PROFILE_ADDRESS_ONE, PROFILE_ADDRESS_TWO } from "../helpers/constants";
 import tokenbound from "../index";
-import { cairo, CallData,CairoCustomEnum } from "starknet";
+import { cairo, CallData,CairoCustomEnum, Uint256 } from "starknet";
 
+import abi from "../abi/hub.json";
 
-
+export const CommunityType = {
+    Free: "Free",
+    Standard: "Standard",
+    Business:"Business"
+  } as const;
 
 export const GateKeepType = {
-    None: "None",
+    Open: "Open",
     NFTGating: "NFTGating",
-    PermissionedGating:"PermissionedGating",
+    PermissionedGating: "PermissionedGating",
     PaidGating: "PaidGating",
-  } as const;
+} as const;
 
 const execute_create_community = async() =>{
     let call:Call = {
         to: coloniz_HUB_CONTRACT_ADDRESS,  
         selector:"0x8945c258076d05a649eb76dca07fe609b43b360775b41226e3a345e9593ab4",
          calldata:[]
-        }
-        try {
-            const Resp = await tokenbound?.execute("0x075a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f", [call])
-            console.log('execution-response=:', Resp);
-        } catch (error) {
-            console.log(error)
-        }
-    
+    }
+    try {
+        const Resp = await tokenbound?.execute("0x075a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f", [call])
+        console.log('execution-response=:', Resp);
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 const execute_create_channel = async() =>{
@@ -206,22 +210,84 @@ const execute_downvote = async () => {
     }
 };
 
+// create subscription
+const create_subscription = async() => {
+    let erc20_address:string = "0x006e1698dcd0665757dd213a59aff489624bab8c970ce0482c23937a78879b04";
+    let admin: string = "0x075a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f";
+    let amount = cairo.uint256(50);
+
+    let call: Call = {
+        to: coloniz_HUB_CONTRACT_ADDRESS,
+        selector:
+            "0x030326c786e65473aacbd943f9dfef0e20cc86348cecd85b2aae83177847887b",
+        calldata: CallData.compile([admin, amount, erc20_address]),
+    }
+
+    try {
+        const Resp = await tokenbound?.execute("0x075a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f", [call]);
+        console.log("execution-response=:", Resp);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// execute upgrade
+const execute_upgrade = async() => {
+    let community_id = cairo.uint256(1);
+    let community_type = new CairoCustomEnum({ Business: {} });
+    let erc20_address:string = "0x006e1698dcd0665757dd213a59aff489624bab8c970ce0482c23937a78879b04";
+    let sub_id: Uint256 = cairo.uint256(
+        '0x040e69be8f56d2da824600bc2861852e77f233e43ca1dce3152c9c08f671af87'
+      );
+
+    let call1: Call = {
+        to: erc20_address,
+        selector:
+            "0x0219209e083275171774dab1df80982e9df2096516f06319c5c6d71ae0a8480c",
+        calldata: CallData.compile([coloniz_HUB_CONTRACT_ADDRESS, cairo.uint256(50)]),
+    }
+
+    const contractCallData: CallData = new CallData(abi);
+    let call2: Call = {
+        to: coloniz_HUB_CONTRACT_ADDRESS,
+        selector:
+            "0x027ead9fee9c84e7422ab84c28d91eea938d139fafc7d1102ef3982f3d087f88",
+        calldata: contractCallData.compile('upgrade_community', [community_id, community_type, sub_id, false, cairo.uint256(0)]),
+    }
+
+    try {
+        const Resp = await tokenbound?.execute("0x075a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f", [call1, call2]);
+        console.log("execution-response=:", Resp);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 // execute gatekeep
 const execute_gatekeep = async() =>{
-    let comm_id = 3;
+    let community_id = cairo.uint256(3);
     let gatekeep_type = new CairoCustomEnum({ [GateKeepType.PaidGating]: {} });
-    let permissioned_address = [1,"0x07da6cca38Afcf430ea53581F2eFD957bCeDfF798211309812181C555978DCC3"];
+    let permissioned_address = [1, "0x075a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f"];
     let erc20_address:string = "0x006e1698dcd0665757dd213a59aff489624bab8c970ce0482c23937a78879b04";
     let amount = cairo.uint256(50);
-    let erc721_address = "0x0"
-    let paid_gating_details = cairo.tuple(erc20_address, amount)
+    let erc721_address = "0x036053a7520d7ff5cb1ce8ebec7acaf8b6364130865662937ab1e2a36d4e00c1";
+    let paid_gating_details = {
+        "0": erc20_address,
+        "1": amount
+    };
+    const contractCallData: CallData = new CallData(abi);
 
     let call: Call = {
         to: coloniz_HUB_CONTRACT_ADDRESS,
         selector:
             "0x3494f4762774ed2020c6906a4da6be06137fc4a0a5ee07fbb404b10c1ae60e8",
-        calldata: CallData.compile([comm_id, gatekeep_type, erc721_address , permissioned_address, paid_gating_details]),
+        calldata: contractCallData.compile('gatekeep', {
+            community_id: community_id, 
+            gate_keep_type: gatekeep_type, 
+            nft_contract_address: erc721_address, 
+            permissioned_addresses: permissioned_address, 
+            paid_gating_details
+        }),
     }
     try {
         const Resp = await tokenbound?.execute("0x075a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f", [call]);
@@ -234,6 +300,8 @@ const execute_gatekeep = async() =>{
 // execute_get_community();
 // execute_create_community();
 execute_gatekeep()
+// create_subscription()
+// execute_upgrade()
 // execute_create_channel();
 // execute_join_community();
 // execute_make_post();
@@ -242,4 +310,5 @@ execute_gatekeep()
 // execute_repost();
 // execute_upvote();
 // execute_downvote();
+
 
