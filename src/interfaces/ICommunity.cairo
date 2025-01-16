@@ -48,6 +48,11 @@ pub trait ICommunity<TState> {
         permissioned_addresses: Array<ContractAddress>,
         paid_gating_details: (ContractAddress, u256),
     );
+    fn set_permissioned_addresses(
+        ref self: TState,
+        community_id: u256,
+        permissioned_addresses: Array<ContractAddress>
+    );
 
     // *************************************************************************
     //                              GETTERS
@@ -64,4 +69,5 @@ pub trait ICommunity<TState> {
     fn get_community_fee_address(self: @TState, community_id: u256) -> ContractAddress;
     fn is_premium_community(self: @TState, community_id: u256) -> (bool, CommunityType);
     fn is_gatekeeped(self: @TState, community_id: u256) -> (bool, CommunityGateKeepDetails);
+    fn is_permissioned_address(self: @TState, community_id: u256, address: ContractAddress) -> bool;
 }

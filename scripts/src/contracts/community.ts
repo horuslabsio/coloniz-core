@@ -233,7 +233,7 @@ const create_subscription = async() => {
 
 // execute upgrade
 const execute_upgrade = async() => {
-    let community_id = cairo.uint256(1);
+    let community_id = cairo.uint256(5);
     let community_type = new CairoCustomEnum({ Business: {} });
     let erc20_address:string = "0x006e1698dcd0665757dd213a59aff489624bab8c970ce0482c23937a78879b04";
     let sub_id: Uint256 = cairo.uint256(
@@ -265,12 +265,12 @@ const execute_upgrade = async() => {
 
 // execute gatekeep
 const execute_gatekeep = async() =>{
-    let community_id = cairo.uint256(3);
-    let gatekeep_type = new CairoCustomEnum({ [GateKeepType.PaidGating]: {} });
+    let community_id = cairo.uint256(4);
+    let gatekeep_type = new CairoCustomEnum({ [GateKeepType.PermissionedGating]: {} });
     let permissioned_address = [1, "0x075a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f"];
     let erc20_address:string = "0x006e1698dcd0665757dd213a59aff489624bab8c970ce0482c23937a78879b04";
     let amount = cairo.uint256(50);
-    let erc721_address = "0x036053a7520d7ff5cb1ce8ebec7acaf8b6364130865662937ab1e2a36d4e00c1";
+    let erc721_address = "0x0000003697660a0981d734780731949ecb2b4a38d6a58fc41629ed611e8defda";
     let paid_gating_details = {
         "0": erc20_address,
         "1": amount
@@ -299,9 +299,9 @@ const execute_gatekeep = async() =>{
 
 // execute_get_community();
 // execute_create_community();
+// execute_upgrade()
 execute_gatekeep()
 // create_subscription()
-// execute_upgrade()
 // execute_create_channel();
 // execute_join_community();
 // execute_make_post();

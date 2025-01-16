@@ -26,7 +26,7 @@ pub mod CommunityComponent {
     };
     use coloniz::base::constants::errors::Errors::{
         ALREADY_MEMBER, NOT_COMMUNITY_OWNER, NOT_COMMUNITY_MEMBER, NOT_COMMUNITY_MOD, BANNED_MEMBER,
-        UNAUTHORIZED, ONLY_PREMIUM_COMMUNITIES, INVALID_LENGTH
+        UNAUTHORIZED, ONLY_PREMIUM_COMMUNITIES, INVALID_LENGTH, INVALID_UPGRADE
     };
 
     // *************************************************************************
@@ -313,6 +313,7 @@ pub mod CommunityComponent {
             // check community owner is caller
             let community_owner = self.communities.read(community_id).community_owner;
             assert(community_owner == get_caller_address(), NOT_COMMUNITY_OWNER);
+            assert(upgrade_type != CommunityType::Free, INVALID_UPGRADE);
 
             self
                 ._upgrade_community(
@@ -386,14 +387,28 @@ pub mod CommunityComponent {
                 );
         }
 
+        /// @notice sets permissioned addresses for a community
+        /// @param community_id The id of the community
+        /// /// @param permissioned_addresses array of addresses to set for permissioned gatekeeping
+        fn set_permissioned_addresses(
+            ref self: ComponentState<TContractState>, community_id: u256,
+            permissioned_addresses: Array<ContractAddress>
+        ) {
+            // check caller is owner
+            let mut community = self.communities.read(community_id);
+            assert(community.community_owner == get_caller_address(), UNAUTHORIZED);
+
+            // set permissioned addresses
+            self._permissioned_gatekeeping(community_id, permissioned_addresses);
+        }
+
         /// @notice set the censorship status of a community
         /// @param community_id The id of the community
         fn set_community_censorship_status(
             ref self: ComponentState<TContractState>, community_id: u256, censorship_status: bool
         ) {
-            let mut community = self.communities.read(community_id);
-
             // check caller is owner
+            let mut community = self.communities.read(community_id);
             assert(community.community_owner == get_caller_address(), UNAUTHORIZED);
 
             // update storage
@@ -512,6 +527,15 @@ pub mod CommunityComponent {
             }
 
             (true, gatekeep_details)
+        }
+
+        /// @notice checks if an address has permissions to join a community
+        /// @param community_id id of community to check
+        /// @return bool permissioned status of the address
+        fn is_permissioned_address(
+            self: @ComponentState<TContractState>, community_id: u256, address: ContractAddress
+        ) -> bool {
+            self.gate_keep_permissioned_addresses.read((community_id, address))
         }
     }
 
