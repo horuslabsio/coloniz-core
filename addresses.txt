@@ -6,5 +6,5 @@ SEPOLIA ADDRESSES:
 | Community NFT      | 0x03081ad7d528fbf2b3bb3954e688fc7339dda70d79029f44005294450a1f5e9b        | -                                                                  |
 | Handles            | 0x04c627aded2129f87a55e43ed2efb7fc5d9d824fd3dafe8907833e24d104822f        | 0x02d365a9e93fb1a87e5b5f8b69091d71b222b1a20873fb40ce956846f4b7048b |
 | Handles Registry   | 0x06d672a615f4035563f989eb423d563d011ea9c4f932ba0c8fe85f5811567834        | 0x0122223d4da13bd2854b606079cf6016c7e4b20d67236fd740ab1713c43e8919 |
-| Coloniz NFT        | 0x00ece545a7650d6233077a8cce0d6388c0800c907c7b3dd598369127ff21fc26        | 0x036053a7520d7ff5cb1ce8ebec7acaf8b6364130865662937ab1e2a36d4e00c1 |
-| Hub                | 0x00134fe5f890dfa427b1975f26f15620b8194f0b64b2beb2bbf5b868b95941d2        | 0x04bd89ef797c5a34a3c8bcc9dafca270959d9edcd568ea22a2364ffb3af959f0 |
+| Coloniz NFT        | 0x3c41f11a24c53fb5bbc9c1a03626f583ccdd1b0c2215756448cc41b29fc0841        | 0x036053a7520d7ff5cb1ce8ebec7acaf8b6364130865662937ab1e2a36d4e00c1 |
+| Hub                | 0x419ba8da29d7364aa6638a066b9199e5ec56ba718ae75c9d0ddee60e08aabfb        | 0x04bd89ef797c5a34a3c8bcc9dafca270959d9edcd568ea22a2364ffb3af959f0 |

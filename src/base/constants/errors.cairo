@@ -10,6 +10,7 @@ pub mod Errors {
     pub const FOLLOWING: felt252 = 'coloniz: already following!';
     pub const NOT_FOLLOWING: felt252 = 'coloniz: user not following!';
     pub const BLOCKED_STATUS: felt252 = 'coloniz: user is blocked!';
+    pub const USER_NOT_BLOCKED: felt252 = 'coloniz: user is not blocked!';
     pub const INVALID_POINTED_PUBLICATION: felt252 = 'coloniz: invalid pointed pub!';
     pub const INVALID_OWNER: felt252 = 'coloniz: caller is not owner!';
     pub const INVALID_PROFILE: felt252 = 'coloniz: profile is not owner!';
@@ -24,6 +25,7 @@ pub mod Errors {
     pub const COMMUNITY_DOES_NOT_EXIST: felt252 = 'coloniz: Comm does not exist';
     pub const NOT_COMMUNITY_OWNER: felt252 = 'coloniz: Not Community owner';
     pub const ONLY_PREMIUM_COMMUNITIES: felt252 = 'coloniz: not premium community';
+    pub const INVALID_UPGRADE: felt252 = 'coloniz: invalid upgrade type';
     pub const NOT_COMMUNITY_MEMBER: felt252 = 'coloniz: Not Community Member';
     pub const NOT_COMMUNITY_MOD: felt252 = 'coloniz: Not a community mod';
     pub const BANNED_MEMBER: felt252 = 'coloniz: Profile is banned!';
