@@ -49,9 +49,7 @@ pub trait ICommunity<TState> {
         paid_gating_details: (ContractAddress, u256),
     );
     fn set_permissioned_addresses(
-        ref self: TState,
-        community_id: u256,
-        permissioned_addresses: Array<ContractAddress>
+        ref self: TState, community_id: u256, permissioned_addresses: Array<ContractAddress>
     );
 
     // *************************************************************************

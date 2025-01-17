@@ -391,7 +391,8 @@ pub mod CommunityComponent {
         /// @param community_id The id of the community
         /// /// @param permissioned_addresses array of addresses to set for permissioned gatekeeping
         fn set_permissioned_addresses(
-            ref self: ComponentState<TContractState>, community_id: u256,
+            ref self: ComponentState<TContractState>,
+            community_id: u256,
             permissioned_addresses: Array<ContractAddress>
         ) {
             // check caller is owner

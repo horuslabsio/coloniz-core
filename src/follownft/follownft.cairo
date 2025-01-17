@@ -180,6 +180,7 @@ pub mod Follow {
                 .read(follower_profile_address);
             assert(follow_id.is_non_zero(), Errors::NOT_FOLLOWING);
             let follow_data = self.follow_data_by_follow_id.read(follow_id);
+
             self
                 .follow_data_by_follow_id
                 .write(
@@ -191,6 +192,7 @@ pub mod Follow {
                         block_status: true,
                     }
                 );
+
             self
                 .emit(
                     FollowerBlocked {
@@ -212,8 +214,9 @@ pub mod Follow {
             let follow_id = self
                 .follow_id_by_follower_profile_address
                 .read(follower_profile_address);
-            assert(follow_id.is_non_zero(), Errors::NOT_FOLLOWING);
             let follow_data = self.follow_data_by_follow_id.read(follow_id);
+            assert(follow_data.block_status == true, Errors::USER_NOT_BLOCKED);
+
             self
                 .follow_data_by_follow_id
                 .write(
@@ -225,6 +228,7 @@ pub mod Follow {
                         block_status: false,
                     }
                 );
+
             self
                 .emit(
                     FollowerUnblocked {
@@ -234,6 +238,7 @@ pub mod Follow {
                         timestamp: get_block_timestamp()
                     }
                 );
+
             return true;
         }
 

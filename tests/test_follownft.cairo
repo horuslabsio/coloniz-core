@@ -196,6 +196,7 @@ fn test_process_unblock() {
     let dispatcher = IFollowNFTDispatcher { contract_address: follow_nft_contract_address };
     start_cheat_caller_address(follow_nft_contract_address, HUB_ADDRESS.try_into().unwrap());
     dispatcher.follow(FOLLOWER1.try_into().unwrap());
+    dispatcher.process_block(FOLLOWER1.try_into().unwrap());
     dispatcher.process_unblock(FOLLOWER1.try_into().unwrap());
     let follow_id = dispatcher.get_follow_id(FOLLOWER1.try_into().unwrap());
     let follow_data = dispatcher.get_follow_data(follow_id);
@@ -338,6 +339,7 @@ fn test_unblock_event() {
     let dispatcher = IFollowNFTDispatcher { contract_address: follow_nft_contract_address };
     start_cheat_caller_address(follow_nft_contract_address, HUB_ADDRESS.try_into().unwrap());
     dispatcher.follow(FOLLOWER1.try_into().unwrap());
+    dispatcher.process_block(FOLLOWER1.try_into().unwrap());
     let mut spy = spy_events();
     dispatcher.process_unblock(FOLLOWER1.try_into().unwrap());
     let follow_id = dispatcher.get_follow_id(FOLLOWER1.try_into().unwrap());
