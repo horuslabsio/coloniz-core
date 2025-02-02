@@ -1,4 +1,4 @@
-use starknet::{ContractAddress, ClassHash};
+use starknet::ContractAddress;
 use coloniz::base::constants::types::FollowData;
 
 // *************************************************************************
@@ -13,7 +13,6 @@ pub trait IFollowNFT<TState> {
     fn unfollow(ref self: TState, unfollower_profile_address: ContractAddress);
     fn process_block(ref self: TState, follower_profile_address: ContractAddress) -> bool;
     fn process_unblock(ref self: TState, follower_profile_address: ContractAddress) -> bool;
-    fn upgrade(ref self: TState, new_class_hash: ClassHash);
     // *************************************************************************
     //                            GETTERS
     // *************************************************************************

@@ -3,7 +3,7 @@ pub mod CommunityNFT {
     // *************************************************************************
     //                             IMPORTS
     // *************************************************************************
-    use starknet::{ContractAddress, ClassHash, get_block_timestamp};
+    use starknet::{ContractAddress, get_block_timestamp};
     use core::num::traits::zero::Zero;
     use openzeppelin_introspection::src5::SRC5Component;
     use openzeppelin_token::erc721::{ERC721Component, ERC721HooksEmptyImpl};
@@ -115,15 +115,6 @@ pub mod CommunityNFT {
             assert(self.erc721.exists(token_id), TOKEN_DOES_NOT_EXIST);
             self.erc721.burn(token_id);
             self.user_token_id.write(user_address, 0);
-        }
-
-        /// @notice upgrades the nft contract
-        /// @param new_class_hash classhash to upgrade to
-        fn upgrade(ref self: ContractState, new_class_hash: ClassHash) {
-            self.ownable.assert_only_owner();
-
-            // Replace the class hash upgrading the contract
-            self.upgradeable.upgrade(new_class_hash);
         }
 
         // *************************************************************************

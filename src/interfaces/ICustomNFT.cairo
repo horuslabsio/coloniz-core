@@ -1,4 +1,4 @@
-use starknet::{ContractAddress, ClassHash};
+use starknet::ContractAddress;
 
 // *************************************************************************
 //                              INTERFACE of ICommunity NFT
@@ -11,7 +11,6 @@ pub trait ICustomNFT<TState> {
 
     fn mint_nft(ref self: TState, user_address: ContractAddress) -> u256;
     fn burn_nft(ref self: TState, user_address: ContractAddress, token_id: u256);
-    fn upgrade(ref self: TState, new_class_hash: ClassHash);
 
     // *************************************************************************
     //                            GETTERS
