@@ -11,6 +11,8 @@ pub mod Follow {
         }
     };
     use core::num::traits::zero::Zero;
+    use core::poseidon::PoseidonTrait;
+    use core::hash::{HashStateTrait, HashStateExTrait};
     use coloniz::interfaces::{IFollowNFT::IFollowNFT};
     use coloniz::base::{
         constants::{errors::Errors, types::FollowData},
@@ -334,7 +336,11 @@ pub mod Follow {
         /// @notice internal function that performs the follow action
         /// @param follower_profile_address address of profile performing the follow action
         fn _follow(ref self: ContractState, follower_profile_address: ContractAddress) -> u256 {
-            let new_follower_id = self.follower_count.read() + 1;
+            let new_follower_id: u256 = PoseidonTrait::new()
+                .update_with(follower_profile_address)
+                .finalize()
+                .try_into()
+                .unwrap();
             self.erc721.mint(follower_profile_address, new_follower_id);
 
             let follow_timestamp: u64 = get_block_timestamp();
@@ -349,7 +355,7 @@ pub mod Follow {
                 .follow_id_by_follower_profile_address
                 .write(follower_profile_address, new_follower_id);
             self.follow_data_by_follow_id.write(new_follower_id, follow_data);
-            self.follower_count.write(new_follower_id);
+            self.follower_count.write(self.follower_count.read() + 1);
             self
                 .emit(
                     Followed {

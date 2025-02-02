@@ -4,6 +4,8 @@
 use core::option::OptionTrait;
 use core::result::ResultTrait;
 use core::traits::TryInto;
+use core::poseidon::PoseidonTrait;
+use core::hash::{HashStateTrait, HashStateExTrait};
 use starknet::{ContractAddress, get_block_timestamp};
 
 use snforge_std::{
@@ -89,7 +91,13 @@ fn test_follow() {
     dispatcher.follow(FOLLOWER1.try_into().unwrap());
     let follow_id = dispatcher.get_follow_id(FOLLOWER1.try_into().unwrap());
     let follower_profile_address = dispatcher.get_follower_profile_address(follow_id);
-    assert(follow_id == 1, 'invalid follow ID');
+
+    let expected_follow_id: u256 = PoseidonTrait::new()
+        .update_with(follower_profile_address)
+        .finalize()
+        .try_into()
+        .unwrap();
+    assert(follow_id == expected_follow_id, 'invalid follow ID');
     assert(
         follower_profile_address == FOLLOWER1.try_into().unwrap(), 'invalid follower
     profile'
@@ -299,11 +307,18 @@ fn test_unfollowed_event() {
     dispatcher.follow(FOLLOWER2.try_into().unwrap());
     dispatcher.unfollow(FOLLOWER1.try_into().unwrap());
 
+    let unfollower_profile_address: ContractAddress = FOLLOWER1.try_into().unwrap();
+    let follow_id: u256 = PoseidonTrait::new()
+        .update_with(unfollower_profile_address)
+        .finalize()
+        .try_into()
+        .unwrap();
+
     let expected_event = UnfollowEvent::Unfollowed(
         Unfollowed {
             unfollowed_address: FOLLOWED_ADDRESS.try_into().unwrap(),
-            unfollower_address: FOLLOWER1.try_into().unwrap(),
-            follow_id: 1,
+            unfollower_address: unfollower_profile_address,
+            follow_id: follow_id,
             timestamp: get_block_timestamp()
         }
     );
