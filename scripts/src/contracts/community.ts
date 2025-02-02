@@ -33,110 +33,78 @@ const execute_create_community = async() =>{
 }
 
 const execute_create_channel = async() =>{
-     
-     // assume this is community_id is 1, since the SDK does not return functionn final return value after execution
-     // https://github.com/horuslabsio/tokenbound-sdk/blob/develop/src/TokenboundClient.ts#L155
-     
-        let call:Call = {
-        to: "0x00a21ac387d13c35370bd5539fd9f7cdcbcdec82a6a18e424a83611379facfa3", //coloniz_HUB_CONTRACT_ADDRESS,
-        selector:"0x33a3cd19c446a4483d4288f10983bf9316ce813aa8ee81acae99b36fc6022d0",
-        calldata:["0x1", "0x0"] //calldata:[1, 0] // calldata:["0x1", "0x0"]
-        }
-     
-        try {
-            const create_channel_Resp = await tokenbound?.execute("0x075a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f", [call])
-            console.log('execution-response=:', create_channel_Resp)
-        } catch (error) {
-            console.log(error)
-        }
-    
-}
+    let community_id = cairo.uint256(3);
 
-const execute_get_community = async() =>{
-     
-
-         let call:Call = {
-        to: "0x00a21ac387d13c35370bd5539fd9f7cdcbcdec82a6a18e424a83611379facfa3", //coloniz_HUB_CONTRACT_ADDRESS,
-        selector:"0x20bf8f15f5ae139bc6cb98412fbee613a66d1b0950e1f7406e74903621f8fc5",
-         calldata:["0x1", "0x00"]
-        }
-        try {
-            const create_channel_Resp = await tokenbound?.execute("0x075a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f", [call])
-            console.log('execution-response=:', create_channel_Resp)
-        } catch (error) {
-            console.log(error)
-        }
+    let call: Call = {
+        to: coloniz_HUB_CONTRACT_ADDRESS, //coloniz_HUB_CONTRACT_ADDRESS,
+        selector:"0x033a3cd19c446a4483d4288f10983bf9316ce813aa8ee81acae99b36fc6022d0",
+        calldata: CallData.compile([community_id]) 
+    }
     
+    try {
+        const create_channel_Resp = await tokenbound?.execute("0x075a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f", [call])
+        console.log('execution-response=:', create_channel_Resp)
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 const execute_join_community = async() =>{
-     //  assume this is community_id is 1, since SDK does not return functionn final return value after execution
-     // https://github.com/horuslabsio/tokenbound-sdk/blob/develop/src/TokenboundClient.ts#L155
-     
     let call:Call = {
         to:coloniz_HUB_CONTRACT_ADDRESS,
         selector:"0x4520555a219f5c8f5c5dba38600b2ef90052dda2c3bd82d24968e43fb54207",
          calldata:["0x1"]
         }
-        try {
-            const Resp = await tokenbound?.execute(PROFILE_ADDRESS_TWO, [call])
-            console.log('execution-response=:', Resp)
-        } catch (error) {
-            console.log(error)
-        }
-    
+
+    try {
+        const Resp = await tokenbound?.execute(PROFILE_ADDRESS_TWO, [call])
+        console.log('execution-response=:', Resp)
+    } catch (error) {
+        console.log(error)
+    } 
 }
 
 const execute_make_post = async() =>{
-     
-     
-     //  assume this is community_id is 1, since SDK does not return functionn final return value after execution
-     // https://github.com/horuslabsio/tokenbound-sdk/blob/develop/src/TokenboundClient.ts#L155
-     let post_params = {
-        content_URI: "Content URL ...",
-        profile_address: PROFILE_ADDRESS_TWO,
-        channel_id: "0x1",
-        community_id: "0x1"
-     };
+    let post_params = {
+    content_URI: "Content URL ...",
+    profile_address: PROFILE_ADDRESS_TWO,
+    channel_id: "0x1",
+    community_id: "0x1"
+    };
 
     let call:Call = {
         to:coloniz_HUB_CONTRACT_ADDRESS,
         selector:"0x03023f17c6c151428a83e388ec4de34e239b102d8cb4b01068f4cdc2ed6b83b6",
-         calldata:[post_params]
-        }
-        try {
-            const Resp = await tokenbound?.execute(PROFILE_ADDRESS_TWO, [call])
-            console.log('execution-response=:', Resp)
-        } catch (error) {
-            console.log(error)
-        }
-    
+        calldata:[post_params]
+    }
+    try {
+        const Resp = await tokenbound?.execute(PROFILE_ADDRESS_TWO, [call])
+        console.log('execution-response=:', Resp)
+    } catch (error) {
+        console.log(error)
+    }  
 }
 
 // comment
 const execute_add_comment = async() =>{
-     
-     //  assume this is community_id is 1, since SDK does not return functionn final return value after execution
-     // https://github.com/horuslabsio/tokenbound-sdk/blob/develop/src/TokenboundClient.ts#L155
-     let post_params = {
-        content_URI: "Content URL ...",
-        profile_address: PROFILE_ADDRESS_TWO,
-        channel_id: "0x1",
-        community_id: "0x1"
-     };
+    let post_params = {
+    content_URI: "Content URL ...",
+    profile_address: PROFILE_ADDRESS_TWO,
+    channel_id: "0x1",
+    community_id: "0x1"
+    };
 
     let call:Call = {
         to:coloniz_HUB_CONTRACT_ADDRESS,
         selector:"0x03023f17c6c151428a83e388ec4de34e239b102d8cb4b01068f4cdc2ed6b83b6",
-         calldata:[post_params]
-        }
-        try {
-            const Resp = await tokenbound?.execute(PROFILE_ADDRESS_TWO, [call])
-            console.log('execution-response=:', Resp)
-        } catch (error) {
-            console.log(error)
-        }
-    
+        calldata:[post_params]
+    }
+    try {
+        const Resp = await tokenbound?.execute(PROFILE_ADDRESS_TWO, [call])
+        console.log('execution-response=:', Resp)
+    } catch (error) {
+        console.log(error)
+    }   
 }
 
 const execute_comment = async () => {
@@ -231,9 +199,49 @@ const create_subscription = async() => {
     }
 }
 
+// set fee address
+const set_fee_address = async() => {
+    let community_id = cairo.uint256(5);
+    let fee_address = "0x075a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f";
+
+    let call: Call = {
+        to: coloniz_HUB_CONTRACT_ADDRESS,
+        selector:
+            "0x010f3295f8924198820502d3f7acae513667a4665d746920186e02e5fdd3de1b",
+        calldata: CallData.compile([community_id, fee_address]),
+    }
+
+    try {
+        const Resp = await tokenbound?.execute("0x075a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f", [call]);
+        console.log("execution-response=:", Resp);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// set permissioned address
+const set_permissioned_address = async() => {
+    let community_id = cairo.uint256(4);
+    let address = [1, "0x14237c152d3e5138bfe1bcae658c72d84c52fe9cc137bf9635f8561bd461bfd"];
+
+    let call: Call = {
+        to: coloniz_HUB_CONTRACT_ADDRESS,
+        selector:
+            "0x03b81e9c3edbf0df5b44072e7cf1ccc473d907ba141d16d822548f386a7d52e7",
+        calldata: CallData.compile([community_id, address]),
+    }
+
+    try {
+        const Resp = await tokenbound?.execute("0x075a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f", [call]);
+        console.log("execution-response=:", Resp);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 // execute upgrade
 const execute_upgrade = async() => {
-    let community_id = cairo.uint256(5);
+    let community_id = cairo.uint256(13);
     let community_type = new CairoCustomEnum({ Business: {} });
     let erc20_address:string = "0x006e1698dcd0665757dd213a59aff489624bab8c970ce0482c23937a78879b04";
     let sub_id: Uint256 = cairo.uint256(
@@ -265,7 +273,7 @@ const execute_upgrade = async() => {
 
 // execute gatekeep
 const execute_gatekeep = async() =>{
-    let community_id = cairo.uint256(4);
+    let community_id = cairo.uint256(13);
     let gatekeep_type = new CairoCustomEnum({ [GateKeepType.PermissionedGating]: {} });
     let permissioned_address = [1, "0x075a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f"];
     let erc20_address:string = "0x006e1698dcd0665757dd213a59aff489624bab8c970ce0482c23937a78879b04";
@@ -300,7 +308,9 @@ const execute_gatekeep = async() =>{
 // execute_get_community();
 // execute_create_community();
 // execute_upgrade()
-execute_gatekeep()
+// execute_gatekeep()
+// set_fee_address()
+// set_permissioned_address()
 // create_subscription()
 // execute_create_channel();
 // execute_join_community();
