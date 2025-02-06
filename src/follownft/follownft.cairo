@@ -4,7 +4,7 @@ pub mod Follow {
     //                            IMPORT
     // *************************************************************************
     use starknet::{
-        ContractAddress, ClassHash, get_block_timestamp,
+        ContractAddress, get_block_timestamp,
         storage::{
             StoragePointerWriteAccess, StoragePointerReadAccess, Map, StorageMapReadAccess,
             StorageMapWriteAccess
@@ -242,15 +242,6 @@ pub mod Follow {
                 );
 
             return true;
-        }
-
-        /// @notice upgrades the nft contract
-        /// @param new_class_hash classhash to upgrade to
-        fn upgrade(ref self: ContractState, new_class_hash: ClassHash) {
-            self.ownable.assert_only_owner();
-
-            // Replace the class hash upgrading the contract
-            self.upgradeable.upgrade(new_class_hash);
         }
 
         // *************************************************************************

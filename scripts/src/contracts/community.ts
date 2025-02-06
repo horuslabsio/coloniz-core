@@ -33,7 +33,7 @@ const execute_create_community = async() =>{
 }
 
 const execute_create_channel = async() =>{
-    let community_id = cairo.uint256(3);
+    let community_id = cairo.uint256(7);
 
     let call: Call = {
         to: coloniz_HUB_CONTRACT_ADDRESS, //coloniz_HUB_CONTRACT_ADDRESS,
@@ -306,13 +306,13 @@ const execute_gatekeep = async() =>{
 }
 
 // execute_get_community();
-// execute_create_community();
+// execute_create_community(123);
 // execute_upgrade()
 // execute_gatekeep()
 // set_fee_address()
 // set_permissioned_address()
 // create_subscription()
-// execute_create_channel();
+execute_create_channel();
 // execute_join_community();
 // execute_make_post();
 // execute_add_comment()

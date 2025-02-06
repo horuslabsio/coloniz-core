@@ -107,10 +107,10 @@
 <span id="L45"><span class="lineNum">      45</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L46"><span class="lineNum">      46</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
 <span id="L47"><span class="lineNum">      47</span>              : </span>
-<span id="L48"><span class="lineNum">      48</span>              :     let community_id = dispatcher.create_community();</span>
+<span id="L48"><span class="lineNum">      48</span>              :     let community_id = dispatcher.create_community(123);</span>
 <span id="L49"><span class="lineNum">      49</span>              :     assert(community_id == 1, 'invalid community creation');</span>
 <span id="L50"><span class="lineNum">      50</span>              : </span>
-<span id="L51"><span class="lineNum">      51</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L51"><span class="lineNum">      51</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L52"><span class="lineNum">      52</span>              :     assert(channel_id == 1, 'invalid channel creation');</span>
 <span id="L53"><span class="lineNum">      53</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L54"><span class="lineNum">      54</span>              : </span>
@@ -129,12 +129,12 @@
 <span id="L67"><span class="lineNum">      67</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L68"><span class="lineNum">      68</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L69"><span class="lineNum">      69</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L70"><span class="lineNum">      70</span>              :     let community_id = dispatcher.create_community();</span>
+<span id="L70"><span class="lineNum">      70</span>              :     let community_id = dispatcher.create_community(123);</span>
 <span id="L71"><span class="lineNum">      71</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L72"><span class="lineNum">      72</span>              : </span>
 <span id="L73"><span class="lineNum">      73</span>              :     let mut spy = spy_events();</span>
 <span id="L74"><span class="lineNum">      74</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L75"><span class="lineNum">      75</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L75"><span class="lineNum">      75</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L76"><span class="lineNum">      76</span>              :     assert(channel_id == 1, 'invalid channel creation');</span>
 <span id="L77"><span class="lineNum">      77</span>              :     let channel_details = dispatcher.get_channel(channel_id);</span>
 <span id="L78"><span class="lineNum">      78</span>              :     spy</span>
@@ -161,14 +161,14 @@
 <span id="L99"><span class="lineNum">      99</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L100"><span class="lineNum">     100</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L101"><span class="lineNum">     101</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L102"><span class="lineNum">     102</span>              :     let community_id = dispatcher.create_community();</span>
+<span id="L102"><span class="lineNum">     102</span>              :     let community_id = dispatcher.create_community(123);</span>
 <span id="L103"><span class="lineNum">     103</span>              :     assert(community_id == 1, 'invalid community creation');</span>
 <span id="L104"><span class="lineNum">     104</span>              : </span>
 <span id="L105"><span class="lineNum">     105</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L106"><span class="lineNum">     106</span>              : </span>
 <span id="L107"><span class="lineNum">     107</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
 <span id="L108"><span class="lineNum">     108</span>              :     dispatcher.join_community(community_id);</span>
-<span id="L109"><span class="lineNum">     109</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L109"><span class="lineNum">     109</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L110"><span class="lineNum">     110</span>              :     assert(channel_id == 1, 'invalid channel creation');</span>
 <span id="L111"><span class="lineNum">     111</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L112"><span class="lineNum">     112</span>              : </span>
@@ -188,14 +188,14 @@
 <span id="L126"><span class="lineNum">     126</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L127"><span class="lineNum">     127</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L128"><span class="lineNum">     128</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L129"><span class="lineNum">     129</span>              :     let community_id = dispatcher.create_community();</span>
+<span id="L129"><span class="lineNum">     129</span>              :     let community_id = dispatcher.create_community(123);</span>
 <span id="L130"><span class="lineNum">     130</span>              :     assert(community_id == 1, 'invalid community creation');</span>
 <span id="L131"><span class="lineNum">     131</span>              : </span>
 <span id="L132"><span class="lineNum">     132</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L133"><span class="lineNum">     133</span>              : </span>
 <span id="L134"><span class="lineNum">     134</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
 <span id="L135"><span class="lineNum">     135</span>              :     // dispatcher.join_community(community_id);</span>
-<span id="L136"><span class="lineNum">     136</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L136"><span class="lineNum">     136</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L137"><span class="lineNum">     137</span>              :     assert(channel_id == 1, 'invalid channel creation');</span>
 <span id="L138"><span class="lineNum">     138</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L139"><span class="lineNum">     139</span>              : </span>
@@ -214,8 +214,8 @@
 <span id="L152"><span class="lineNum">     152</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L153"><span class="lineNum">     153</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L154"><span class="lineNum">     154</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L155"><span class="lineNum">     155</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L156"><span class="lineNum">     156</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L155"><span class="lineNum">     155</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L156"><span class="lineNum">     156</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L157"><span class="lineNum">     157</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L158"><span class="lineNum">     158</span>              : </span>
 <span id="L159"><span class="lineNum">     159</span>              :     // join the community first</span>
@@ -244,12 +244,12 @@
 <span id="L182"><span class="lineNum">     182</span>              : </span>
 <span id="L183"><span class="lineNum">     183</span>              :     // create a community</span>
 <span id="L184"><span class="lineNum">     184</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L185"><span class="lineNum">     185</span>              :     let community_id = dispatcher.create_community();</span>
+<span id="L185"><span class="lineNum">     185</span>              :     let community_id = dispatcher.create_community(123);</span>
 <span id="L186"><span class="lineNum">     186</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L187"><span class="lineNum">     187</span>              : </span>
 <span id="L188"><span class="lineNum">     188</span>              :     // create a channel</span>
 <span id="L189"><span class="lineNum">     189</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L190"><span class="lineNum">     190</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L190"><span class="lineNum">     190</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L191"><span class="lineNum">     191</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L192"><span class="lineNum">     192</span>              : </span>
 <span id="L193"><span class="lineNum">     193</span>              :     // join the community</span>
@@ -276,12 +276,12 @@
 <span id="L214"><span class="lineNum">     214</span>              : </span>
 <span id="L215"><span class="lineNum">     215</span>              :     // create a community</span>
 <span id="L216"><span class="lineNum">     216</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L217"><span class="lineNum">     217</span>              :     let community_id = dispatcher.create_community();</span>
+<span id="L217"><span class="lineNum">     217</span>              :     let community_id = dispatcher.create_community(123);</span>
 <span id="L218"><span class="lineNum">     218</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L219"><span class="lineNum">     219</span>              : </span>
 <span id="L220"><span class="lineNum">     220</span>              :     // create a channel</span>
 <span id="L221"><span class="lineNum">     221</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L222"><span class="lineNum">     222</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L222"><span class="lineNum">     222</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L223"><span class="lineNum">     223</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L224"><span class="lineNum">     224</span>              : </span>
 <span id="L225"><span class="lineNum">     225</span>              :     // join the community</span>
@@ -310,8 +310,8 @@
 <span id="L248"><span class="lineNum">     248</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L249"><span class="lineNum">     249</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L250"><span class="lineNum">     250</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L251"><span class="lineNum">     251</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L252"><span class="lineNum">     252</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L251"><span class="lineNum">     251</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L252"><span class="lineNum">     252</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L253"><span class="lineNum">     253</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L254"><span class="lineNum">     254</span>              : </span>
 <span id="L255"><span class="lineNum">     255</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -332,8 +332,8 @@
 <span id="L270"><span class="lineNum">     270</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L271"><span class="lineNum">     271</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L272"><span class="lineNum">     272</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L273"><span class="lineNum">     273</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L274"><span class="lineNum">     274</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L273"><span class="lineNum">     273</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L274"><span class="lineNum">     274</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L275"><span class="lineNum">     275</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L276"><span class="lineNum">     276</span>              : </span>
 <span id="L277"><span class="lineNum">     277</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -360,8 +360,8 @@
 <span id="L298"><span class="lineNum">     298</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L299"><span class="lineNum">     299</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L300"><span class="lineNum">     300</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L301"><span class="lineNum">     301</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L302"><span class="lineNum">     302</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L301"><span class="lineNum">     301</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L302"><span class="lineNum">     302</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L303"><span class="lineNum">     303</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L304"><span class="lineNum">     304</span>              : </span>
 <span id="L305"><span class="lineNum">     305</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -393,8 +393,8 @@
 <span id="L331"><span class="lineNum">     331</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L332"><span class="lineNum">     332</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L333"><span class="lineNum">     333</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L334"><span class="lineNum">     334</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L335"><span class="lineNum">     335</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L334"><span class="lineNum">     334</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L335"><span class="lineNum">     335</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L336"><span class="lineNum">     336</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L337"><span class="lineNum">     337</span>              : </span>
 <span id="L338"><span class="lineNum">     338</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -438,8 +438,8 @@
 <span id="L376"><span class="lineNum">     376</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L377"><span class="lineNum">     377</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L378"><span class="lineNum">     378</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L379"><span class="lineNum">     379</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L380"><span class="lineNum">     380</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L379"><span class="lineNum">     379</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L380"><span class="lineNum">     380</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L381"><span class="lineNum">     381</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L382"><span class="lineNum">     382</span>              : </span>
 <span id="L383"><span class="lineNum">     383</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -475,8 +475,8 @@
 <span id="L413"><span class="lineNum">     413</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L414"><span class="lineNum">     414</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L415"><span class="lineNum">     415</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L416"><span class="lineNum">     416</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L417"><span class="lineNum">     417</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L416"><span class="lineNum">     416</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L417"><span class="lineNum">     417</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L418"><span class="lineNum">     418</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L419"><span class="lineNum">     419</span>              : </span>
 <span id="L420"><span class="lineNum">     420</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -507,8 +507,8 @@
 <span id="L445"><span class="lineNum">     445</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L446"><span class="lineNum">     446</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L447"><span class="lineNum">     447</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L448"><span class="lineNum">     448</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L449"><span class="lineNum">     449</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L448"><span class="lineNum">     448</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L449"><span class="lineNum">     449</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L450"><span class="lineNum">     450</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L451"><span class="lineNum">     451</span>              : </span>
 <span id="L452"><span class="lineNum">     452</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -523,8 +523,8 @@
 <span id="L461"><span class="lineNum">     461</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L462"><span class="lineNum">     462</span>              : </span>
 <span id="L463"><span class="lineNum">     463</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L464"><span class="lineNum">     464</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L465"><span class="lineNum">     465</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L464"><span class="lineNum">     464</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L465"><span class="lineNum">     465</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L466"><span class="lineNum">     466</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L467"><span class="lineNum">     467</span>              : </span>
 <span id="L468"><span class="lineNum">     468</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
@@ -537,8 +537,8 @@
 <span id="L475"><span class="lineNum">     475</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L476"><span class="lineNum">     476</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L477"><span class="lineNum">     477</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L478"><span class="lineNum">     478</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L479"><span class="lineNum">     479</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L478"><span class="lineNum">     478</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L479"><span class="lineNum">     479</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L480"><span class="lineNum">     480</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L481"><span class="lineNum">     481</span>              : </span>
 <span id="L482"><span class="lineNum">     482</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -579,8 +579,8 @@
 <span id="L517"><span class="lineNum">     517</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L518"><span class="lineNum">     518</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L519"><span class="lineNum">     519</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L520"><span class="lineNum">     520</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L521"><span class="lineNum">     521</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L520"><span class="lineNum">     520</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L521"><span class="lineNum">     521</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L522"><span class="lineNum">     522</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L523"><span class="lineNum">     523</span>              : </span>
 <span id="L524"><span class="lineNum">     524</span>              :     let metadat_uri: ByteArray = &quot;ipfs://demo&quot;;</span>
@@ -596,8 +596,8 @@
 <span id="L534"><span class="lineNum">     534</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L535"><span class="lineNum">     535</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L536"><span class="lineNum">     536</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L537"><span class="lineNum">     537</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L538"><span class="lineNum">     538</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L537"><span class="lineNum">     537</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L538"><span class="lineNum">     538</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L539"><span class="lineNum">     539</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L540"><span class="lineNum">     540</span>              : </span>
 <span id="L541"><span class="lineNum">     541</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -627,8 +627,8 @@
 <span id="L565"><span class="lineNum">     565</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L566"><span class="lineNum">     566</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L567"><span class="lineNum">     567</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L568"><span class="lineNum">     568</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L569"><span class="lineNum">     569</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L568"><span class="lineNum">     568</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L569"><span class="lineNum">     569</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L570"><span class="lineNum">     570</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L571"><span class="lineNum">     571</span>              : </span>
 <span id="L572"><span class="lineNum">     572</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -650,8 +650,8 @@
 <span id="L588"><span class="lineNum">     588</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L589"><span class="lineNum">     589</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L590"><span class="lineNum">     590</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L591"><span class="lineNum">     591</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L592"><span class="lineNum">     592</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L591"><span class="lineNum">     591</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L592"><span class="lineNum">     592</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L593"><span class="lineNum">     593</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L594"><span class="lineNum">     594</span>              : </span>
 <span id="L595"><span class="lineNum">     595</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -691,8 +691,8 @@
 <span id="L629"><span class="lineNum">     629</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L630"><span class="lineNum">     630</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L631"><span class="lineNum">     631</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L632"><span class="lineNum">     632</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L633"><span class="lineNum">     633</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L632"><span class="lineNum">     632</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L633"><span class="lineNum">     633</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L634"><span class="lineNum">     634</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L635"><span class="lineNum">     635</span>              : </span>
 <span id="L636"><span class="lineNum">     636</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -731,8 +731,8 @@
 <span id="L669"><span class="lineNum">     669</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L670"><span class="lineNum">     670</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L671"><span class="lineNum">     671</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L672"><span class="lineNum">     672</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L673"><span class="lineNum">     673</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L672"><span class="lineNum">     672</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L673"><span class="lineNum">     673</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L674"><span class="lineNum">     674</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L675"><span class="lineNum">     675</span>              : </span>
 <span id="L676"><span class="lineNum">     676</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -751,8 +751,8 @@
 <span id="L689"><span class="lineNum">     689</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L690"><span class="lineNum">     690</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L691"><span class="lineNum">     691</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L692"><span class="lineNum">     692</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L693"><span class="lineNum">     693</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L692"><span class="lineNum">     692</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L693"><span class="lineNum">     693</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L694"><span class="lineNum">     694</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L695"><span class="lineNum">     695</span>              : </span>
 <span id="L696"><span class="lineNum">     696</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -789,8 +789,8 @@
 <span id="L727"><span class="lineNum">     727</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L728"><span class="lineNum">     728</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L729"><span class="lineNum">     729</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L730"><span class="lineNum">     730</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L731"><span class="lineNum">     731</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L730"><span class="lineNum">     730</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L731"><span class="lineNum">     731</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L732"><span class="lineNum">     732</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L733"><span class="lineNum">     733</span>              : </span>
 <span id="L734"><span class="lineNum">     734</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -830,8 +830,8 @@
 <span id="L768"><span class="lineNum">     768</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L769"><span class="lineNum">     769</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L770"><span class="lineNum">     770</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L771"><span class="lineNum">     771</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L772"><span class="lineNum">     772</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L771"><span class="lineNum">     771</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L772"><span class="lineNum">     772</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L773"><span class="lineNum">     773</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L774"><span class="lineNum">     774</span>              : </span>
 <span id="L775"><span class="lineNum">     775</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -866,8 +866,8 @@
 <span id="L804"><span class="lineNum">     804</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L805"><span class="lineNum">     805</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L806"><span class="lineNum">     806</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L807"><span class="lineNum">     807</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L808"><span class="lineNum">     808</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L807"><span class="lineNum">     807</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L808"><span class="lineNum">     808</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L809"><span class="lineNum">     809</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L810"><span class="lineNum">     810</span>              : </span>
 <span id="L811"><span class="lineNum">     811</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -911,8 +911,8 @@
 <span id="L849"><span class="lineNum">     849</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L850"><span class="lineNum">     850</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L851"><span class="lineNum">     851</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L852"><span class="lineNum">     852</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L853"><span class="lineNum">     853</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L852"><span class="lineNum">     852</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L853"><span class="lineNum">     853</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L854"><span class="lineNum">     854</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L855"><span class="lineNum">     855</span>              : </span>
 <span id="L856"><span class="lineNum">     856</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -962,8 +962,8 @@
 <span id="L900"><span class="lineNum">     900</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L901"><span class="lineNum">     901</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L902"><span class="lineNum">     902</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L903"><span class="lineNum">     903</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L904"><span class="lineNum">     904</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L903"><span class="lineNum">     903</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L904"><span class="lineNum">     904</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L905"><span class="lineNum">     905</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L906"><span class="lineNum">     906</span>              : </span>
 <span id="L907"><span class="lineNum">     907</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
@@ -980,8 +980,8 @@
 <span id="L918"><span class="lineNum">     918</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L919"><span class="lineNum">     919</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L920"><span class="lineNum">     920</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L921"><span class="lineNum">     921</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L922"><span class="lineNum">     922</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L921"><span class="lineNum">     921</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L922"><span class="lineNum">     922</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L923"><span class="lineNum">     923</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L924"><span class="lineNum">     924</span>              : </span>
 <span id="L925"><span class="lineNum">     925</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -993,8 +993,8 @@
 <span id="L931"><span class="lineNum">     931</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L932"><span class="lineNum">     932</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L933"><span class="lineNum">     933</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L934"><span class="lineNum">     934</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L935"><span class="lineNum">     935</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L934"><span class="lineNum">     934</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L935"><span class="lineNum">     935</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L936"><span class="lineNum">     936</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L937"><span class="lineNum">     937</span>              : </span>
 <span id="L938"><span class="lineNum">     938</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -1035,8 +1035,8 @@
 <span id="L973"><span class="lineNum">     973</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L974"><span class="lineNum">     974</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L975"><span class="lineNum">     975</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L976"><span class="lineNum">     976</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L977"><span class="lineNum">     977</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L976"><span class="lineNum">     976</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L977"><span class="lineNum">     977</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L978"><span class="lineNum">     978</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L979"><span class="lineNum">     979</span>              : </span>
 <span id="L980"><span class="lineNum">     980</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -1080,8 +1080,8 @@
 <span id="L1018"><span class="lineNum">    1018</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L1019"><span class="lineNum">    1019</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L1020"><span class="lineNum">    1020</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L1021"><span class="lineNum">    1021</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L1022"><span class="lineNum">    1022</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L1021"><span class="lineNum">    1021</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L1022"><span class="lineNum">    1022</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L1023"><span class="lineNum">    1023</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L1024"><span class="lineNum">    1024</span>              : </span>
 <span id="L1025"><span class="lineNum">    1025</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -1127,8 +1127,8 @@
 <span id="L1065"><span class="lineNum">    1065</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L1066"><span class="lineNum">    1066</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L1067"><span class="lineNum">    1067</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L1068"><span class="lineNum">    1068</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L1069"><span class="lineNum">    1069</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L1068"><span class="lineNum">    1068</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L1069"><span class="lineNum">    1069</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L1070"><span class="lineNum">    1070</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L1071"><span class="lineNum">    1071</span>              : </span>
 <span id="L1072"><span class="lineNum">    1072</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -1165,8 +1165,8 @@
 <span id="L1103"><span class="lineNum">    1103</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L1104"><span class="lineNum">    1104</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L1105"><span class="lineNum">    1105</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L1106"><span class="lineNum">    1106</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L1107"><span class="lineNum">    1107</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L1106"><span class="lineNum">    1106</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L1107"><span class="lineNum">    1107</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L1108"><span class="lineNum">    1108</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L1109"><span class="lineNum">    1109</span>              : </span>
 <span id="L1110"><span class="lineNum">    1110</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>
@@ -1195,8 +1195,8 @@
 <span id="L1133"><span class="lineNum">    1133</span>              :     let channel_contract_address = __setup__();</span>
 <span id="L1134"><span class="lineNum">    1134</span>              :     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };</span>
 <span id="L1135"><span class="lineNum">    1135</span>              :     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L1136"><span class="lineNum">    1136</span>              :     let community_id = dispatcher.create_community();</span>
-<span id="L1137"><span class="lineNum">    1137</span>              :     let channel_id = dispatcher.create_channel(community_id);</span>
+<span id="L1136"><span class="lineNum">    1136</span>              :     let community_id = dispatcher.create_community(123);</span>
+<span id="L1137"><span class="lineNum">    1137</span>              :     let channel_id = dispatcher.create_channel(1, community_id);</span>
 <span id="L1138"><span class="lineNum">    1138</span>              :     stop_cheat_caller_address(channel_contract_address);</span>
 <span id="L1139"><span class="lineNum">    1139</span>              : </span>
 <span id="L1140"><span class="lineNum">    1140</span>              :     start_cheat_caller_address(channel_contract_address, USER_TWO.try_into().unwrap());</span>

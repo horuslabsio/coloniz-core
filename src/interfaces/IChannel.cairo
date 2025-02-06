@@ -6,7 +6,7 @@ pub trait IChannel<TState> {
     // *************************************************************************
     //                              EXTERNALS
     // *************************************************************************
-    fn create_channel(ref self: TState, community_id: u256) -> u256;
+    fn create_channel(ref self: TState, channel_id: u256, community_id: u256) -> u256;
     fn join_channel(ref self: TState, channel_id: u256);
     fn leave_channel(ref self: TState, channel_id: u256);
     fn set_channel_metadata_uri(ref self: TState, channel_id: u256, metadata_uri: ByteArray);

@@ -126,7 +126,7 @@
 <span id="L64"><span class="lineNum">      64</span>              :         contract_address: community_contract_address</span>
 <span id="L65"><span class="lineNum">      65</span>              :     };</span>
 <span id="L66"><span class="lineNum">      66</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L67"><span class="lineNum">      67</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L67"><span class="lineNum">      67</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L68"><span class="lineNum">      68</span>              :     assert(community_id == 1, 'invalid community creation');</span>
 <span id="L69"><span class="lineNum">      69</span>              : </span>
 <span id="L70"><span class="lineNum">      70</span>              :     let community_data = community_dispatcher.get_community(community_id);</span>
@@ -155,7 +155,7 @@
 <span id="L93"><span class="lineNum">      93</span>              :         contract_address: community_contract_address</span>
 <span id="L94"><span class="lineNum">      94</span>              :     };</span>
 <span id="L95"><span class="lineNum">      95</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L96"><span class="lineNum">      96</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L96"><span class="lineNum">      96</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L97"><span class="lineNum">      97</span>              : </span>
 <span id="L98"><span class="lineNum">      98</span>              :     let (is_member, _) = community_dispatcher</span>
 <span id="L99"><span class="lineNum">      99</span>              :         .is_community_member(USER_ONE.try_into().unwrap(), community_id);</span>
@@ -176,7 +176,7 @@
 <span id="L114"><span class="lineNum">     114</span>              :     // spy on emitted events</span>
 <span id="L115"><span class="lineNum">     115</span>              :     let mut spy = spy_events();</span>
 <span id="L116"><span class="lineNum">     116</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L117"><span class="lineNum">     117</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L117"><span class="lineNum">     117</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L118"><span class="lineNum">     118</span>              : </span>
 <span id="L119"><span class="lineNum">     119</span>              :     // get community details</span>
 <span id="L120"><span class="lineNum">     120</span>              :     let community = community_dispatcher.get_community(community_id);</span>
@@ -209,7 +209,7 @@
 <span id="L147"><span class="lineNum">     147</span>              : </span>
 <span id="L148"><span class="lineNum">     148</span>              :     //create the community</span>
 <span id="L149"><span class="lineNum">     149</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L150"><span class="lineNum">     150</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L150"><span class="lineNum">     150</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L151"><span class="lineNum">     151</span>              : </span>
 <span id="L152"><span class="lineNum">     152</span>              :     let (is_member, community_member) = community_dispatcher</span>
 <span id="L153"><span class="lineNum">     153</span>              :         .is_community_member(USER_ONE.try_into().unwrap(), community_id);</span>
@@ -236,7 +236,7 @@
 <span id="L174"><span class="lineNum">     174</span>              : </span>
 <span id="L175"><span class="lineNum">     175</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
 <span id="L176"><span class="lineNum">     176</span>              : </span>
-<span id="L177"><span class="lineNum">     177</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L177"><span class="lineNum">     177</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L178"><span class="lineNum">     178</span>              : </span>
 <span id="L179"><span class="lineNum">     179</span>              :     stop_cheat_caller_address(community_contract_address);</span>
 <span id="L180"><span class="lineNum">     180</span>              : </span>
@@ -264,7 +264,7 @@
 <span id="L202"><span class="lineNum">     202</span>              :     let mut spy = spy_events();</span>
 <span id="L203"><span class="lineNum">     203</span>              : </span>
 <span id="L204"><span class="lineNum">     204</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L205"><span class="lineNum">     205</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L205"><span class="lineNum">     205</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L206"><span class="lineNum">     206</span>              : </span>
 <span id="L207"><span class="lineNum">     207</span>              :     stop_cheat_caller_address(community_contract_address);</span>
 <span id="L208"><span class="lineNum">     208</span>              : </span>
@@ -303,7 +303,7 @@
 <span id="L241"><span class="lineNum">     241</span>              : </span>
 <span id="L242"><span class="lineNum">     242</span>              :     //create the community</span>
 <span id="L243"><span class="lineNum">     243</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L244"><span class="lineNum">     244</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L244"><span class="lineNum">     244</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L245"><span class="lineNum">     245</span>              :     stop_cheat_caller_address(community_contract_address);</span>
 <span id="L246"><span class="lineNum">     246</span>              : </span>
 <span id="L247"><span class="lineNum">     247</span>              :     // join community</span>
@@ -340,7 +340,7 @@
 <span id="L278"><span class="lineNum">     278</span>              :     };</span>
 <span id="L279"><span class="lineNum">     279</span>              : </span>
 <span id="L280"><span class="lineNum">     280</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L281"><span class="lineNum">     281</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L281"><span class="lineNum">     281</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L282"><span class="lineNum">     282</span>              :     stop_cheat_caller_address(community_contract_address);</span>
 <span id="L283"><span class="lineNum">     283</span>              : </span>
 <span id="L284"><span class="lineNum">     284</span>              :     // leave community</span>
@@ -360,7 +360,7 @@
 <span id="L298"><span class="lineNum">     298</span>              :     let mut spy = spy_events();</span>
 <span id="L299"><span class="lineNum">     299</span>              : </span>
 <span id="L300"><span class="lineNum">     300</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L301"><span class="lineNum">     301</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L301"><span class="lineNum">     301</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L302"><span class="lineNum">     302</span>              :     stop_cheat_caller_address(community_contract_address);</span>
 <span id="L303"><span class="lineNum">     303</span>              : </span>
 <span id="L304"><span class="lineNum">     304</span>              :     start_cheat_caller_address(community_contract_address, USER_THREE.try_into().unwrap());</span>
@@ -400,7 +400,7 @@
 <span id="L338"><span class="lineNum">     338</span>              :     };</span>
 <span id="L339"><span class="lineNum">     339</span>              : </span>
 <span id="L340"><span class="lineNum">     340</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L341"><span class="lineNum">     341</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L341"><span class="lineNum">     341</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L342"><span class="lineNum">     342</span>              : </span>
 <span id="L343"><span class="lineNum">     343</span>              :     community_dispatcher</span>
 <span id="L344"><span class="lineNum">     344</span>              :         .set_community_metadata_uri(</span>
@@ -425,7 +425,7 @@
 <span id="L363"><span class="lineNum">     363</span>              :     };</span>
 <span id="L364"><span class="lineNum">     364</span>              : </span>
 <span id="L365"><span class="lineNum">     365</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L366"><span class="lineNum">     366</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L366"><span class="lineNum">     366</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L367"><span class="lineNum">     367</span>              : </span>
 <span id="L368"><span class="lineNum">     368</span>              :     stop_cheat_caller_address(community_contract_address);</span>
 <span id="L369"><span class="lineNum">     369</span>              : </span>
@@ -443,7 +443,7 @@
 <span id="L381"><span class="lineNum">     381</span>              :     };</span>
 <span id="L382"><span class="lineNum">     382</span>              : </span>
 <span id="L383"><span class="lineNum">     383</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L384"><span class="lineNum">     384</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L384"><span class="lineNum">     384</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L385"><span class="lineNum">     385</span>              :     stop_cheat_caller_address(community_contract_address);</span>
 <span id="L386"><span class="lineNum">     386</span>              : </span>
 <span id="L387"><span class="lineNum">     387</span>              :     start_cheat_caller_address(community_contract_address, USER_SIX.try_into().unwrap());</span>
@@ -483,7 +483,7 @@
 <span id="L421"><span class="lineNum">     421</span>              :     let mut spy = spy_events();</span>
 <span id="L422"><span class="lineNum">     422</span>              : </span>
 <span id="L423"><span class="lineNum">     423</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L424"><span class="lineNum">     424</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L424"><span class="lineNum">     424</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L425"><span class="lineNum">     425</span>              :     stop_cheat_caller_address(community_contract_address);</span>
 <span id="L426"><span class="lineNum">     426</span>              : </span>
 <span id="L427"><span class="lineNum">     427</span>              :     start_cheat_caller_address(community_contract_address, USER_SIX.try_into().unwrap());</span>
@@ -527,7 +527,7 @@
 <span id="L465"><span class="lineNum">     465</span>              :     };</span>
 <span id="L466"><span class="lineNum">     466</span>              : </span>
 <span id="L467"><span class="lineNum">     467</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L468"><span class="lineNum">     468</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L468"><span class="lineNum">     468</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L469"><span class="lineNum">     469</span>              :     stop_cheat_caller_address(community_contract_address);</span>
 <span id="L470"><span class="lineNum">     470</span>              : </span>
 <span id="L471"><span class="lineNum">     471</span>              :     // when a wrong community owner try to add a mod</span>
@@ -547,7 +547,7 @@
 <span id="L485"><span class="lineNum">     485</span>              :     };</span>
 <span id="L486"><span class="lineNum">     486</span>              : </span>
 <span id="L487"><span class="lineNum">     487</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L488"><span class="lineNum">     488</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L488"><span class="lineNum">     488</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L489"><span class="lineNum">     489</span>              :     stop_cheat_caller_address(community_contract_address);</span>
 <span id="L490"><span class="lineNum">     490</span>              : </span>
 <span id="L491"><span class="lineNum">     491</span>              :     start_cheat_caller_address(community_contract_address, USER_FIVE.try_into().unwrap());</span>
@@ -572,7 +572,7 @@
 <span id="L510"><span class="lineNum">     510</span>              :     };</span>
 <span id="L511"><span class="lineNum">     511</span>              : </span>
 <span id="L512"><span class="lineNum">     512</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L513"><span class="lineNum">     513</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L513"><span class="lineNum">     513</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L514"><span class="lineNum">     514</span>              :     stop_cheat_caller_address(community_contract_address);</span>
 <span id="L515"><span class="lineNum">     515</span>              : </span>
 <span id="L516"><span class="lineNum">     516</span>              :     // join commmunity</span>
@@ -622,7 +622,7 @@
 <span id="L560"><span class="lineNum">     560</span>              :     // spy on emitted events</span>
 <span id="L561"><span class="lineNum">     561</span>              :     let mut spy = spy_events();</span>
 <span id="L562"><span class="lineNum">     562</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L563"><span class="lineNum">     563</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L563"><span class="lineNum">     563</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L564"><span class="lineNum">     564</span>              : </span>
 <span id="L565"><span class="lineNum">     565</span>              :     // join commmunity</span>
 <span id="L566"><span class="lineNum">     566</span>              :     start_cheat_caller_address(community_contract_address, USER_FIVE.try_into().unwrap());</span>
@@ -684,7 +684,7 @@
 <span id="L622"><span class="lineNum">     622</span>              :     };</span>
 <span id="L623"><span class="lineNum">     623</span>              : </span>
 <span id="L624"><span class="lineNum">     624</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L625"><span class="lineNum">     625</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L625"><span class="lineNum">     625</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L626"><span class="lineNum">     626</span>              : </span>
 <span id="L627"><span class="lineNum">     627</span>              :     // join commmunity</span>
 <span id="L628"><span class="lineNum">     628</span>              :     start_cheat_caller_address(community_contract_address, USER_FIVE.try_into().unwrap());</span>
@@ -725,7 +725,7 @@
 <span id="L663"><span class="lineNum">     663</span>              :     };</span>
 <span id="L664"><span class="lineNum">     664</span>              : </span>
 <span id="L665"><span class="lineNum">     665</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L666"><span class="lineNum">     666</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L666"><span class="lineNum">     666</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L667"><span class="lineNum">     667</span>              :     stop_cheat_caller_address(community_contract_address);</span>
 <span id="L668"><span class="lineNum">     668</span>              : </span>
 <span id="L669"><span class="lineNum">     669</span>              :     // join commmunity</span>
@@ -767,7 +767,7 @@
 <span id="L705"><span class="lineNum">     705</span>              : </span>
 <span id="L706"><span class="lineNum">     706</span>              :     //create the community</span>
 <span id="L707"><span class="lineNum">     707</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L708"><span class="lineNum">     708</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L708"><span class="lineNum">     708</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L709"><span class="lineNum">     709</span>              : </span>
 <span id="L710"><span class="lineNum">     710</span>              :     // set censorship status</span>
 <span id="L711"><span class="lineNum">     711</span>              :     community_dispatcher.set_community_censorship_status(community_id, true);</span>
@@ -788,7 +788,7 @@
 <span id="L726"><span class="lineNum">     726</span>              : </span>
 <span id="L727"><span class="lineNum">     727</span>              :     //create the community</span>
 <span id="L728"><span class="lineNum">     728</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L729"><span class="lineNum">     729</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L729"><span class="lineNum">     729</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L730"><span class="lineNum">     730</span>              :     stop_cheat_caller_address(community_contract_address);</span>
 <span id="L731"><span class="lineNum">     731</span>              : </span>
 <span id="L732"><span class="lineNum">     732</span>              :     // set censorship status</span>
@@ -804,7 +804,7 @@
 <span id="L742"><span class="lineNum">     742</span>              : </span>
 <span id="L743"><span class="lineNum">     743</span>              :     //create the community</span>
 <span id="L744"><span class="lineNum">     744</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L745"><span class="lineNum">     745</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L745"><span class="lineNum">     745</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L746"><span class="lineNum">     746</span>              : </span>
 <span id="L747"><span class="lineNum">     747</span>              :     // join the community</span>
 <span id="L748"><span class="lineNum">     748</span>              :     start_cheat_caller_address(community_contract_address, USER_FOUR.try_into().unwrap());</span>
@@ -842,7 +842,7 @@
 <span id="L780"><span class="lineNum">     780</span>              :     };</span>
 <span id="L781"><span class="lineNum">     781</span>              : </span>
 <span id="L782"><span class="lineNum">     782</span>              :     start_cheat_caller_address(community_contract_address, USER_SIX.try_into().unwrap());</span>
-<span id="L783"><span class="lineNum">     783</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L783"><span class="lineNum">     783</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L784"><span class="lineNum">     784</span>              :     stop_cheat_caller_address(community_contract_address);</span>
 <span id="L785"><span class="lineNum">     785</span>              : </span>
 <span id="L786"><span class="lineNum">     786</span>              :     // join the community</span>
@@ -886,7 +886,7 @@
 <span id="L824"><span class="lineNum">     824</span>              :     };</span>
 <span id="L825"><span class="lineNum">     825</span>              : </span>
 <span id="L826"><span class="lineNum">     826</span>              :     start_cheat_caller_address(community_contract_address, USER_SIX.try_into().unwrap());</span>
-<span id="L827"><span class="lineNum">     827</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L827"><span class="lineNum">     827</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L828"><span class="lineNum">     828</span>              :     stop_cheat_caller_address(community_contract_address);</span>
 <span id="L829"><span class="lineNum">     829</span>              : </span>
 <span id="L830"><span class="lineNum">     830</span>              :     start_cheat_caller_address(community_contract_address, USER_FOUR.try_into().unwrap());</span>
@@ -939,7 +939,7 @@
 <span id="L877"><span class="lineNum">     877</span>              :     };</span>
 <span id="L878"><span class="lineNum">     878</span>              : </span>
 <span id="L879"><span class="lineNum">     879</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L880"><span class="lineNum">     880</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L880"><span class="lineNum">     880</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L881"><span class="lineNum">     881</span>              :     stop_cheat_caller_address(community_contract_address);</span>
 <span id="L882"><span class="lineNum">     882</span>              : </span>
 <span id="L883"><span class="lineNum">     883</span>              :     // join the community</span>
@@ -979,7 +979,7 @@
 <span id="L917"><span class="lineNum">     917</span>              :     };</span>
 <span id="L918"><span class="lineNum">     918</span>              : </span>
 <span id="L919"><span class="lineNum">     919</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L920"><span class="lineNum">     920</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L920"><span class="lineNum">     920</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L921"><span class="lineNum">     921</span>              :     stop_cheat_caller_address(community_contract_address);</span>
 <span id="L922"><span class="lineNum">     922</span>              : </span>
 <span id="L923"><span class="lineNum">     923</span>              :     start_cheat_caller_address(community_contract_address, USER_SIX.try_into().unwrap());</span>
@@ -1014,7 +1014,7 @@
 <span id="L952"><span class="lineNum">     952</span>              :     };</span>
 <span id="L953"><span class="lineNum">     953</span>              : </span>
 <span id="L954"><span class="lineNum">     954</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L955"><span class="lineNum">     955</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L955"><span class="lineNum">     955</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L956"><span class="lineNum">     956</span>              :     stop_cheat_caller_address(community_contract_address);</span>
 <span id="L957"><span class="lineNum">     957</span>              : </span>
 <span id="L958"><span class="lineNum">     958</span>              :     start_cheat_caller_address(community_contract_address, USER_SIX.try_into().unwrap());</span>
@@ -1058,7 +1058,7 @@
 <span id="L996"><span class="lineNum">     996</span>              : </span>
 <span id="L997"><span class="lineNum">     997</span>              :     // upgrade community</span>
 <span id="L998"><span class="lineNum">     998</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L999"><span class="lineNum">     999</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L999"><span class="lineNum">     999</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L1000"><span class="lineNum">    1000</span>              :     community_dispatcher.upgrade_community(community_id, CommunityType::Standard, sub_id, false, 0);</span>
 <span id="L1001"><span class="lineNum">    1001</span>              : </span>
 <span id="L1002"><span class="lineNum">    1002</span>              :     let community = community_dispatcher.get_community(community_id);</span>
@@ -1076,7 +1076,7 @@
 <span id="L1014"><span class="lineNum">    1014</span>              :     };</span>
 <span id="L1015"><span class="lineNum">    1015</span>              : </span>
 <span id="L1016"><span class="lineNum">    1016</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L1017"><span class="lineNum">    1017</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L1017"><span class="lineNum">    1017</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L1018"><span class="lineNum">    1018</span>              : </span>
 <span id="L1019"><span class="lineNum">    1019</span>              :     stop_cheat_caller_address(community_contract_address);</span>
 <span id="L1020"><span class="lineNum">    1020</span>              : </span>
@@ -1109,7 +1109,7 @@
 <span id="L1047"><span class="lineNum">    1047</span>              : </span>
 <span id="L1048"><span class="lineNum">    1048</span>              :     // upgrade community</span>
 <span id="L1049"><span class="lineNum">    1049</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L1050"><span class="lineNum">    1050</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L1050"><span class="lineNum">    1050</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L1051"><span class="lineNum">    1051</span>              :     community_dispatcher.upgrade_community(community_id, CommunityType::Standard, sub_id, false, 0);</span>
 <span id="L1052"><span class="lineNum">    1052</span>              : </span>
 <span id="L1053"><span class="lineNum">    1053</span>              :     // check events are emitted</span>
@@ -1144,7 +1144,7 @@
 <span id="L1082"><span class="lineNum">    1082</span>              :     permission_addresses.append(USER_THREE.try_into().unwrap());</span>
 <span id="L1083"><span class="lineNum">    1083</span>              : </span>
 <span id="L1084"><span class="lineNum">    1084</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L1085"><span class="lineNum">    1085</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L1085"><span class="lineNum">    1085</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L1086"><span class="lineNum">    1086</span>              :     community_dispatcher</span>
 <span id="L1087"><span class="lineNum">    1087</span>              :         .gatekeep(</span>
 <span id="L1088"><span class="lineNum">    1088</span>              :             community_id,</span>
@@ -1182,7 +1182,7 @@
 <span id="L1120"><span class="lineNum">    1120</span>              : </span>
 <span id="L1121"><span class="lineNum">    1121</span>              :     // upgrade community</span>
 <span id="L1122"><span class="lineNum">    1122</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L1123"><span class="lineNum">    1123</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L1123"><span class="lineNum">    1123</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L1124"><span class="lineNum">    1124</span>              :     community_dispatcher.upgrade_community(community_id, CommunityType::Standard, sub_id, false, 0);</span>
 <span id="L1125"><span class="lineNum">    1125</span>              : </span>
 <span id="L1126"><span class="lineNum">    1126</span>              :     // gatekeep community</span>
@@ -1226,7 +1226,7 @@
 <span id="L1164"><span class="lineNum">    1164</span>              : </span>
 <span id="L1165"><span class="lineNum">    1165</span>              :     // upgrade community</span>
 <span id="L1166"><span class="lineNum">    1166</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L1167"><span class="lineNum">    1167</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L1167"><span class="lineNum">    1167</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L1168"><span class="lineNum">    1168</span>              :     community_dispatcher.upgrade_community(community_id, CommunityType::Business, sub_id, false, 0);</span>
 <span id="L1169"><span class="lineNum">    1169</span>              : </span>
 <span id="L1170"><span class="lineNum">    1170</span>              :     // gatekeep community</span>
@@ -1260,7 +1260,7 @@
 <span id="L1198"><span class="lineNum">    1198</span>              : </span>
 <span id="L1199"><span class="lineNum">    1199</span>              :     let mut permission_addresses = ArrayTrait::new();</span>
 <span id="L1200"><span class="lineNum">    1200</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L1201"><span class="lineNum">    1201</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L1201"><span class="lineNum">    1201</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L1202"><span class="lineNum">    1202</span>              :     community_dispatcher</span>
 <span id="L1203"><span class="lineNum">    1203</span>              :         .gatekeep(</span>
 <span id="L1204"><span class="lineNum">    1204</span>              :             community_id,</span>
@@ -1281,7 +1281,7 @@
 <span id="L1219"><span class="lineNum">    1219</span>              : </span>
 <span id="L1220"><span class="lineNum">    1220</span>              :     let mut permission_addresses = ArrayTrait::new();</span>
 <span id="L1221"><span class="lineNum">    1221</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L1222"><span class="lineNum">    1222</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L1222"><span class="lineNum">    1222</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L1223"><span class="lineNum">    1223</span>              :     community_dispatcher</span>
 <span id="L1224"><span class="lineNum">    1224</span>              :         .gatekeep(</span>
 <span id="L1225"><span class="lineNum">    1225</span>              :             community_id,</span>
@@ -1303,7 +1303,7 @@
 <span id="L1241"><span class="lineNum">    1241</span>              :     let mut permission_addresses = ArrayTrait::new();</span>
 <span id="L1242"><span class="lineNum">    1242</span>              : </span>
 <span id="L1243"><span class="lineNum">    1243</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L1244"><span class="lineNum">    1244</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L1244"><span class="lineNum">    1244</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L1245"><span class="lineNum">    1245</span>              :     stop_cheat_caller_address(community_contract_address);</span>
 <span id="L1246"><span class="lineNum">    1246</span>              : </span>
 <span id="L1247"><span class="lineNum">    1247</span>              :     // Wrong owner trying to gate keep</span>
@@ -1334,7 +1334,7 @@
 <span id="L1272"><span class="lineNum">    1272</span>              :     let mut spy = spy_events();</span>
 <span id="L1273"><span class="lineNum">    1273</span>              : </span>
 <span id="L1274"><span class="lineNum">    1274</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L1275"><span class="lineNum">    1275</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L1275"><span class="lineNum">    1275</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L1276"><span class="lineNum">    1276</span>              :     community_dispatcher</span>
 <span id="L1277"><span class="lineNum">    1277</span>              :         .gatekeep(</span>
 <span id="L1278"><span class="lineNum">    1278</span>              :             community_id,</span>
@@ -1378,7 +1378,7 @@
 <span id="L1316"><span class="lineNum">    1316</span>              : </span>
 <span id="L1317"><span class="lineNum">    1317</span>              :     // create community</span>
 <span id="L1318"><span class="lineNum">    1318</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L1319"><span class="lineNum">    1319</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L1319"><span class="lineNum">    1319</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L1320"><span class="lineNum">    1320</span>              : </span>
 <span id="L1321"><span class="lineNum">    1321</span>              :     // gatekeep community</span>
 <span id="L1322"><span class="lineNum">    1322</span>              :     community_dispatcher</span>
@@ -1430,7 +1430,7 @@
 <span id="L1368"><span class="lineNum">    1368</span>              : </span>
 <span id="L1369"><span class="lineNum">    1369</span>              :     // upgrade community</span>
 <span id="L1370"><span class="lineNum">    1370</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L1371"><span class="lineNum">    1371</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L1371"><span class="lineNum">    1371</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L1372"><span class="lineNum">    1372</span>              :     community_dispatcher.upgrade_community(community_id, CommunityType::Business, sub_id, false, 0);</span>
 <span id="L1373"><span class="lineNum">    1373</span>              : </span>
 <span id="L1374"><span class="lineNum">    1374</span>              :     // gatekeep community</span>
@@ -1481,7 +1481,7 @@
 <span id="L1419"><span class="lineNum">    1419</span>              : </span>
 <span id="L1420"><span class="lineNum">    1420</span>              :     // upgrade community</span>
 <span id="L1421"><span class="lineNum">    1421</span>              :     start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());</span>
-<span id="L1422"><span class="lineNum">    1422</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L1422"><span class="lineNum">    1422</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L1423"><span class="lineNum">    1423</span>              :     community_dispatcher.upgrade_community(community_id, CommunityType::Business, sub_id, false, 0);</span>
 <span id="L1424"><span class="lineNum">    1424</span>              : </span>
 <span id="L1425"><span class="lineNum">    1425</span>              :     // gatekeep community</span>

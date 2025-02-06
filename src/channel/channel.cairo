@@ -8,8 +8,7 @@ pub mod ChannelComponent {
         ContractAddress, contract_address_const, get_caller_address, get_block_timestamp
     };
     use starknet::storage::{
-        StoragePointerReadAccess, StoragePointerWriteAccess, Map, StorageMapReadAccess,
-        StorageMapWriteAccess
+        StoragePointerWriteAccess, Map, StorageMapReadAccess, StorageMapWriteAccess
     };
     use openzeppelin_access::ownable::OwnableComponent;
 
@@ -20,7 +19,7 @@ pub mod ChannelComponent {
         constants::errors::Errors::{
             NOT_CHANNEL_OWNER, ALREADY_MEMBER, NOT_CHANNEL_MEMBER, NOT_COMMUNITY_MEMBER,
             BANNED_FROM_CHANNEL, CHANNEL_HAS_NO_MEMBER, UNAUTHORIZED, INVALID_LENGTH,
-            COMMUNITY_DOES_NOT_EXIST, NOT_CHANNEL_MODERATOR
+            COMMUNITY_DOES_NOT_EXIST, NOT_CHANNEL_MODERATOR, CHANNEL_ALREADY_EXISTS
         },
         constants::types::{ChannelDetails, ChannelMember}
     };
@@ -32,6 +31,7 @@ pub mod ChannelComponent {
     pub struct Storage {
         channels: Map<u256, ChannelDetails>,
         channel_counter: u256,
+        channel_initialized: Map<u256, bool>, // tracks if a channel id has been used or not
         channel_members: Map<(u256, ContractAddress), ChannelMember>,
         channel_moderators: Map<(u256, ContractAddress), bool>,
         channel_ban_status: Map<(u256, ContractAddress), bool>,
@@ -114,9 +114,14 @@ pub mod ChannelComponent {
         impl Ownable: OwnableComponent::HasComponent<TContractState>
     > of IChannel<ComponentState<TContractState>> {
         /// @notice creates a new channel
-        fn create_channel(ref self: ComponentState<TContractState>, community_id: u256) -> u256 {
-            let channel_id = self.channel_counter.read() + 1;
+        fn create_channel(
+            ref self: ComponentState<TContractState>, channel_id: u256, community_id: u256
+        ) -> u256 {
             let channel_owner = get_caller_address();
+
+            // check channel id does not already exist
+            let channel_initialized = self.channel_initialized.read(channel_id);
+            assert(channel_initialized == false, CHANNEL_ALREADY_EXISTS);
 
             // check that community exists
             let community_instance = get_dep_component!(@self, Community);
@@ -138,6 +143,7 @@ pub mod ChannelComponent {
 
             // update storage
             self.channels.write(channel_id, new_channel.clone());
+            self.channel_initialized.write(channel_id, true);
             self.channel_counter.write(channel_id);
 
             // include channel owner as first member
