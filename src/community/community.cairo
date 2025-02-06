@@ -26,7 +26,8 @@ pub mod CommunityComponent {
     };
     use coloniz::base::constants::errors::Errors::{
         ALREADY_MEMBER, NOT_COMMUNITY_OWNER, NOT_COMMUNITY_MEMBER, NOT_COMMUNITY_MOD, BANNED_MEMBER,
-        UNAUTHORIZED, ONLY_PREMIUM_COMMUNITIES, INVALID_LENGTH, INVALID_UPGRADE
+        UNAUTHORIZED, ONLY_PREMIUM_COMMUNITIES, INVALID_LENGTH, INVALID_UPGRADE,
+        COMMUNITY_ALREADY_EXISTS
     };
 
     // *************************************************************************
@@ -36,6 +37,7 @@ pub mod CommunityComponent {
     pub struct Storage {
         community_owner: Map<u256, ContractAddress>, // map<owner_address, community_id>
         communities: Map<u256, CommunityDetails>, // map <community_id, community_details>
+        community_initialized: Map<u256, bool>, // tracks if a community id has been used or not
         community_member: Map<
             (u256, ContractAddress), CommunityMember
         >, // map<(community_id, member address), Member_details>
@@ -157,10 +159,13 @@ pub mod CommunityComponent {
         impl Ownable: OwnableComponent::HasComponent<TContractState>
     > of ICommunity<ComponentState<TContractState>> {
         /// @notice creates a new community
-        fn create_community(ref self: ComponentState<TContractState>) -> u256 {
+        fn create_community(ref self: ComponentState<TContractState>, community_id: u256) -> u256 {
             let community_owner = get_caller_address();
             let community_nft_classhash = self.community_nft_classhash.read();
-            let community_id = self.community_counter.read() + 1;
+
+            // check community id does not already exist
+            let community_initialized = self.community_initialized.read(community_id);
+            assert(community_initialized == false, COMMUNITY_ALREADY_EXISTS);
 
             // deploy community nft - use community_id as salt since its unique
             let community_nft_address = self
@@ -588,6 +593,7 @@ pub mod CommunityComponent {
             };
 
             self.communities.write(community_id, community_details);
+            self.community_initialized.write(community_id, true);
             self.community_owner.write(community_id, community_owner);
             self.community_gate_keep.write(community_id, gate_keep_details);
             self.community_counter.write(community_id);

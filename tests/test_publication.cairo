@@ -128,9 +128,9 @@ fn test_post_community_post() {
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
-    let community_id = community_dispatcher.create_community();
+    let community_id = community_dispatcher.create_community(123);
     // Check if community is created
-    let _channel_id = channel_dispatcher.create_channel(community_id);
+    let _channel_id = channel_dispatcher.create_channel(1, community_id);
     // Attempt to post
     let pub_assigned_id = publication_dispatcher
         .post(
@@ -170,9 +170,9 @@ fn test_if_is_community_post() {
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
-    let community_id = community_dispatcher.create_community();
+    let community_id = community_dispatcher.create_community(123);
     // Check if community is created
-    let _channel_id = channel_dispatcher.create_channel(community_id);
+    let _channel_id = channel_dispatcher.create_channel(1, community_id);
     // Attempt to post
     let pub_assigned_id = publication_dispatcher
         .post(
@@ -220,9 +220,9 @@ fn test_community_censorship_post_status_tobe_true() {
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
-    let community_id = community_dispatcher.create_community();
+    let community_id = community_dispatcher.create_community(123);
     // Check if community is created
-    let _channel_id = channel_dispatcher.create_channel(community_id);
+    let _channel_id = channel_dispatcher.create_channel(1, community_id);
     // Attempt to post
     let pub_assigned_id = publication_dispatcher
         .post(
@@ -266,10 +266,10 @@ fn test_community_censorship_post_status_tobe_false() {
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
-    let community_id = community_dispatcher.create_community();
+    let community_id = community_dispatcher.create_community(123);
     community_dispatcher.set_community_censorship_status(community_id, true);
     // Check if community is created
-    let _channel_id = channel_dispatcher.create_channel(community_id);
+    let _channel_id = channel_dispatcher.create_channel(1, community_id);
     // Attempt to post
     let pub_assigned_id = publication_dispatcher
         .post(
@@ -313,9 +313,9 @@ fn test_channel_censorship_post_status_tobe_true() {
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
-    let community_id = community_dispatcher.create_community();
+    let community_id = community_dispatcher.create_community(123);
     // Check if community is created
-    let channel_id = channel_dispatcher.create_channel(community_id);
+    let channel_id = channel_dispatcher.create_channel(1, community_id);
     // Attempt to post
     let pub_assigned_id = publication_dispatcher
         .post(
@@ -358,10 +358,10 @@ fn test_channel_censorship_post_status_tobe_false() {
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
-    let community_id = community_dispatcher.create_community();
+    let community_id = community_dispatcher.create_community(123);
 
     // Check if community is created
-    let channel_id = channel_dispatcher.create_channel(community_id);
+    let channel_id = channel_dispatcher.create_channel(1, community_id);
 
     channel_dispatcher.set_channel_censorship_status(channel_id, true);
     // Attempt to post
@@ -407,9 +407,9 @@ fn test_if_is_channel_post() {
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
-    let community_id = community_dispatcher.create_community();
+    let community_id = community_dispatcher.create_community(123);
     // Check if community is created
-    let channel_id = channel_dispatcher.create_channel(community_id);
+    let channel_id = channel_dispatcher.create_channel(1, community_id);
     // Attempt to post
     let pub_assigned_id = publication_dispatcher
         .post(
@@ -459,9 +459,9 @@ fn test_should_fail_if_user_is_not_a_community_member() {
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
-    let community_id = community_dispatcher.create_community();
+    let community_id = community_dispatcher.create_community(123);
     // Check if channel is created
-    let _channel_id = channel_dispatcher.create_channel(community_id);
+    let _channel_id = channel_dispatcher.create_channel(1, community_id);
     // Attempt to post
     let _pub_assigned_id = publication_dispatcher
         .post(
@@ -518,9 +518,9 @@ fn test_should_fail_if_user_is_not_a_channel_member() {
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
-    let community_id = community_dispatcher.create_community();
+    let community_id = community_dispatcher.create_community(123);
     // Check if channel is created
-    let channel_id = channel_dispatcher.create_channel(community_id);
+    let channel_id = channel_dispatcher.create_channel(1, community_id);
     // Attempt to post
     let _pub_assigned_id = publication_dispatcher
         .post(
@@ -597,9 +597,9 @@ fn test_post_channel_post() {
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
-    let community_id = community_dispatcher.create_community();
+    let community_id = community_dispatcher.create_community(123);
     // Check if community is created
-    let channel_id = channel_dispatcher.create_channel(community_id);
+    let channel_id = channel_dispatcher.create_channel(1, community_id);
     // Attempt to post
     let pub_assigned_id = publication_dispatcher
         .post(
@@ -637,8 +637,8 @@ fn test_upvote() {
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_two_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
-    let community_id = community_dispatcher.create_community();
-    let channel_id = channel_dispatcher.create_channel(community_id);
+    let community_id = community_dispatcher.create_community(123);
+    let channel_id = channel_dispatcher.create_channel(1, community_id);
     let pub_assigned_id = publication_dispatcher
         .post(
             PostParams {
@@ -679,8 +679,8 @@ fn test_downvote() {
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_two_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
-    let community_id = community_dispatcher.create_community();
-    let channel_id = channel_dispatcher.create_channel(community_id);
+    let community_id = community_dispatcher.create_community(123);
+    let channel_id = channel_dispatcher.create_channel(1, community_id);
     let pub_assigned_id = publication_dispatcher
         .post(
             PostParams {
@@ -724,8 +724,8 @@ fn test_upvote_event_emission() {
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
 
-    let community_id = community_dispatcher.create_community();
-    let channel_id = channel_dispatcher.create_channel(community_id);
+    let community_id = community_dispatcher.create_community(123);
+    let channel_id = channel_dispatcher.create_channel(1, community_id);
     let pub_assigned_id = publication_dispatcher
         .post(
             PostParams {
@@ -779,8 +779,8 @@ fn test_downvote_event_emission() {
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
 
-    let community_id = community_dispatcher.create_community();
-    let channel_id = channel_dispatcher.create_channel(community_id);
+    let community_id = community_dispatcher.create_community(123);
+    let channel_id = channel_dispatcher.create_channel(1, community_id);
     let pub_assigned_id = publication_dispatcher
         .post(
             PostParams {
@@ -832,8 +832,8 @@ fn test_upvote_should_fail_if_user_already_upvoted() {
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_two_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
-    let community_id = community_dispatcher.create_community();
-    let channel_id = channel_dispatcher.create_channel(community_id);
+    let community_id = community_dispatcher.create_community(123);
+    let channel_id = channel_dispatcher.create_channel(1, community_id);
     let pub_assigned_id = publication_dispatcher
         .post(
             PostParams {
@@ -874,8 +874,8 @@ fn test_downvote_should_fail_if_user_already_downvoted() {
     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());
     let user_two_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
-    let community_id = community_dispatcher.create_community();
-    let channel_id = channel_dispatcher.create_channel(community_id);
+    let community_id = community_dispatcher.create_community(123);
+    let channel_id = channel_dispatcher.create_channel(1, community_id);
     let pub_assigned_id = publication_dispatcher
         .post(
             PostParams {
@@ -918,8 +918,8 @@ fn test_post_event_emission() {
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
 
-    let community_id = community_dispatcher.create_community();
-    let channel_id = channel_dispatcher.create_channel(community_id);
+    let community_id = community_dispatcher.create_community(123);
+    let channel_id = channel_dispatcher.create_channel(1, community_id);
     let pub_assigned_id = publication_dispatcher
         .post(
             PostParams {
@@ -972,8 +972,8 @@ fn test_comment() {
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
 
-    let community_id = community_dispatcher.create_community();
-    let channel_id = channel_dispatcher.create_channel(community_id);
+    let community_id = community_dispatcher.create_community(123);
+    let channel_id = channel_dispatcher.create_channel(1, community_id);
     let pub_assigned_id = publication_dispatcher
         .post(
             PostParams {
@@ -1053,8 +1053,8 @@ fn test_comment_event_emission() {
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
 
-    let community_id = community_dispatcher.create_community();
-    let channel_id = channel_dispatcher.create_channel(community_id);
+    let community_id = community_dispatcher.create_community(123);
+    let channel_id = channel_dispatcher.create_channel(1, community_id);
     let pub_assigned_id = publication_dispatcher
         .post(
             PostParams {
@@ -1130,8 +1130,8 @@ fn test_repost() {
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
 
-    let community_id = community_dispatcher.create_community();
-    let channel_id = channel_dispatcher.create_channel(community_id);
+    let community_id = community_dispatcher.create_community(123);
+    let channel_id = channel_dispatcher.create_channel(1, community_id);
     let pub_assigned_id = publication_dispatcher
         .post(
             PostParams {
@@ -1200,8 +1200,8 @@ fn test_repost_event_emission() {
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
 
-    let community_id = community_dispatcher.create_community();
-    let channel_id = channel_dispatcher.create_channel(community_id);
+    let community_id = community_dispatcher.create_community(123);
+    let channel_id = channel_dispatcher.create_channel(1, community_id);
     let post_pub_assigned_id = publication_dispatcher
         .post(
             PostParams {
@@ -1275,8 +1275,8 @@ fn test_get_publication_content_uri() {
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
 
-    let community_id = community_dispatcher.create_community();
-    let channel_id = channel_dispatcher.create_channel(community_id);
+    let community_id = community_dispatcher.create_community(123);
+    let channel_id = channel_dispatcher.create_channel(1, community_id);
     let pub_assigned_id = publication_dispatcher
         .post(
             PostParams {
@@ -1315,8 +1315,8 @@ fn test_get_publication_type() {
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
 
-    let community_id = community_dispatcher.create_community();
-    let channel_id = channel_dispatcher.create_channel(community_id);
+    let community_id = community_dispatcher.create_community(123);
+    let channel_id = channel_dispatcher.create_channel(1, community_id);
     let pub_assigned_id = publication_dispatcher
         .post(
             PostParams {
@@ -1360,9 +1360,9 @@ fn test_should_fail_if_banned_profile_from_posting() {
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
-    let community_id = community_dispatcher.create_community();
+    let community_id = community_dispatcher.create_community(123);
     // Check if community is created
-    let channel_id = channel_dispatcher.create_channel(community_id);
+    let channel_id = channel_dispatcher.create_channel(1, community_id);
     // Attempt to post
     let _pub_assigned_id = publication_dispatcher
         .post(
@@ -1426,8 +1426,8 @@ fn test_should_fail_if_not_community_member_while_posting() {
     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
-    let community_id = community_dispatcher.create_community();
-    let channel_id = channel_dispatcher.create_channel(community_id);
+    let community_id = community_dispatcher.create_community(123);
+    let channel_id = channel_dispatcher.create_channel(1, community_id);
     let _pub_assigned_id = publication_dispatcher
         .post(
             PostParams {
@@ -1479,9 +1479,9 @@ fn test_tip() {
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
-    let community_id = community_dispatcher.create_community();
+    let community_id = community_dispatcher.create_community(123);
     // Check if community is created
-    let channel_id = channel_dispatcher.create_channel(community_id);
+    let channel_id = channel_dispatcher.create_channel(1, community_id);
     // Attempt to post
     let pub_assigned_id = publication_dispatcher
         .post(
@@ -1552,9 +1552,9 @@ fn test_collect() {
     let user_one_profile_address = publication_dispatcher
         .create_profile(registry_contract_address, account_class_hash, 2478, profile_variant);
     // Check if community is created
-    let community_id = community_dispatcher.create_community();
+    let community_id = community_dispatcher.create_community(123);
     // Check if community is created
-    let channel_id = channel_dispatcher.create_channel(community_id);
+    let channel_id = channel_dispatcher.create_channel(1, community_id);
     // Attempt to post
     let pub_assigned_id = publication_dispatcher
         .post(

@@ -182,9 +182,9 @@
 <span id="L120"><span class="lineNum">     120</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L121"><span class="lineNum">     121</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
 <span id="L122"><span class="lineNum">     122</span>              :     // Check if community is created</span>
-<span id="L123"><span class="lineNum">     123</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L123"><span class="lineNum">     123</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L124"><span class="lineNum">     124</span>              :     // Check if community is created</span>
-<span id="L125"><span class="lineNum">     125</span>              :     let _channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L125"><span class="lineNum">     125</span>              :     let _channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L126"><span class="lineNum">     126</span>              :     // Attempt to post</span>
 <span id="L127"><span class="lineNum">     127</span>              :     let pub_assigned_id = publication_dispatcher</span>
 <span id="L128"><span class="lineNum">     128</span>              :         .post(</span>
@@ -225,9 +225,9 @@
 <span id="L163"><span class="lineNum">     163</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L164"><span class="lineNum">     164</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
 <span id="L165"><span class="lineNum">     165</span>              :     // Check if community is created</span>
-<span id="L166"><span class="lineNum">     166</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L166"><span class="lineNum">     166</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L167"><span class="lineNum">     167</span>              :     // Check if community is created</span>
-<span id="L168"><span class="lineNum">     168</span>              :     let _channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L168"><span class="lineNum">     168</span>              :     let _channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L169"><span class="lineNum">     169</span>              :     // Attempt to post</span>
 <span id="L170"><span class="lineNum">     170</span>              :     let pub_assigned_id = publication_dispatcher</span>
 <span id="L171"><span class="lineNum">     171</span>              :         .post(</span>
@@ -276,9 +276,9 @@
 <span id="L214"><span class="lineNum">     214</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L215"><span class="lineNum">     215</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
 <span id="L216"><span class="lineNum">     216</span>              :     // Check if community is created</span>
-<span id="L217"><span class="lineNum">     217</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L217"><span class="lineNum">     217</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L218"><span class="lineNum">     218</span>              :     // Check if community is created</span>
-<span id="L219"><span class="lineNum">     219</span>              :     let _channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L219"><span class="lineNum">     219</span>              :     let _channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L220"><span class="lineNum">     220</span>              :     // Attempt to post</span>
 <span id="L221"><span class="lineNum">     221</span>              :     let pub_assigned_id = publication_dispatcher</span>
 <span id="L222"><span class="lineNum">     222</span>              :         .post(</span>
@@ -323,10 +323,10 @@
 <span id="L261"><span class="lineNum">     261</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L262"><span class="lineNum">     262</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
 <span id="L263"><span class="lineNum">     263</span>              :     // Check if community is created</span>
-<span id="L264"><span class="lineNum">     264</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L264"><span class="lineNum">     264</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L265"><span class="lineNum">     265</span>              :     community_dispatcher.set_community_censorship_status(community_id, true);</span>
 <span id="L266"><span class="lineNum">     266</span>              :     // Check if community is created</span>
-<span id="L267"><span class="lineNum">     267</span>              :     let _channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L267"><span class="lineNum">     267</span>              :     let _channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L268"><span class="lineNum">     268</span>              :     // Attempt to post</span>
 <span id="L269"><span class="lineNum">     269</span>              :     let pub_assigned_id = publication_dispatcher</span>
 <span id="L270"><span class="lineNum">     270</span>              :         .post(</span>
@@ -371,9 +371,9 @@
 <span id="L309"><span class="lineNum">     309</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L310"><span class="lineNum">     310</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
 <span id="L311"><span class="lineNum">     311</span>              :     // Check if community is created</span>
-<span id="L312"><span class="lineNum">     312</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L312"><span class="lineNum">     312</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L313"><span class="lineNum">     313</span>              :     // Check if community is created</span>
-<span id="L314"><span class="lineNum">     314</span>              :     let channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L314"><span class="lineNum">     314</span>              :     let channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L315"><span class="lineNum">     315</span>              :     // Attempt to post</span>
 <span id="L316"><span class="lineNum">     316</span>              :     let pub_assigned_id = publication_dispatcher</span>
 <span id="L317"><span class="lineNum">     317</span>              :         .post(</span>
@@ -417,10 +417,10 @@
 <span id="L355"><span class="lineNum">     355</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L356"><span class="lineNum">     356</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
 <span id="L357"><span class="lineNum">     357</span>              :     // Check if community is created</span>
-<span id="L358"><span class="lineNum">     358</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L358"><span class="lineNum">     358</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L359"><span class="lineNum">     359</span>              : </span>
 <span id="L360"><span class="lineNum">     360</span>              :     // Check if community is created</span>
-<span id="L361"><span class="lineNum">     361</span>              :     let channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L361"><span class="lineNum">     361</span>              :     let channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L362"><span class="lineNum">     362</span>              : </span>
 <span id="L363"><span class="lineNum">     363</span>              :     channel_dispatcher.set_channel_censorship_status(channel_id, true);</span>
 <span id="L364"><span class="lineNum">     364</span>              :     // Attempt to post</span>
@@ -467,9 +467,9 @@
 <span id="L405"><span class="lineNum">     405</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L406"><span class="lineNum">     406</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
 <span id="L407"><span class="lineNum">     407</span>              :     // Check if community is created</span>
-<span id="L408"><span class="lineNum">     408</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L408"><span class="lineNum">     408</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L409"><span class="lineNum">     409</span>              :     // Check if community is created</span>
-<span id="L410"><span class="lineNum">     410</span>              :     let channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L410"><span class="lineNum">     410</span>              :     let channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L411"><span class="lineNum">     411</span>              :     // Attempt to post</span>
 <span id="L412"><span class="lineNum">     412</span>              :     let pub_assigned_id = publication_dispatcher</span>
 <span id="L413"><span class="lineNum">     413</span>              :         .post(</span>
@@ -520,9 +520,9 @@
 <span id="L458"><span class="lineNum">     458</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L459"><span class="lineNum">     459</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
 <span id="L460"><span class="lineNum">     460</span>              :     // Check if community is created</span>
-<span id="L461"><span class="lineNum">     461</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L461"><span class="lineNum">     461</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L462"><span class="lineNum">     462</span>              :     // Check if channel is created</span>
-<span id="L463"><span class="lineNum">     463</span>              :     let _channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L463"><span class="lineNum">     463</span>              :     let _channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L464"><span class="lineNum">     464</span>              :     // Attempt to post</span>
 <span id="L465"><span class="lineNum">     465</span>              :     let _pub_assigned_id = publication_dispatcher</span>
 <span id="L466"><span class="lineNum">     466</span>              :         .post(</span>
@@ -580,9 +580,9 @@
 <span id="L518"><span class="lineNum">     518</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L519"><span class="lineNum">     519</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
 <span id="L520"><span class="lineNum">     520</span>              :     // Check if community is created</span>
-<span id="L521"><span class="lineNum">     521</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L521"><span class="lineNum">     521</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L522"><span class="lineNum">     522</span>              :     // Check if channel is created</span>
-<span id="L523"><span class="lineNum">     523</span>              :     let channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L523"><span class="lineNum">     523</span>              :     let channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L524"><span class="lineNum">     524</span>              :     // Attempt to post</span>
 <span id="L525"><span class="lineNum">     525</span>              :     let _pub_assigned_id = publication_dispatcher</span>
 <span id="L526"><span class="lineNum">     526</span>              :         .post(</span>
@@ -660,9 +660,9 @@
 <span id="L598"><span class="lineNum">     598</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L599"><span class="lineNum">     599</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
 <span id="L600"><span class="lineNum">     600</span>              :     // Check if community is created</span>
-<span id="L601"><span class="lineNum">     601</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L601"><span class="lineNum">     601</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L602"><span class="lineNum">     602</span>              :     // Check if community is created</span>
-<span id="L603"><span class="lineNum">     603</span>              :     let channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L603"><span class="lineNum">     603</span>              :     let channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L604"><span class="lineNum">     604</span>              :     // Attempt to post</span>
 <span id="L605"><span class="lineNum">     605</span>              :     let pub_assigned_id = publication_dispatcher</span>
 <span id="L606"><span class="lineNum">     606</span>              :         .post(</span>
@@ -701,8 +701,8 @@
 <span id="L639"><span class="lineNum">     639</span>              :     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());</span>
 <span id="L640"><span class="lineNum">     640</span>              :     let user_two_profile_address = publication_dispatcher</span>
 <span id="L641"><span class="lineNum">     641</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
-<span id="L642"><span class="lineNum">     642</span>              :     let community_id = community_dispatcher.create_community();</span>
-<span id="L643"><span class="lineNum">     643</span>              :     let channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L642"><span class="lineNum">     642</span>              :     let community_id = community_dispatcher.create_community(123);</span>
+<span id="L643"><span class="lineNum">     643</span>              :     let channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L644"><span class="lineNum">     644</span>              :     let pub_assigned_id = publication_dispatcher</span>
 <span id="L645"><span class="lineNum">     645</span>              :         .post(</span>
 <span id="L646"><span class="lineNum">     646</span>              :             PostParams {</span>
@@ -744,8 +744,8 @@
 <span id="L682"><span class="lineNum">     682</span>              :     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());</span>
 <span id="L683"><span class="lineNum">     683</span>              :     let user_two_profile_address = publication_dispatcher</span>
 <span id="L684"><span class="lineNum">     684</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
-<span id="L685"><span class="lineNum">     685</span>              :     let community_id = community_dispatcher.create_community();</span>
-<span id="L686"><span class="lineNum">     686</span>              :     let channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L685"><span class="lineNum">     685</span>              :     let community_id = community_dispatcher.create_community(123);</span>
+<span id="L686"><span class="lineNum">     686</span>              :     let channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L687"><span class="lineNum">     687</span>              :     let pub_assigned_id = publication_dispatcher</span>
 <span id="L688"><span class="lineNum">     688</span>              :         .post(</span>
 <span id="L689"><span class="lineNum">     689</span>              :             PostParams {</span>
@@ -790,8 +790,8 @@
 <span id="L728"><span class="lineNum">     728</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L729"><span class="lineNum">     729</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
 <span id="L730"><span class="lineNum">     730</span>              : </span>
-<span id="L731"><span class="lineNum">     731</span>              :     let community_id = community_dispatcher.create_community();</span>
-<span id="L732"><span class="lineNum">     732</span>              :     let channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L731"><span class="lineNum">     731</span>              :     let community_id = community_dispatcher.create_community(123);</span>
+<span id="L732"><span class="lineNum">     732</span>              :     let channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L733"><span class="lineNum">     733</span>              :     let pub_assigned_id = publication_dispatcher</span>
 <span id="L734"><span class="lineNum">     734</span>              :         .post(</span>
 <span id="L735"><span class="lineNum">     735</span>              :             PostParams {</span>
@@ -846,8 +846,8 @@
 <span id="L784"><span class="lineNum">     784</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L785"><span class="lineNum">     785</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
 <span id="L786"><span class="lineNum">     786</span>              : </span>
-<span id="L787"><span class="lineNum">     787</span>              :     let community_id = community_dispatcher.create_community();</span>
-<span id="L788"><span class="lineNum">     788</span>              :     let channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L787"><span class="lineNum">     787</span>              :     let community_id = community_dispatcher.create_community(123);</span>
+<span id="L788"><span class="lineNum">     788</span>              :     let channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L789"><span class="lineNum">     789</span>              :     let pub_assigned_id = publication_dispatcher</span>
 <span id="L790"><span class="lineNum">     790</span>              :         .post(</span>
 <span id="L791"><span class="lineNum">     791</span>              :             PostParams {</span>
@@ -900,8 +900,8 @@
 <span id="L838"><span class="lineNum">     838</span>              :     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());</span>
 <span id="L839"><span class="lineNum">     839</span>              :     let user_two_profile_address = publication_dispatcher</span>
 <span id="L840"><span class="lineNum">     840</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
-<span id="L841"><span class="lineNum">     841</span>              :     let community_id = community_dispatcher.create_community();</span>
-<span id="L842"><span class="lineNum">     842</span>              :     let channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L841"><span class="lineNum">     841</span>              :     let community_id = community_dispatcher.create_community(123);</span>
+<span id="L842"><span class="lineNum">     842</span>              :     let channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L843"><span class="lineNum">     843</span>              :     let pub_assigned_id = publication_dispatcher</span>
 <span id="L844"><span class="lineNum">     844</span>              :         .post(</span>
 <span id="L845"><span class="lineNum">     845</span>              :             PostParams {</span>
@@ -943,8 +943,8 @@
 <span id="L881"><span class="lineNum">     881</span>              :     start_cheat_caller_address(publication_contract_address, USER_TWO.try_into().unwrap());</span>
 <span id="L882"><span class="lineNum">     882</span>              :     let user_two_profile_address = publication_dispatcher</span>
 <span id="L883"><span class="lineNum">     883</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
-<span id="L884"><span class="lineNum">     884</span>              :     let community_id = community_dispatcher.create_community();</span>
-<span id="L885"><span class="lineNum">     885</span>              :     let channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L884"><span class="lineNum">     884</span>              :     let community_id = community_dispatcher.create_community(123);</span>
+<span id="L885"><span class="lineNum">     885</span>              :     let channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L886"><span class="lineNum">     886</span>              :     let pub_assigned_id = publication_dispatcher</span>
 <span id="L887"><span class="lineNum">     887</span>              :         .post(</span>
 <span id="L888"><span class="lineNum">     888</span>              :             PostParams {</span>
@@ -988,8 +988,8 @@
 <span id="L926"><span class="lineNum">     926</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L927"><span class="lineNum">     927</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
 <span id="L928"><span class="lineNum">     928</span>              : </span>
-<span id="L929"><span class="lineNum">     929</span>              :     let community_id = community_dispatcher.create_community();</span>
-<span id="L930"><span class="lineNum">     930</span>              :     let channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L929"><span class="lineNum">     929</span>              :     let community_id = community_dispatcher.create_community(123);</span>
+<span id="L930"><span class="lineNum">     930</span>              :     let channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L931"><span class="lineNum">     931</span>              :     let pub_assigned_id = publication_dispatcher</span>
 <span id="L932"><span class="lineNum">     932</span>              :         .post(</span>
 <span id="L933"><span class="lineNum">     933</span>              :             PostParams {</span>
@@ -1043,8 +1043,8 @@
 <span id="L981"><span class="lineNum">     981</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L982"><span class="lineNum">     982</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
 <span id="L983"><span class="lineNum">     983</span>              : </span>
-<span id="L984"><span class="lineNum">     984</span>              :     let community_id = community_dispatcher.create_community();</span>
-<span id="L985"><span class="lineNum">     985</span>              :     let channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L984"><span class="lineNum">     984</span>              :     let community_id = community_dispatcher.create_community(123);</span>
+<span id="L985"><span class="lineNum">     985</span>              :     let channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L986"><span class="lineNum">     986</span>              :     let pub_assigned_id = publication_dispatcher</span>
 <span id="L987"><span class="lineNum">     987</span>              :         .post(</span>
 <span id="L988"><span class="lineNum">     988</span>              :             PostParams {</span>
@@ -1125,8 +1125,8 @@
 <span id="L1063"><span class="lineNum">    1063</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L1064"><span class="lineNum">    1064</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
 <span id="L1065"><span class="lineNum">    1065</span>              : </span>
-<span id="L1066"><span class="lineNum">    1066</span>              :     let community_id = community_dispatcher.create_community();</span>
-<span id="L1067"><span class="lineNum">    1067</span>              :     let channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L1066"><span class="lineNum">    1066</span>              :     let community_id = community_dispatcher.create_community(123);</span>
+<span id="L1067"><span class="lineNum">    1067</span>              :     let channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L1068"><span class="lineNum">    1068</span>              :     let pub_assigned_id = publication_dispatcher</span>
 <span id="L1069"><span class="lineNum">    1069</span>              :         .post(</span>
 <span id="L1070"><span class="lineNum">    1070</span>              :             PostParams {</span>
@@ -1203,8 +1203,8 @@
 <span id="L1141"><span class="lineNum">    1141</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L1142"><span class="lineNum">    1142</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
 <span id="L1143"><span class="lineNum">    1143</span>              : </span>
-<span id="L1144"><span class="lineNum">    1144</span>              :     let community_id = community_dispatcher.create_community();</span>
-<span id="L1145"><span class="lineNum">    1145</span>              :     let channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L1144"><span class="lineNum">    1144</span>              :     let community_id = community_dispatcher.create_community(123);</span>
+<span id="L1145"><span class="lineNum">    1145</span>              :     let channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L1146"><span class="lineNum">    1146</span>              :     let pub_assigned_id = publication_dispatcher</span>
 <span id="L1147"><span class="lineNum">    1147</span>              :         .post(</span>
 <span id="L1148"><span class="lineNum">    1148</span>              :             PostParams {</span>
@@ -1274,8 +1274,8 @@
 <span id="L1212"><span class="lineNum">    1212</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L1213"><span class="lineNum">    1213</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
 <span id="L1214"><span class="lineNum">    1214</span>              : </span>
-<span id="L1215"><span class="lineNum">    1215</span>              :     let community_id = community_dispatcher.create_community();</span>
-<span id="L1216"><span class="lineNum">    1216</span>              :     let channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L1215"><span class="lineNum">    1215</span>              :     let community_id = community_dispatcher.create_community(123);</span>
+<span id="L1216"><span class="lineNum">    1216</span>              :     let channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L1217"><span class="lineNum">    1217</span>              :     let post_pub_assigned_id = publication_dispatcher</span>
 <span id="L1218"><span class="lineNum">    1218</span>              :         .post(</span>
 <span id="L1219"><span class="lineNum">    1219</span>              :             PostParams {</span>
@@ -1350,8 +1350,8 @@
 <span id="L1288"><span class="lineNum">    1288</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L1289"><span class="lineNum">    1289</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
 <span id="L1290"><span class="lineNum">    1290</span>              : </span>
-<span id="L1291"><span class="lineNum">    1291</span>              :     let community_id = community_dispatcher.create_community();</span>
-<span id="L1292"><span class="lineNum">    1292</span>              :     let channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L1291"><span class="lineNum">    1291</span>              :     let community_id = community_dispatcher.create_community(123);</span>
+<span id="L1292"><span class="lineNum">    1292</span>              :     let channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L1293"><span class="lineNum">    1293</span>              :     let pub_assigned_id = publication_dispatcher</span>
 <span id="L1294"><span class="lineNum">    1294</span>              :         .post(</span>
 <span id="L1295"><span class="lineNum">    1295</span>              :             PostParams {</span>
@@ -1391,8 +1391,8 @@
 <span id="L1329"><span class="lineNum">    1329</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L1330"><span class="lineNum">    1330</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
 <span id="L1331"><span class="lineNum">    1331</span>              : </span>
-<span id="L1332"><span class="lineNum">    1332</span>              :     let community_id = community_dispatcher.create_community();</span>
-<span id="L1333"><span class="lineNum">    1333</span>              :     let channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L1332"><span class="lineNum">    1332</span>              :     let community_id = community_dispatcher.create_community(123);</span>
+<span id="L1333"><span class="lineNum">    1333</span>              :     let channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L1334"><span class="lineNum">    1334</span>              :     let pub_assigned_id = publication_dispatcher</span>
 <span id="L1335"><span class="lineNum">    1335</span>              :         .post(</span>
 <span id="L1336"><span class="lineNum">    1336</span>              :             PostParams {</span>
@@ -1437,9 +1437,9 @@
 <span id="L1375"><span class="lineNum">    1375</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L1376"><span class="lineNum">    1376</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
 <span id="L1377"><span class="lineNum">    1377</span>              :     // Check if community is created</span>
-<span id="L1378"><span class="lineNum">    1378</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L1378"><span class="lineNum">    1378</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L1379"><span class="lineNum">    1379</span>              :     // Check if community is created</span>
-<span id="L1380"><span class="lineNum">    1380</span>              :     let channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L1380"><span class="lineNum">    1380</span>              :     let channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L1381"><span class="lineNum">    1381</span>              :     // Attempt to post</span>
 <span id="L1382"><span class="lineNum">    1382</span>              :     let _pub_assigned_id = publication_dispatcher</span>
 <span id="L1383"><span class="lineNum">    1383</span>              :         .post(</span>
@@ -1504,8 +1504,8 @@
 <span id="L1442"><span class="lineNum">    1442</span>              :     start_cheat_caller_address(publication_contract_address, USER_ONE.try_into().unwrap());</span>
 <span id="L1443"><span class="lineNum">    1443</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L1444"><span class="lineNum">    1444</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
-<span id="L1445"><span class="lineNum">    1445</span>              :     let community_id = community_dispatcher.create_community();</span>
-<span id="L1446"><span class="lineNum">    1446</span>              :     let channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L1445"><span class="lineNum">    1445</span>              :     let community_id = community_dispatcher.create_community(123);</span>
+<span id="L1446"><span class="lineNum">    1446</span>              :     let channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L1447"><span class="lineNum">    1447</span>              :     let _pub_assigned_id = publication_dispatcher</span>
 <span id="L1448"><span class="lineNum">    1448</span>              :         .post(</span>
 <span id="L1449"><span class="lineNum">    1449</span>              :             PostParams {</span>
@@ -1558,9 +1558,9 @@
 <span id="L1496"><span class="lineNum">    1496</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L1497"><span class="lineNum">    1497</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
 <span id="L1498"><span class="lineNum">    1498</span>              :     // Check if community is created</span>
-<span id="L1499"><span class="lineNum">    1499</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L1499"><span class="lineNum">    1499</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L1500"><span class="lineNum">    1500</span>              :     // Check if community is created</span>
-<span id="L1501"><span class="lineNum">    1501</span>              :     let channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L1501"><span class="lineNum">    1501</span>              :     let channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L1502"><span class="lineNum">    1502</span>              :     // Attempt to post</span>
 <span id="L1503"><span class="lineNum">    1503</span>              :     let pub_assigned_id = publication_dispatcher</span>
 <span id="L1504"><span class="lineNum">    1504</span>              :         .post(</span>
@@ -1632,9 +1632,9 @@
 <span id="L1570"><span class="lineNum">    1570</span>              :     let user_one_profile_address = publication_dispatcher</span>
 <span id="L1571"><span class="lineNum">    1571</span>              :         .create_profile(nft_contract_address, registry_class_hash, account_class_hash, 2478);</span>
 <span id="L1572"><span class="lineNum">    1572</span>              :     // Check if community is created</span>
-<span id="L1573"><span class="lineNum">    1573</span>              :     let community_id = community_dispatcher.create_community();</span>
+<span id="L1573"><span class="lineNum">    1573</span>              :     let community_id = community_dispatcher.create_community(123);</span>
 <span id="L1574"><span class="lineNum">    1574</span>              :     // Check if community is created</span>
-<span id="L1575"><span class="lineNum">    1575</span>              :     let channel_id = channel_dispatcher.create_channel(community_id);</span>
+<span id="L1575"><span class="lineNum">    1575</span>              :     let channel_id = channel_dispatcher.create_channel(1, community_id);</span>
 <span id="L1576"><span class="lineNum">    1576</span>              :     // Attempt to post</span>
 <span id="L1577"><span class="lineNum">    1577</span>              :     let pub_assigned_id = publication_dispatcher</span>
 <span id="L1578"><span class="lineNum">    1578</span>              :         .post(</span>

@@ -12,7 +12,7 @@ pub trait ICommunity<TState> {
     // *************************************************************************
     //                            EXTERNALS
     // *************************************************************************
-    fn create_community(ref self: TState) -> u256;
+    fn create_community(ref self: TState, community_id: u256) -> u256;
     fn join_community(ref self: TState, community_id: u256);
     fn leave_community(ref self: TState, community_id: u256);
     fn set_community_metadata_uri(ref self: TState, community_id: u256, metadata_uri: ByteArray);
