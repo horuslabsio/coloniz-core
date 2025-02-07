@@ -33,12 +33,13 @@ const execute_create_community = async() =>{
 }
 
 const execute_create_channel = async() =>{
-    let community_id = cairo.uint256(7);
+    let channel_id = cairo.uint256(15);
+    let community_id = cairo.uint256(9);
 
     let call: Call = {
         to: coloniz_HUB_CONTRACT_ADDRESS, //coloniz_HUB_CONTRACT_ADDRESS,
         selector:"0x033a3cd19c446a4483d4288f10983bf9316ce813aa8ee81acae99b36fc6022d0",
-        calldata: CallData.compile([community_id]) 
+        calldata: CallData.compile([channel_id, community_id]) 
     }
     
     try {
