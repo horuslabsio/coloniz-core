@@ -1,7 +1,7 @@
 pub mod colonizColors {
     use core::array::ArrayTrait;
 
-    pub fn get_random_color(local_name: u256) -> felt252 {
+    pub fn get_random_color(seed: u256) -> felt252 {
         let colors = array![
             '#A0D170',
             '#FFD2DD',
@@ -27,7 +27,7 @@ pub mod colonizColors {
         ];
 
         let len: u256 = colors.len().try_into().unwrap();
-        let randomIndex: u32 = (local_name % len).try_into().unwrap();
+        let randomIndex: u32 = (seed % len).try_into().unwrap();
 
         return *colors.at(randomIndex);
     }

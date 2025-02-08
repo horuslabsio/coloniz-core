@@ -50,8 +50,11 @@ pub mod FollowTokenUri {
         attributespost.append(@"\":\"ID\",\"value\":\"");
         attributespost.append(@format!("{}", token_id_felt));
         attributespost.append(@"\"},{\"trait_type\":\"mint");
-        attributespost.append(@"Timestamp\",\"value\":\"");
+        attributespost.append(@"_timestamp\",\"value\":\"");
         attributespost.append(@format!("{}", follow_timestamp_felt));
+        attributespost.append(@"\"},{\"trait_type\":\"followed");
+        attributespost.append(@"_profile\",\"value\":\"");
+        attributespost.append(@format!("{}", followed_profile_address_felt));
         attributespost.append(@"\"}]}");
 
         attributespre.append(@svg_encoded_byteArray);

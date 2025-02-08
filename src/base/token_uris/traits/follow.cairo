@@ -17,17 +17,19 @@ pub mod follow {
 
         svg.append(@color_code);
 
-        svg.append(@"\" stroke=\"black\" stroke-width=\"4\"/>
+        svg
+            .append(
+                @"\" stroke=\"black\" stroke-width=\"4\"/>
                 <circle cx=\"115\" cy=\"140\" r=\"10\" fill=\"black\"/>
                 <circle cx=\"185\" cy=\"140\" r=\"10\" fill=\"black\"/>
                 <circle cx=\"70\" cy=\"150\" r=\"20\" fill=\"none\" stroke=\"white\" stroke-width=\"4\"/>
                 <circle cx=\"230\" cy=\"150\" r=\"20\" fill=\"none\" stroke=\"white\" stroke-width=\"4\"/>
                 <line x1=\"90\" y1=\"150\" x2=\"210\" y2=\"150\" stroke=\"white\" stroke-width=\"4\"/>
                 <text x=\"50%\" y=\"270\" font-family=\"Arial\" font-size=\"24\" fill=\"white\" text-anchor=\"middle\" font-weight=\"bold\">
-        ");
+        "
+            );
 
-        let token_id_to_felt = token_id.into();
-        svg.append(@format!("{}", token_id_to_felt));
+        svg.append(@"Follower");
 
         svg.append(@"</text>
                     </svg>");
