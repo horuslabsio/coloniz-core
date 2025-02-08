@@ -165,6 +165,7 @@ fn test_join_community() {
 
     let (is_member, community_member) = community_dispatcher
         .is_community_member(USER_ONE.try_into().unwrap(), community_id);
+
     assert(is_member == true, 'joining community failed');
     assert(community_member.community_id == community_id, 'invalid community id');
     assert(
@@ -202,7 +203,6 @@ fn test_should_panic_if_a_user_joins_one_community_twice() {
     community_dispatcher.join_community(community_id);
     stop_cheat_caller_address(community_contract_address);
 }
-
 
 #[test]
 fn test_joining_community_emits_event() {
@@ -341,6 +341,192 @@ fn test_leave_community_emits_event() {
                 )
             ]
         );
+}
+
+#[test]
+fn test_add_community_members() {
+    let (community_contract_address, _) = __setup__();
+    let community_dispatcher = ICommunityDispatcher {
+        contract_address: community_contract_address
+    };
+
+    //create the community
+    start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());
+    let community_id = community_dispatcher.create_community(123);
+
+    community_dispatcher
+        .add_community_members(
+            array![USER_TWO.try_into().unwrap(), USER_THREE.try_into().unwrap()], community_id
+        );
+
+    let (is_member_1, _) = community_dispatcher
+        .is_community_member(USER_TWO.try_into().unwrap(), community_id);
+    let (is_member_2, _) = community_dispatcher
+        .is_community_member(USER_THREE.try_into().unwrap(), community_id);
+
+    assert(is_member_1 == true, 'adding members failed');
+    assert(is_member_2 == true, 'adding members failed');
+
+    stop_cheat_caller_address(community_contract_address);
+}
+
+#[test]
+fn test_add_community_members_by_mod() {
+    let (community_contract_address, _) = __setup__();
+    let community_dispatcher = ICommunityDispatcher {
+        contract_address: community_contract_address
+    };
+
+    //create the community
+    start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());
+    let community_id = community_dispatcher.create_community(123);
+
+    // add mod to community first
+    community_dispatcher.add_community_members(array![USER_FOUR.try_into().unwrap()], community_id);
+
+    // make him a mod
+    community_dispatcher.add_community_mods(community_id, array![USER_FOUR.try_into().unwrap()]);
+    stop_cheat_caller_address(community_contract_address);
+
+    // try to add community members by mod
+    start_cheat_caller_address(community_contract_address, USER_FOUR.try_into().unwrap());
+    community_dispatcher
+        .add_community_members(
+            array![USER_TWO.try_into().unwrap(), USER_THREE.try_into().unwrap()], community_id
+        );
+
+    let (is_member_1, _) = community_dispatcher
+        .is_community_member(USER_TWO.try_into().unwrap(), community_id);
+    let (is_member_2, _) = community_dispatcher
+        .is_community_member(USER_THREE.try_into().unwrap(), community_id);
+
+    assert(is_member_1 == true, 'adding members failed');
+    assert(is_member_2 == true, 'adding members failed');
+
+    stop_cheat_caller_address(community_contract_address);
+}
+
+#[test]
+#[should_panic(expected: ('coloniz: user unauthorized!',))]
+fn test_add_community_members_should_fail_if_caller_is_not_owner_or_mod() {
+    let (community_contract_address, _) = __setup__();
+    let community_dispatcher = ICommunityDispatcher {
+        contract_address: community_contract_address
+    };
+
+    //create the community
+    start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());
+    let community_id = community_dispatcher.create_community(123);
+
+    // try to add community members by random user
+    start_cheat_caller_address(community_contract_address, USER_TWO.try_into().unwrap());
+    community_dispatcher
+        .add_community_members(
+            array![USER_TWO.try_into().unwrap(), USER_THREE.try_into().unwrap()], community_id
+        );
+
+    stop_cheat_caller_address(community_contract_address);
+}
+
+#[test]
+fn test_remove_community_members() {
+    let (community_contract_address, _) = __setup__();
+    let community_dispatcher = ICommunityDispatcher {
+        contract_address: community_contract_address
+    };
+
+    //create the community
+    start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());
+    let community_id = community_dispatcher.create_community(123);
+
+    // add community members
+    community_dispatcher
+        .add_community_members(
+            array![USER_TWO.try_into().unwrap(), USER_THREE.try_into().unwrap()], community_id
+        );
+
+    // remove community member
+    community_dispatcher
+        .remove_community_members(
+            array![USER_TWO.try_into().unwrap(), USER_THREE.try_into().unwrap()], community_id
+        );
+
+    let (is_member_1, _) = community_dispatcher
+        .is_community_member(USER_TWO.try_into().unwrap(), community_id);
+    let (is_member_2, _) = community_dispatcher
+        .is_community_member(USER_THREE.try_into().unwrap(), community_id);
+
+    assert(is_member_1 == false, 'removing members failed');
+    assert(is_member_2 == false, 'removing members failed');
+
+    stop_cheat_caller_address(community_contract_address);
+}
+
+#[test]
+fn test_remove_community_members_by_mod() {
+    let (community_contract_address, _) = __setup__();
+    let community_dispatcher = ICommunityDispatcher {
+        contract_address: community_contract_address
+    };
+
+    //create the community
+    start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());
+    let community_id = community_dispatcher.create_community(123);
+
+    // add mod to community first
+    community_dispatcher.add_community_members(array![USER_FOUR.try_into().unwrap()], community_id);
+
+    // make him a mod
+    community_dispatcher.add_community_mods(community_id, array![USER_FOUR.try_into().unwrap()]);
+
+    // add community members first
+    community_dispatcher
+        .add_community_members(
+            array![USER_TWO.try_into().unwrap(), USER_THREE.try_into().unwrap()], community_id
+        );
+
+    stop_cheat_caller_address(community_contract_address);
+
+    // try to remove community members by mod
+    start_cheat_caller_address(community_contract_address, USER_FOUR.try_into().unwrap());
+    community_dispatcher
+        .remove_community_members(array![USER_THREE.try_into().unwrap()], community_id);
+
+    let (is_member_1, _) = community_dispatcher
+        .is_community_member(USER_TWO.try_into().unwrap(), community_id);
+    let (is_member_2, _) = community_dispatcher
+        .is_community_member(USER_THREE.try_into().unwrap(), community_id);
+
+    assert(is_member_1 == true, 'adding members failed');
+    assert(is_member_2 == false, 'adding members failed');
+
+    stop_cheat_caller_address(community_contract_address);
+}
+
+#[test]
+#[should_panic(expected: ('coloniz: user unauthorized!',))]
+fn test_remove_community_members_should_fail_if_caller_is_not_owner_or_mod() {
+    let (community_contract_address, _) = __setup__();
+    let community_dispatcher = ICommunityDispatcher {
+        contract_address: community_contract_address
+    };
+
+    // create the community
+    start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());
+    let community_id = community_dispatcher.create_community(123);
+
+    // add community members first
+    community_dispatcher
+        .add_community_members(
+            array![USER_TWO.try_into().unwrap(), USER_THREE.try_into().unwrap()], community_id
+        );
+
+    // try to remove community members by a random user
+    start_cheat_caller_address(community_contract_address, USER_TWO.try_into().unwrap());
+    community_dispatcher
+        .remove_community_members(array![USER_THREE.try_into().unwrap()], community_id);
+
+    stop_cheat_caller_address(community_contract_address);
 }
 
 #[test]

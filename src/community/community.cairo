@@ -212,6 +212,7 @@ pub mod CommunityComponent {
                 .community_member
                 .read((community_id, profile_caller));
 
+            // check user is a community member
             let (is_community_member, _) = self.is_community_member(profile_caller, community_id);
             assert(is_community_member == true, NOT_COMMUNITY_MEMBER);
 
@@ -242,6 +243,82 @@ pub mod CommunityComponent {
                 community_metadata_uri: metadata_uri, ..community_details
             };
             self.communities.write(community_id, updated_community);
+        }
+
+        /// @notice adds new community members
+        /// @param profiles array of addresses to be added as members
+        /// @param community_id id of community to add members to
+        fn add_community_members(
+            ref self: ComponentState<TContractState>,
+            profiles: Array<ContractAddress>,
+            community_id: u256
+        ) {
+            let caller = get_caller_address();
+            let community = self.communities.read(community_id);
+            let community_owner = self.community_owner.read(community_id);
+            let is_community_mod = self.community_mod.read((community_id, caller));
+
+            // check caller is mod or owner
+            assert(is_community_mod == true || community_owner == caller, UNAUTHORIZED);
+
+            let length = profiles.len();
+            let mut index: u32 = 0;
+
+            while index < length {
+                let profile = *profiles[index];
+
+                // check user is not already a member and wasn't previously banned
+                let (is_community_member, _) = self.is_community_member(profile, community_id);
+                let is_banned = self.get_ban_status(profile, community_id);
+                assert(is_community_member != true, ALREADY_MEMBER);
+                assert(is_banned != true, BANNED_MEMBER);
+
+                // add user to the community
+                self._join_community(profile, community.community_nft_address, community_id);
+
+                index += 1;
+            }
+        }
+
+        /// @notice removes community members
+        /// @param profiles array of addresses to be removed as members
+        /// @param community_id id of community to add members to
+        fn remove_community_members(
+            ref self: ComponentState<TContractState>,
+            profiles: Array<ContractAddress>,
+            community_id: u256
+        ) {
+            let caller = get_caller_address();
+            let community = self.communities.read(community_id);
+            let community_owner = self.community_owner.read(community_id);
+            let is_community_mod = self.community_mod.read((community_id, caller));
+
+            // check caller is mod or owner
+            assert(is_community_mod == true || community_owner == caller, UNAUTHORIZED);
+
+            let length = profiles.len();
+            let mut index: u32 = 0;
+
+            while index < length {
+                let profile = *profiles[index];
+
+                // check user is a community member
+                let (is_community_member, _) = self.is_community_member(profile, community_id);
+                assert(is_community_member == true, NOT_COMMUNITY_MEMBER);
+
+                let community_member_details = self.community_member.read((community_id, profile));
+
+                // remove user from the community
+                self
+                    ._leave_community(
+                        profile,
+                        community.community_nft_address,
+                        community_id,
+                        community_member_details.community_token_id
+                    );
+
+                index += 1;
+            }
         }
 
         /// @notice adds a new community mod

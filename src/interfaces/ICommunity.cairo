@@ -16,6 +16,12 @@ pub trait ICommunity<TState> {
     fn join_community(ref self: TState, community_id: u256);
     fn leave_community(ref self: TState, community_id: u256);
     fn set_community_metadata_uri(ref self: TState, community_id: u256, metadata_uri: ByteArray);
+    fn add_community_members(
+        ref self: TState, profiles: Array<ContractAddress>, community_id: u256
+    );
+    fn remove_community_members(
+        ref self: TState, profiles: Array<ContractAddress>, community_id: u256
+    );
     fn add_community_mods(ref self: TState, community_id: u256, moderators: Array<ContractAddress>);
     fn remove_community_mods(
         ref self: TState, community_id: u256, moderators: Array<ContractAddress>
