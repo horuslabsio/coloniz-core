@@ -1,23 +1,39 @@
 pub mod follow {
-    use core::array::ArrayTrait;
-    use coloniz::base::utils::base64_extended::convert_into_byteArray;
-    use coloniz::base::token_uris::traits::color::colonizColors;
+    use coloniz::base::utils::byte_array_extra::FeltTryIntoByteArray;
+    use coloniz::base::token_uris::traits::color::colonizColors::get_random_color;
 
-    pub fn get_svg_follow(follow_token_id: u256) -> ByteArray {
-        let mut svg = ArrayTrait::<felt252>::new();
-        let color_code = get_random_color(follow_token_id);
-        /// TODO chnage the circle svg to desired svg
-        svg.append('<svg width="100" height="100"');
-        svg.append('xmlns="http://www.w3.org/2000/');
-        svg.append('svg"> <circle cx="50" cy="50"');
-        svg.append(' r="40" fill="');
-        svg.append(color_code);
-        svg.append('" /> </svg>');
-        convert_into_byteArray(ref svg)
-    }
+    pub fn get_svg_follow(token_id: u256) -> ByteArray {
+        let mut svg: ByteArray = Default::default();
 
-    fn get_random_color(local_name: u256) -> felt252 {
-        // TODO select the random color
-        colonizColors::basePink
+        let color_code: ByteArray = get_random_color(token_id).try_into().unwrap();
+
+        /// construct the SVG as ByteArray
+        svg
+            .append(
+                @"<svg width=\"300\" height=\"300\" viewBox=\"0 0 300 300\" xmlns=\"http://www.w3.org/2000/svg\">
+                <rect width=\"300\" height=\"300\" fill=\"black\"/>
+                <rect x=\"75\" y=\"90\" width=\"150\" height=\"100\" rx=\"40\" ry=\"40\" fill=\""
+            );
+
+        svg.append(@color_code);
+
+        svg
+            .append(
+                @"\" stroke=\"black\" stroke-width=\"4\"/>
+                <circle cx=\"115\" cy=\"140\" r=\"10\" fill=\"black\"/>
+                <circle cx=\"185\" cy=\"140\" r=\"10\" fill=\"black\"/>
+                <circle cx=\"70\" cy=\"150\" r=\"20\" fill=\"none\" stroke=\"white\" stroke-width=\"4\"/>
+                <circle cx=\"230\" cy=\"150\" r=\"20\" fill=\"none\" stroke=\"white\" stroke-width=\"4\"/>
+                <line x1=\"90\" y1=\"150\" x2=\"210\" y2=\"150\" stroke=\"white\" stroke-width=\"4\"/>
+                <text x=\"50%\" y=\"270\" font-family=\"Arial\" font-size=\"24\" fill=\"white\" text-anchor=\"middle\" font-weight=\"bold\">
+        "
+            );
+
+        svg.append(@"Follower");
+
+        svg.append(@"</text>
+                    </svg>");
+
+        svg
     }
 }

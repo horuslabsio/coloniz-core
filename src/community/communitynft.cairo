@@ -147,7 +147,8 @@ pub mod CommunityNFT {
         /// @notice returns the token_uri for a particular token_id
         fn token_uri(self: @ContractState, token_id: u256) -> ByteArray {
             let token_mint_timestamp = self.mint_timestamp.read(token_id);
-            get_token_uri(token_id, token_mint_timestamp)
+            let community_id = self.community_id.read();
+            get_token_uri(token_id, community_id, token_mint_timestamp)
         }
     }
 }
