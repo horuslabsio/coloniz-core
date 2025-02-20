@@ -191,8 +191,9 @@ pub mod CommunityComponent {
 
             // check user is not already a member and wasn't previously banned
             let (is_community_member, _) = self.is_community_member(profile, community_id);
-            let is_banned = self.get_ban_status(profile, community_id);
             assert(is_community_member != true, ALREADY_MEMBER);
+
+            let is_banned = self.get_ban_status(profile, community_id);
             assert(is_banned != true, BANNED_MEMBER);
 
             // enforce gatekeeping rules

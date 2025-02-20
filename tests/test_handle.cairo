@@ -171,7 +171,7 @@ fn test_get_handle() {
 
     let handle: ByteArray = handles_dispatcher.get_handle(token_id);
 
-    assert(handle == "coloniz.kst", 'Invalid handle');
+    assert(handle == "coloniz.clz", 'Invalid handle');
 }
 
 #[test]

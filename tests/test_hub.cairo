@@ -292,5 +292,5 @@ fn test_get_handle() {
 
     let dispatcher = IHubDispatcher { contract_address: hub_contract_address };
     let handle = dispatcher.get_handle(minted_handle_id);
-    assert(handle == "user.kst", 'invalid handle id');
+    assert(handle == "user.clz", 'invalid handle id');
 }

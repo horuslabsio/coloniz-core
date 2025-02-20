@@ -171,7 +171,6 @@ pub mod ChannelComponent {
             // check user is not already a channel member and wasn't previously banned
             let (is_channel_member, _) = self.is_channel_member(profile, channel_id);
             let is_banned = self.get_channel_ban_status(profile, channel_id);
-
             assert(!is_banned, BANNED_FROM_CHANNEL);
             assert(!is_channel_member, ALREADY_MEMBER);
 
@@ -199,15 +198,13 @@ pub mod ChannelComponent {
                 .write(
                     (channel_id, profile),
                     ChannelMember {
-                        profile: contract_address_const::<0>(),
-                        channel_id: 0,
-                        total_publications: 0,
-                        // channel_token_id: 0,
+                        profile: contract_address_const::<0>(), channel_id: 0, total_publications: 0
                     }
                 );
 
             channel.channel_total_members -= 1;
             self.channels.write(channel_id, channel);
+
             // emit event
             self
                 .emit(
@@ -433,7 +430,6 @@ pub mod ChannelComponent {
                         channel_id: channel_id,
                         transaction_executor: get_caller_address(),
                         profile: profile,
-                        // token_id: minted_token_id,
                         block_timestamp: get_block_timestamp(),
                     }
                 )
@@ -527,6 +523,7 @@ pub mod ChannelComponent {
                 let (is_channel_member, _) = self.is_channel_member(profile, channel_id);
                 assert(is_channel_member == true, NOT_CHANNEL_MEMBER);
                 self.channel_ban_status.write((channel_id, profile), ban_status);
+
                 self
                     .emit(
                         ChannelBanStatusUpdated {

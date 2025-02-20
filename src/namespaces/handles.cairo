@@ -70,7 +70,7 @@ pub mod Handles {
     //                            CONSTANTS
     // *************************************************************************
     const MAX_LOCAL_NAME_LENGTH: u256 = 26;
-    const NAMESPACE: felt252 = 'kst';
+    const NAMESPACE: felt252 = 'clz';
     const ASCII_A: u8 = 97;
     const ASCII_Z: u8 = 122;
     const ASCII_0: u8 = 48;
@@ -141,11 +141,14 @@ pub mod Handles {
         /// @param token_id ID of handle to be burnt
         fn burn_handle(ref self: ContractState, token_id: u256) {
             assert(get_caller_address() == self.erc721.owner_of(token_id), Errors::INVALID_OWNER);
+
             let current_supply = self.total_supply.read();
             let local_name = self.local_names.read(token_id);
+
             self.erc721.burn(token_id);
             self.total_supply.write(current_supply - 1);
             self.local_names.write(token_id, 0);
+
             self
                 .emit(
                     HandleBurnt {
@@ -185,9 +188,11 @@ pub mod Handles {
         fn get_handle(self: @ContractState, token_id: u256) -> ByteArray {
             let local_name = self.get_local_name(token_id);
             assert(local_name.is_non_zero(), Errors::HANDLE_DOES_NOT_EXIST);
+
             let local_name_in_byte_array: ByteArray = local_name.try_into().unwrap();
             let namespace_in_byte_array: ByteArray = NAMESPACE.try_into().unwrap();
             let handle = local_name_in_byte_array + "." + namespace_in_byte_array;
+
             handle
         }
 
@@ -246,12 +251,11 @@ pub mod Handles {
             ref self: ContractState, address: ContractAddress, local_name: felt252,
         ) -> u256 {
             let token_id = self.get_token_id(local_name);
-            let mut current_total_supply = self.total_supply.read();
-            current_total_supply += 1;
-            self.total_supply.write(current_total_supply);
-
+            let current_total_supply = self.total_supply.read();
             self.erc721.mint(address, token_id);
+
             self.local_names.write(token_id, local_name);
+            self.total_supply.write(current_total_supply + 1);
 
             self
                 .emit(

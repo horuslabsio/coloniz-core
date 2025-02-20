@@ -20,7 +20,7 @@ pub struct Profile {
 }
 
 // *************************************************************************
-//                            TOKEN URIs
+//                           PROFILE TOKEN URIs
 // *************************************************************************
 #[derive(Copy, Drop, Serde, starknet::Store, Clone)]
 pub enum ToolVariants {
