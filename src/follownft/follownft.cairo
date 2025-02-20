@@ -140,6 +140,7 @@ pub mod Follow {
         let prefix: ByteArray = "Coloniz Followers | #";
         let profile_id: felt252 = self.token_id.read().low.into();
         let name = format!("{}{}", prefix, profile_id);
+
         self.erc721.initializer(name, "CLZ:FOLLOWERS", "");
     }
 
@@ -156,6 +157,7 @@ pub mod Follow {
                 .follow_id_by_follower_profile_address
                 .read(follower_profile_address);
             assert(follow_id.is_zero(), Errors::FOLLOWING);
+
             self._follow(follower_profile_address)
         }
 
@@ -168,6 +170,7 @@ pub mod Follow {
                 .follow_id_by_follower_profile_address
                 .read(unfollower_profile_address);
             assert(follow_id.is_non_zero(), Errors::NOT_FOLLOWING);
+
             self._unfollow(unfollower_profile_address, follow_id);
         }
 
@@ -177,10 +180,12 @@ pub mod Follow {
             ref self: ContractState, follower_profile_address: ContractAddress
         ) -> bool {
             hub_only(self.coloniz_hub.read());
+
             let follow_id = self
                 .follow_id_by_follower_profile_address
                 .read(follower_profile_address);
             assert(follow_id.is_non_zero(), Errors::NOT_FOLLOWING);
+
             let follow_data = self.follow_data_by_follow_id.read(follow_id);
 
             self
@@ -204,6 +209,7 @@ pub mod Follow {
                         timestamp: get_block_timestamp()
                     }
                 );
+
             return true;
         }
 
@@ -213,9 +219,11 @@ pub mod Follow {
             ref self: ContractState, follower_profile_address: ContractAddress
         ) -> bool {
             hub_only(self.coloniz_hub.read());
+
             let follow_id = self
                 .follow_id_by_follower_profile_address
                 .read(follower_profile_address);
+
             let follow_data = self.follow_data_by_follow_id.read(follow_id);
             assert(follow_data.block_status == true, Errors::USER_NOT_BLOCKED);
 
@@ -347,6 +355,7 @@ pub mod Follow {
                 .write(follower_profile_address, new_follower_id);
             self.follow_data_by_follow_id.write(new_follower_id, follow_data);
             self.follower_count.write(self.follower_count.read() + 1);
+
             self
                 .emit(
                     Followed {
@@ -377,6 +386,7 @@ pub mod Follow {
                     }
                 );
             self.follower_count.write(self.follower_count.read() - 1);
+            
             self
                 .emit(
                     Unfollowed {

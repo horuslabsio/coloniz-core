@@ -89,14 +89,14 @@ pub mod HandleRegistry {
     #[abi(embed_v0)]
     impl HandleRegistryImpl of IHandleRegistry<ContractState> {
         /// @notice links a profile address to a handle
-        /// @param handle_id ID of handle to be linked
+        /// @param handle_id token ID of handle to be linked
         /// @param profile_address address of profile to be linked
         fn link(ref self: ContractState, handle_id: u256, profile_address: ContractAddress) {
             self._link(handle_id, profile_address);
         }
 
         /// @notice unlinks a profile address from a handle
-        /// @param handle_id ID of handle to be unlinked
+        /// @param handle_id token ID of handle to be unlinked
         /// @param profile_address address of profile to be unlinked
         fn unlink(ref self: ContractState, handle_id: u256, profile_address: ContractAddress) {
             let caller = get_caller_address();
@@ -117,11 +117,12 @@ pub mod HandleRegistry {
         // *************************************************************************
 
         /// @notice resolves a handle to a profile address
-        /// @param handle_id ID of handle to be resolved
+        /// @param handle_id token ID of handle to be resolved
         fn resolve(self: @ContractState, handle_id: u256) -> ContractAddress {
             let it_exists = IHandleDispatcher { contract_address: self.handle_address.read() }
                 .exists(handle_id);
             assert(it_exists, Errors::HANDLE_DOES_NOT_EXIST);
+
             self.handle_to_profile_address.read(handle_id)
         }
 
@@ -138,7 +139,7 @@ pub mod HandleRegistry {
     #[generate_trait]
     impl Private of PrivateTrait {
         /// @notice internal function to link a profile address to a handle
-        /// @param handle_id ID of handle to be linked
+        /// @param handle_id token ID of handle to be linked
         /// @param profile_address address of profile to be linked
         fn _link(ref self: ContractState, handle_id: u256, profile_address: ContractAddress) {
             let owner = IERC721Dispatcher { contract_address: self.handle_address.read() }
@@ -163,7 +164,7 @@ pub mod HandleRegistry {
         }
 
         /// @notice internal function to unlink a profile address from a handle
-        /// @param handle_id ID of handle to be unlinked
+        /// @param handle_id token ID of handle to be unlinked
         /// @param profile_address address of profile to be unlinked
         /// @param caller address of user calling this function
         fn _unlink(

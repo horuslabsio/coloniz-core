@@ -19,10 +19,12 @@ export const GateKeepType = {
 } as const;
 
 const execute_create_community = async() =>{
+    let community_id = cairo.uint256(16);
+
     let call:Call = {
         to: coloniz_HUB_CONTRACT_ADDRESS,  
         selector:"0x8945c258076d05a649eb76dca07fe609b43b360775b41226e3a345e9593ab4",
-         calldata:[]
+         calldata: CallData.compile([community_id])
     }
     try {
         const Resp = await tokenbound?.execute("0x075a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f", [call])
@@ -33,8 +35,8 @@ const execute_create_community = async() =>{
 }
 
 const execute_create_channel = async() =>{
-    let channel_id = cairo.uint256(15);
-    let community_id = cairo.uint256(9);
+    let channel_id = cairo.uint256(29);
+    let community_id = cairo.uint256(819);
 
     let call: Call = {
         to: coloniz_HUB_CONTRACT_ADDRESS, //coloniz_HUB_CONTRACT_ADDRESS,
@@ -51,14 +53,52 @@ const execute_create_channel = async() =>{
 }
 
 const execute_join_community = async() =>{
+    let community_id = cairo.uint256(819);
+
     let call:Call = {
         to:coloniz_HUB_CONTRACT_ADDRESS,
         selector:"0x4520555a219f5c8f5c5dba38600b2ef90052dda2c3bd82d24968e43fb54207",
-         calldata:["0x1"]
+         calldata: CallData.compile([community_id])
         }
 
     try {
-        const Resp = await tokenbound?.execute(PROFILE_ADDRESS_TWO, [call])
+        const Resp = await tokenbound?.execute("0x075a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f", [call])
+        console.log('execution-response=:', Resp)
+    } catch (error) {
+        console.log(error)
+    } 
+}
+
+const execute_add_mod = async() =>{
+    let community_id = cairo.uint256(962)
+    let address = ["0x047e64015c4b5a9fa7a67c0d010c560eb41fbad49573fe78fc3138f0b4ab3e83", "0x014237c152d3e5138bfe1bcae658c72d84c52fe9cc137bf9635f8561bd461bfd"];
+
+    let call: Call = {
+        to: coloniz_HUB_CONTRACT_ADDRESS,
+        selector: "0x020855da45f2c45300363a4ad7339e4c49de86fa97280baafa3137c2531a22e3",
+        calldata: CallData.compile([community_id, address])
+    }
+
+    try {
+        const Resp = await tokenbound?.execute("0x075a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f", [call])
+        console.log('execution-response=:', Resp)
+    } catch (error) {
+        console.log(error)
+    } 
+}
+
+const execute_add_channel_mod = async() =>{
+    let channel_id = cairo.uint256(7)
+    let address = ["0x0688008cb60a5d23689df1ebcbb5e15704e83642d453957441cdbeeda81bdb2c", "0x014237c152d3e5138bfe1bcae658c72d84c52fe9cc137bf9635f8561bd461bfd"];
+
+    let call: Call = {
+        to: coloniz_HUB_CONTRACT_ADDRESS,
+        selector: "0x01056471e50214407d31a6ca2fa3b9250e350d89827032cd741552145ea28090",
+        calldata: CallData.compile([channel_id, address])
+    }
+
+    try {
+        const Resp = await tokenbound?.execute("0x075a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f", [call])
         console.log('execution-response=:', Resp)
     } catch (error) {
         console.log(error)
@@ -181,9 +221,9 @@ const execute_downvote = async () => {
 
 // create subscription
 const create_subscription = async() => {
-    let erc20_address:string = "0x006e1698dcd0665757dd213a59aff489624bab8c970ce0482c23937a78879b04";
-    let admin: string = "0x075a4558a2e9d8b10fdb3d94d51b35312703cc7aae43a1ff95e234512e83783f";
-    let amount = cairo.uint256(50);
+    let erc20_address:string = "0x04718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d";
+    let admin: string = "0x02d904Aedff382C0D68F22444B525146ec5eA2926e271fC411845e8D9E751DE1";
+    let amount = cairo.uint256(10000000000000000000);
 
     let call: Call = {
         to: coloniz_HUB_CONTRACT_ADDRESS,
@@ -307,13 +347,15 @@ const execute_gatekeep = async() =>{
 }
 
 // execute_get_community();
-// execute_create_community(123);
+// execute_create_community();
 // execute_upgrade()
 // execute_gatekeep()
 // set_fee_address()
 // set_permissioned_address()
 // create_subscription()
-execute_create_channel();
+// execute_create_channel();
+execute_add_mod();
+// execute_add_channel_mod();
 // execute_join_community();
 // execute_make_post();
 // execute_add_comment()
