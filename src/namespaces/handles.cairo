@@ -192,7 +192,7 @@ pub mod Handles {
             let local_name_in_byte_array: ByteArray = local_name.try_into().unwrap();
             let namespace_in_byte_array: ByteArray = NAMESPACE.try_into().unwrap();
             let handle = local_name_in_byte_array + "." + namespace_in_byte_array;
-            
+
             handle
         }
 

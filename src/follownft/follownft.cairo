@@ -386,7 +386,7 @@ pub mod Follow {
                     }
                 );
             self.follower_count.write(self.follower_count.read() - 1);
-            
+
             self
                 .emit(
                     Unfollowed {

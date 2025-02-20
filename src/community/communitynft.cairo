@@ -111,7 +111,7 @@ pub mod CommunityNFT {
         fn burn_nft(ref self: ContractState, user_address: ContractAddress, token_id: u256) {
             let user_token_id = self.user_token_id.read(user_address);
             assert(user_token_id == token_id, NOT_TOKEN_OWNER);
-            
+
             // check the token exists
             assert(self.erc721.exists(token_id), TOKEN_DOES_NOT_EXIST);
             self.erc721.burn(token_id);

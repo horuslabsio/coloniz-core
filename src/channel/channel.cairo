@@ -198,9 +198,7 @@ pub mod ChannelComponent {
                 .write(
                     (channel_id, profile),
                     ChannelMember {
-                        profile: contract_address_const::<0>(),
-                        channel_id: 0,
-                        total_publications: 0
+                        profile: contract_address_const::<0>(), channel_id: 0, total_publications: 0
                     }
                 );
 
@@ -525,7 +523,7 @@ pub mod ChannelComponent {
                 let (is_channel_member, _) = self.is_channel_member(profile, channel_id);
                 assert(is_channel_member == true, NOT_CHANNEL_MEMBER);
                 self.channel_ban_status.write((channel_id, profile), ban_status);
-                
+
                 self
                     .emit(
                         ChannelBanStatusUpdated {

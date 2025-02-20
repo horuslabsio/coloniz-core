@@ -71,7 +71,7 @@ pub mod ProfileComponent {
             profile_variants: ProfileVariants
         ) -> ContractAddress {
             let coloniz_nft_address = self.coloniz_nft_address.read();
-            
+
             // mint coloniz nft
             let recipient = get_caller_address();
             let owns_coloniznft = IERC721Dispatcher { contract_address: coloniz_nft_address }
