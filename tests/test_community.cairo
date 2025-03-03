@@ -1206,6 +1206,41 @@ fn test_community_upgrade() {
 }
 
 #[test]
+fn test_community_downgrade() {
+    let (community_contract_address, usdt_contract_address) = __setup__();
+    let community_dispatcher = ICommunityDispatcher {
+        contract_address: community_contract_address
+    };
+    let joltDispatcher = IJoltDispatcher { contract_address: community_contract_address };
+    let erc20_dispatcher = IERC20Dispatcher { contract_address: usdt_contract_address };
+
+    // create subscription
+    start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());
+    let sub_id = joltDispatcher
+        .create_subscription(ADMIN.try_into().unwrap(), 1000000000000000000, usdt_contract_address);
+    stop_cheat_caller_address(community_contract_address);
+
+    // approve contract to spend amount
+    start_cheat_caller_address(usdt_contract_address, USER_ONE.try_into().unwrap());
+    erc20_dispatcher.approve(community_contract_address, 4000000000000000000);
+    stop_cheat_caller_address(usdt_contract_address);
+
+    // upgrade community
+    start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());
+    let community_id = community_dispatcher.create_community(123);
+    community_dispatcher.upgrade_community(community_id, CommunityType::Standard, sub_id, false, 0);
+
+    // downgrade community
+    start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());
+    community_dispatcher.downgrade_community(123, sub_id);
+
+    let community = community_dispatcher.get_community(community_id);
+    assert(community.community_type == CommunityType::Free, 'Community downgrade failed');
+    assert(community.community_premium_status == false, 'community shouldnt be premium');
+    stop_cheat_caller_address(community_contract_address);
+}
+
+#[test]
 #[should_panic(expected: ('coloniz: Not Community owner',))]
 fn test_should_panic_if_caller_upgrading_is_not_owner() {
     let (community_contract_address, _) = __setup__();

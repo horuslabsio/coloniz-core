@@ -69,6 +69,7 @@ pub mod CommunityComponent {
         CommunityBanStatusUpdated: CommunityBanStatusUpdated,
         CommunityModRemoved: CommunityModRemoved,
         CommunityUpgraded: CommunityUpgraded,
+        CommunityDowngraded: CommunityDowngraded,
         CommunityGatekeeped: CommunityGatekeeped,
         DeployedCommunityNFT: DeployedCommunityNFT
     }
@@ -129,6 +130,14 @@ pub mod CommunityComponent {
         pub community_id: u256,
         pub transaction_executor: ContractAddress,
         pub premiumType: CommunityType,
+        pub block_timestamp: u64,
+    }
+
+    #[derive(Drop, starknet::Event)]
+    pub struct CommunityDowngraded {
+        pub community_id: u256,
+        pub transaction_executor: ContractAddress,
+        pub previousType: CommunityType,
         pub block_timestamp: u64,
     }
 
@@ -402,6 +411,18 @@ pub mod CommunityComponent {
                 ._upgrade_community(
                     community_id, upgrade_type, subscription_id, renewal_status, renewal_iterations
                 );
+        }
+
+        /// @notice downgrades a community
+        /// @param community_id id of community to downgrade
+        fn downgrade_community(
+            ref self: ComponentState<TContractState>, community_id: u256, subscription_id: u256
+        ) {
+            // check community owner is caller
+            let community_owner = self.communities.read(community_id).community_owner;
+            assert(community_owner == get_caller_address(), NOT_COMMUNITY_OWNER);
+
+            self._downgrade_community(community_id, subscription_id);
         }
 
         /// @notice set the gatekeep rules for a community
@@ -823,6 +844,39 @@ pub mod CommunityComponent {
                         community_id: community_id,
                         transaction_executor: get_caller_address(),
                         premiumType: new_community_type,
+                        block_timestamp: get_block_timestamp()
+                    }
+                );
+        }
+
+        /// @notice internal function to downgrade community
+        /// @param community_id id of community to be downgraded
+        fn _downgrade_community(
+            ref self: ComponentState<TContractState>, community_id: u256, subscription_id: u256
+        ) {
+            let community = self.communities.read(community_id);
+
+            // cancel plan auto renewal
+            let mut jolt_comp = get_dep_component_mut!(ref self, Jolt);
+            jolt_comp.cancel_auto_renewal(subscription_id);
+
+            // get previous premium plan
+            let prev_community_type = self.communities.read(community_id).community_type;
+
+            // update storage
+            let updated_community = CommunityDetails {
+                community_type: CommunityType::Free, community_premium_status: false, ..community
+            };
+
+            self.communities.write(community_id, updated_community);
+
+            // emit event
+            self
+                .emit(
+                    CommunityDowngraded {
+                        community_id: community_id,
+                        transaction_executor: get_caller_address(),
+                        previousType: prev_community_type,
                         block_timestamp: get_block_timestamp()
                     }
                 );

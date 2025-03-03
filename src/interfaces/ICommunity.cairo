@@ -46,6 +46,7 @@ pub trait ICommunity<TState> {
         renewal_status: bool,
         renewal_iterations: u256
     );
+    fn downgrade_community(ref self: TState, community_id: u256, subscription_id: u256);
     fn gatekeep(
         ref self: TState,
         community_id: u256,
