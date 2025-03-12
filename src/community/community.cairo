@@ -455,9 +455,7 @@ pub mod CommunityComponent {
 
         /// @notice delete a community
         /// @param community_id The id of the community
-        fn delete_community(
-            ref self: ComponentState<TContractState>, community_id: u256
-        ) {
+        fn delete_community(ref self: ComponentState<TContractState>, community_id: u256) {
             // check community exists
             let _community_id = self.get_community(community_id).community_id;
             assert(community_id == _community_id, COMMUNITY_DOES_NOT_EXIST);
@@ -617,9 +615,7 @@ pub mod CommunityComponent {
 
         /// @notice checks if a community is deleted
         /// @param community_id id of community to check
-        fn is_community_deleted(
-            self: @ComponentState<TContractState>, community_id: u256
-        ) -> bool {
+        fn is_community_deleted(self: @ComponentState<TContractState>, community_id: u256) -> bool {
             self.is_community_deleted.read(community_id)
         }
     }

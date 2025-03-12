@@ -29,7 +29,7 @@ pub trait IChannelComposable<TState> {
         ban_statuses: Array<bool>
     );
     fn delete_channel(ref self: TState, channel_id: u256);
-    
+
     // *************************************************************************
     //                              GETTERS
     // *************************************************************************

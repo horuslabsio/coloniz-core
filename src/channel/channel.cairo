@@ -19,7 +19,8 @@ pub mod ChannelComponent {
         constants::errors::Errors::{
             NOT_CHANNEL_OWNER, ALREADY_MEMBER, NOT_CHANNEL_MEMBER, NOT_COMMUNITY_MEMBER,
             BANNED_FROM_CHANNEL, CHANNEL_HAS_NO_MEMBER, UNAUTHORIZED, INVALID_LENGTH,
-            COMMUNITY_DOES_NOT_EXIST, NOT_CHANNEL_MODERATOR, CHANNEL_ALREADY_EXISTS, CHANNEL_DOES_NOT_EXIST
+            COMMUNITY_DOES_NOT_EXIST, NOT_CHANNEL_MODERATOR, CHANNEL_ALREADY_EXISTS,
+            CHANNEL_DOES_NOT_EXIST
         },
         constants::types::{ChannelDetails, ChannelMember}
     };
@@ -317,10 +318,7 @@ pub mod ChannelComponent {
 
         /// @notice delete a channel
         /// @param channel_id The id of the channel
-        fn delete_channel(
-            ref self: ComponentState<TContractState>,
-            channel_id: u256
-        ) {
+        fn delete_channel(ref self: ComponentState<TContractState>, channel_id: u256) {
             // check channel exists
             let _channel_id = self.get_channel(channel_id).channel_id;
             assert(channel_id == _channel_id, CHANNEL_DOES_NOT_EXIST);
@@ -431,9 +429,7 @@ pub mod ChannelComponent {
 
         /// @notice checks if a channel is deleted
         /// @param channel_id id of channel to check
-        fn is_channel_deleted(
-            self: @ComponentState<TContractState>, channel_id: u256
-        ) -> bool {
+        fn is_channel_deleted(self: @ComponentState<TContractState>, channel_id: u256) -> bool {
             self.is_channel_deleted.read(channel_id)
         }
     }
