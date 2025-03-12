@@ -52,6 +52,7 @@ pub trait ICommunity<TState> {
     fn set_permissioned_addresses(
         ref self: TState, community_id: u256, permissioned_addresses: Array<ContractAddress>
     );
+    fn delete_community(ref self: TState, community_id: u256);
 
     // *************************************************************************
     //                              GETTERS
@@ -69,4 +70,5 @@ pub trait ICommunity<TState> {
     fn is_premium_community(self: @TState, community_id: u256) -> (bool, CommunityType);
     fn is_gatekeeped(self: @TState, community_id: u256) -> (bool, CommunityGateKeepDetails);
     fn is_permissioned_address(self: @TState, community_id: u256, address: ContractAddress) -> bool;
+    fn is_community_deleted(self: @TState, community_id: u256) -> bool;
 }

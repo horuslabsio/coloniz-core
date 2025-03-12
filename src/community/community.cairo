@@ -27,7 +27,7 @@ pub mod CommunityComponent {
     use coloniz::base::constants::errors::Errors::{
         ALREADY_MEMBER, NOT_COMMUNITY_OWNER, NOT_COMMUNITY_MEMBER, NOT_COMMUNITY_MOD, BANNED_MEMBER,
         UNAUTHORIZED, ONLY_PREMIUM_COMMUNITIES, INVALID_LENGTH, INVALID_UPGRADE,
-        COMMUNITY_ALREADY_EXISTS
+        COMMUNITY_ALREADY_EXISTS, COMMUNITY_DOES_NOT_EXIST
     };
 
     // *************************************************************************
@@ -54,6 +54,7 @@ pub mod CommunityComponent {
         fee_address: Map<u256, ContractAddress>, // map <community_id, fee address>
         community_nft_classhash: ClassHash,
         community_counter: u256,
+        is_community_deleted: Map<u256, bool> // community_id, deletion status
     }
 
     // *************************************************************************
@@ -71,7 +72,8 @@ pub mod CommunityComponent {
         CommunityUpgraded: CommunityUpgraded,
         CommunityDowngraded: CommunityDowngraded,
         CommunityGatekeeped: CommunityGatekeeped,
-        DeployedCommunityNFT: DeployedCommunityNFT
+        DeployedCommunityNFT: DeployedCommunityNFT,
+        CommunityDeleted: CommunityDeleted,
     }
 
     #[derive(Drop, starknet::Event)]
@@ -153,6 +155,13 @@ pub mod CommunityComponent {
     pub struct DeployedCommunityNFT {
         pub community_id: u256,
         pub community_nft: ContractAddress,
+        pub block_timestamp: u64,
+    }
+
+    #[derive(Drop, starknet::Event)]
+    pub struct CommunityDeleted {
+        pub community_id: u256,
+        pub community_owner: ContractAddress,
         pub block_timestamp: u64,
     }
 
@@ -444,6 +453,36 @@ pub mod CommunityComponent {
             self.communities.write(community_id, community);
         }
 
+        /// @notice delete a community
+        /// @param community_id The id of the community
+        fn delete_community(
+            ref self: ComponentState<TContractState>, community_id: u256
+        ) {
+            // check community exists
+            let _community_id = self.get_community(community_id).community_id;
+            assert(community_id == _community_id, COMMUNITY_DOES_NOT_EXIST);
+
+            // check caller is owner
+            let mut community = self.communities.read(community_id);
+            assert(community.community_owner == get_caller_address(), UNAUTHORIZED);
+
+            // update community details
+            let updated_community_details = CommunityDetails {
+                community_id: 0,
+                community_owner: 0.try_into().unwrap(),
+                community_metadata_uri: "",
+                community_nft_address: 0.try_into().unwrap(),
+                community_premium_status: false,
+                community_total_members: 0,
+                community_censorship: false,
+                community_type: CommunityType::Free,
+            };
+
+            // update storage
+            self.communities.write(community_id, updated_community_details);
+            self.is_community_deleted.write(community_id, true);
+        }
+
         // *************************************************************************
         //                              GETTERS
         // *************************************************************************
@@ -564,6 +603,14 @@ pub mod CommunityComponent {
             self: @ComponentState<TContractState>, community_id: u256, address: ContractAddress
         ) -> bool {
             self.gate_keep_permissioned_addresses.read((community_id, address))
+        }
+
+        /// @notice checks if a community is deleted
+        /// @param community_id id of community to check
+        fn is_community_deleted(
+            self: @ComponentState<TContractState>, community_id: u256
+        ) -> bool {
+            self.is_community_deleted.read(community_id)
         }
     }
 

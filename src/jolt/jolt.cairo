@@ -55,6 +55,7 @@ pub mod JoltComponent {
         pub sender: ContractAddress,
         pub amount: u256,
         pub recipient: ContractAddress,
+        pub erc20_contract_address: ContractAddress,
         pub block_timestamp: u64,
     }
 
@@ -65,6 +66,7 @@ pub mod JoltComponent {
         pub sender: ContractAddress,
         pub amount: u256,
         pub recipient: ContractAddress,
+        pub erc20_contract_address: ContractAddress,
         pub expiration_timestamp: u64,
         pub block_timestamp: u64,
     }
@@ -76,6 +78,7 @@ pub mod JoltComponent {
         pub sender: ContractAddress,
         pub amount: u256,
         pub recipient: ContractAddress,
+        pub erc20_contract_address: ContractAddress,
         pub expiration_timestamp: u64,
         pub block_timestamp: u64,
     }
@@ -469,6 +472,7 @@ pub mod JoltComponent {
                         sender,
                         amount,
                         recipient: recipient,
+                        erc20_contract_address,
                         block_timestamp: get_block_timestamp(),
                     }
                 );
@@ -508,6 +512,7 @@ pub mod JoltComponent {
                         sender,
                         amount,
                         recipient: recipient,
+                        erc20_contract_address,
                         block_timestamp: get_block_timestamp(),
                     }
                 );
@@ -565,6 +570,7 @@ pub mod JoltComponent {
                         sender,
                         amount: subscription_data.amount,
                         recipient: subscription_data.fee_address,
+                        erc20_contract_address,
                         block_timestamp: get_block_timestamp(),
                     }
                 );
@@ -606,6 +612,7 @@ pub mod JoltComponent {
                         amount,
                         recipient: recipient,
                         expiration_timestamp,
+                        erc20_contract_address,
                         block_timestamp: get_block_timestamp(),
                     }
                 );
@@ -646,6 +653,7 @@ pub mod JoltComponent {
                         sender: jolt_details.recipient,
                         amount: jolt_details.amount,
                         recipient: jolt_details.sender,
+                        erc20_contract_address: jolt_details.erc20_contract_address,
                         expiration_timestamp: jolt_details.expiration_stamp,
                         block_timestamp: get_block_timestamp(),
                     }
@@ -714,6 +722,7 @@ pub mod JoltComponent {
                         sender,
                         amount,
                         recipient: fee_address,
+                        erc20_contract_address,
                         block_timestamp: get_block_timestamp(),
                     }
                 );
