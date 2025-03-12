@@ -481,6 +481,16 @@ pub mod CommunityComponent {
             // update storage
             self.communities.write(community_id, updated_community_details);
             self.is_community_deleted.write(community_id, true);
+
+            // emit event
+            self
+                .emit(
+                    CommunityDeleted {
+                        community_id: community_id,
+                        community_owner: get_caller_address(),
+                        block_timestamp: get_block_timestamp()
+                    }
+                );
         }
 
         // *************************************************************************

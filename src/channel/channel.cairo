@@ -105,7 +105,6 @@ pub mod ChannelComponent {
     #[derive(Drop, starknet::Event)]
     pub struct ChannelDeleted {
         pub channel_id: u256,
-        pub community_id: u256,
         pub channel_owner: ContractAddress,
         pub block_timestamp: u64,
     }
@@ -343,6 +342,16 @@ pub mod ChannelComponent {
             // update storage
             self.channels.write(channel_id, updated_channel);
             self.is_channel_deleted.write(channel_id, true);
+
+            // emit event
+            self
+                .emit(
+                    ChannelDeleted {
+                        channel_id: channel_id,
+                        channel_owner: get_caller_address(),
+                        block_timestamp: get_block_timestamp(),
+                    }
+                );
         }
 
         /// @notice gets the channel parameters
