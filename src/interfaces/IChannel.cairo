@@ -19,6 +19,8 @@ pub trait IChannel<TState> {
         profiles: Array<ContractAddress>,
         ban_statuses: Array<bool>
     );
+    fn delete_channel(ref self: TState, channel_id: u256);
+
     // *************************************************************************
     //                              GETTERS
     // *************************************************************************
@@ -32,4 +34,5 @@ pub trait IChannel<TState> {
     fn is_channel_mod(self: @TState, profile: ContractAddress, channel_id: u256) -> bool;
     fn get_channel_censorship_status(self: @TState, channel_id: u256) -> bool;
     fn get_channel_ban_status(self: @TState, profile: ContractAddress, channel_id: u256) -> bool;
+    fn is_channel_deleted(self: @TState, channel_id: u256) -> bool;
 }

@@ -89,6 +89,23 @@ fn test_create_channel_emits_events() {
 }
 
 #[test]
+fn test_channel_deletion() {
+    let channel_contract_address = __setup__();
+    let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };
+    start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());
+
+    let community_id = dispatcher.create_community(123);
+    assert(community_id == 123, 'invalid community creation');
+
+    let channel_id = dispatcher.create_channel(1, community_id);
+
+    // delete channel
+    dispatcher.delete_channel(channel_id);
+    let is_deleted = dispatcher.is_channel_deleted(channel_id);
+    assert(is_deleted == true, 'channel failed to delete');
+}
+
+#[test]
 fn test_create_channel_by_community_member() {
     let channel_contract_address = __setup__();
     let dispatcher = IChannelComposableDispatcher { contract_address: channel_contract_address };

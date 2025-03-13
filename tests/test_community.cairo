@@ -152,6 +152,22 @@ fn test_create_community_emits_events() {
 }
 
 #[test]
+fn test_community_deletion() {
+    let (community_contract_address, _) = __setup__();
+
+    let community_dispatcher = ICommunityDispatcher {
+        contract_address: community_contract_address
+    };
+    start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());
+    let community_id = community_dispatcher.create_community(123);
+
+    // delete community
+    community_dispatcher.delete_community(community_id);
+    let is_deleted = community_dispatcher.is_community_deleted(community_id);
+    assert(is_deleted == true, 'community failed to delete');
+}
+
+#[test]
 fn test_join_community() {
     let (community_contract_address, _) = __setup__();
 

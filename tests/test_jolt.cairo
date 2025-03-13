@@ -246,6 +246,7 @@ fn test_jolt_event_is_emitted_on_tipping() {
             amount: 2000000000000000000,
             sender: ADDRESS1.try_into().unwrap(),
             recipient: ADDRESS2.try_into().unwrap(),
+            erc20_contract_address,
             block_timestamp: 36000,
         }
     );
@@ -412,6 +413,7 @@ fn test_jolt_event_is_emitted_on_transfer() {
             sender: ADDRESS1.try_into().unwrap(),
             amount: 2000000000000000000,
             recipient: ADDRESS2.try_into().unwrap(),
+            erc20_contract_address,
             block_timestamp: 36000,
         }
     );
@@ -556,6 +558,7 @@ fn test_jolt_event_is_emitted_on_request() {
             amount: 2000000000000000000,
             recipient: ADDRESS2.try_into().unwrap(),
             expiration_timestamp: 154600,
+            erc20_contract_address,
             block_timestamp: 36000,
         }
     );
@@ -849,6 +852,7 @@ fn test_jolt_event_is_emitted_on_request_fulfillment() {
             sender: ADDRESS1.try_into().unwrap(),
             amount: 2000000000000000000,
             recipient: ADDRESS2.try_into().unwrap(),
+            erc20_contract_address,
             expiration_timestamp: 8460,
             block_timestamp: 5840,
         }
@@ -1061,6 +1065,7 @@ fn test_jolt_event_is_emitted_on_subscription() {
             sender: ADDRESS1.try_into().unwrap(),
             amount: 1000000000000000000,
             recipient: ADMIN.try_into().unwrap(),
+            erc20_contract_address,
             block_timestamp: 36000,
         }
     );
@@ -1292,6 +1297,7 @@ fn test_auto_renewal_emits_susbcription_event() {
             sender: ADDRESS1.try_into().unwrap(),
             amount: 1000000000000000000,
             recipient: ADMIN.try_into().unwrap(),
+            erc20_contract_address,
             block_timestamp: 36000,
         }
     );

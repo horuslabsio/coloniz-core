@@ -19,7 +19,8 @@ pub mod ChannelComponent {
         constants::errors::Errors::{
             NOT_CHANNEL_OWNER, ALREADY_MEMBER, NOT_CHANNEL_MEMBER, NOT_COMMUNITY_MEMBER,
             BANNED_FROM_CHANNEL, CHANNEL_HAS_NO_MEMBER, UNAUTHORIZED, INVALID_LENGTH,
-            COMMUNITY_DOES_NOT_EXIST, NOT_CHANNEL_MODERATOR, CHANNEL_ALREADY_EXISTS
+            COMMUNITY_DOES_NOT_EXIST, NOT_CHANNEL_MODERATOR, CHANNEL_ALREADY_EXISTS,
+            CHANNEL_DOES_NOT_EXIST
         },
         constants::types::{ChannelDetails, ChannelMember}
     };
@@ -35,6 +36,7 @@ pub mod ChannelComponent {
         channel_members: Map<(u256, ContractAddress), ChannelMember>,
         channel_moderators: Map<(u256, ContractAddress), bool>,
         channel_ban_status: Map<(u256, ContractAddress), bool>,
+        is_channel_deleted: Map<u256, bool>
     }
 
     // *************************************************************************
@@ -49,6 +51,7 @@ pub mod ChannelComponent {
         ChannelModAdded: ChannelModAdded,
         ChannelModRemoved: ChannelModRemoved,
         ChannelBanStatusUpdated: ChannelBanStatusUpdated,
+        ChannelDeleted: ChannelDeleted
     }
 
     #[derive(Drop, starknet::Event)]
@@ -97,6 +100,13 @@ pub mod ChannelComponent {
         pub transaction_executor: ContractAddress,
         pub profile: ContractAddress,
         pub ban_status: bool,
+        pub block_timestamp: u64,
+    }
+
+    #[derive(Drop, starknet::Event)]
+    pub struct ChannelDeleted {
+        pub channel_id: u256,
+        pub channel_owner: ContractAddress,
         pub block_timestamp: u64,
     }
 
@@ -306,6 +316,42 @@ pub mod ChannelComponent {
             self._set_ban_status(channel_id, profiles, ban_statuses);
         }
 
+        /// @notice delete a channel
+        /// @param channel_id The id of the channel
+        fn delete_channel(ref self: ComponentState<TContractState>, channel_id: u256) {
+            // check channel exists
+            let _channel_id = self.get_channel(channel_id).channel_id;
+            assert(channel_id == _channel_id, CHANNEL_DOES_NOT_EXIST);
+
+            // check caller is owner
+            let mut channel = self.channels.read(channel_id);
+            assert(channel.channel_owner == get_caller_address(), UNAUTHORIZED);
+
+            // update channel details
+            let updated_channel = ChannelDetails {
+                channel_id: 0,
+                community_id: 0,
+                channel_owner: 0.try_into().unwrap(),
+                channel_metadata_uri: "",
+                channel_total_members: 0,
+                channel_censorship: false,
+            };
+
+            // update storage
+            self.channels.write(channel_id, updated_channel);
+            self.is_channel_deleted.write(channel_id, true);
+
+            // emit event
+            self
+                .emit(
+                    ChannelDeleted {
+                        channel_id: channel_id,
+                        channel_owner: get_caller_address(),
+                        block_timestamp: get_block_timestamp(),
+                    }
+                );
+        }
+
         /// @notice gets the channel parameters
         /// @param channel_id The id of the channel
         /// @return ChannelDetails The channel parameters
@@ -379,6 +425,12 @@ pub mod ChannelComponent {
             self: @ComponentState<TContractState>, profile: ContractAddress, channel_id: u256
         ) -> bool {
             self.channel_ban_status.read((channel_id, profile))
+        }
+
+        /// @notice checks if a channel is deleted
+        /// @param channel_id id of channel to check
+        fn is_channel_deleted(self: @ComponentState<TContractState>, channel_id: u256) -> bool {
+            self.is_channel_deleted.read(channel_id)
         }
     }
 
