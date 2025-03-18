@@ -9,3 +9,16 @@ SEPOLIA ADDRESSES:
 | Coloniz NFT        | 0x3c41f11a24c53fb5bbc9c1a03626f583ccdd1b0c2215756448cc41b29fc0841        | 0x036053a7520d7ff5cb1ce8ebec7acaf8b6364130865662937ab1e2a36d4e00c1 |
 | Hub                | 0x419ba8da29d7364aa6638a066b9199e5ec56ba718ae75c9d0ddee60e08aabfb        | 0x04bd89ef797c5a34a3c8bcc9dafca270959d9edcd568ea22a2364ffb3af959f0 |
 | Session proxy      | 0x48c7bb5acfa740366251a4822405627faf0dc26f149674f673df711ac82a124        | 0x6b4920765fec19419c6e93ae1ac43d45d2ba397ec4d0f15579cf71dd8d8d460
+
+
+MAINNET ADDRESSES:
+
+| Contract           | ClassHash                                                                 | Contract Address                                                   |
+|--------------------|---------------------------------------------------------------------------|------------------------------------------------------------------- |
+| Follow NFT         | 0x679dc8000187c7a98e6f2b5c79111c5e9c3f339d29d44cf7445cf85ad137066        | -                                                                  |
+| Community NFT      | 0x379704e8b5a146dfb0a1896af63e00a77e12ed66b0b7131cc37ef68a7b781d2        | -                                                                  |
+| Handles            | 0xbb00d4b200489bd373f1a66fb88244cf75e3c47b599ff08cc7d0a6e5c2985e        | 0x5cc4644374e3f91b52cfe64937dacaec91b2d81fe2f146a860ab5b3bb751ce8 |
+| Handles Registry   | 0x6d672a615f4035563f989eb423d563d011ea9c4f932ba0c8fe85f5811567834        | 0x79914426e3cc5336c479ee87770380ceeda4b60496657e70c3ee7d57a992226 |
+| Coloniz NFT        | 0x18b341ea96cad6f026229f61deab1e8ba4172755010209cb0664697c02e399        | 0x514071685ff87aa9867599069d6d8808342f3b7bcd540fafb3c013b9eb3c716 |
+| Hub                | 0xf73189a0ccac1a851c8a610d0ca01255b9d42a6fcffec6f345be937e781e8c        | 0x56977e22ad4751ea5b3df958da3080971c7f26036127452b98c154fbea86d06 |
+| Session proxy      | 0x31b302eb5d42f22dda11c8cb006d75baaf17ce4615dfb89c551db1674c144d1        | 0x430d7262fb9ad2c830d793471c3a07e08afe54f9a5f0d28db48712bc918f5f
