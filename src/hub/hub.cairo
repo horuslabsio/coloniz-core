@@ -139,7 +139,6 @@ pub mod ColonizHub {
             );
         self.handle_contract_address.write(handle_contract_address);
         self.handle_registry_contract_address.write(handle_registry_contract_address);
-        self.sub_community._initializer();
         self.community._initializer(community_nft_classhash);
         self.jolt._initializer(owner);
         self.ownable.initializer(owner);

@@ -45,7 +45,6 @@ pub mod ColonizChannel {
 
     #[constructor]
     fn constructor(ref self: ContractState, community_nft_classhash: felt252) {
-        self.sub_community._initializer();
         self.community._initializer(community_nft_classhash);
     }
 }

@@ -81,7 +81,6 @@ pub mod ColonizPublication {
     ) {
         self.profile._initializer(coloniznft_contract_address, hub_address, follow_nft_classhash);
         self.publication._initializer(collect_nft_classhash);
-        self.sub_community._initializer();
         self.community._initializer(community_nft_classhash);
         self.jolt._initializer(owner);
     }
