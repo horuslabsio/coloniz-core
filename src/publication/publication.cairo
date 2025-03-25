@@ -18,7 +18,7 @@ pub mod PublicationComponent {
     use coloniz::interfaces::IPublication::IColonizPublications;
     use coloniz::interfaces::IJolt::IJolt;
     use coloniz::interfaces::ICommunity::ICommunity;
-    use coloniz::interfaces::IChannel::IChannel;
+    use coloniz::interfaces::ISubCommunity::ISubCommunity;
     use coloniz::interfaces::ICollectNFT::{ICollectNFTDispatcher, ICollectNFTDispatcherTrait};
     use coloniz::base::{
         constants::errors::Errors::{
@@ -35,7 +35,7 @@ pub mod PublicationComponent {
     use coloniz::profile::profile::ProfileComponent::PrivateTrait;
     use coloniz::jolt::jolt::JoltComponent;
     use coloniz::community::community::CommunityComponent;
-    use coloniz::channel::channel::ChannelComponent;
+    use coloniz::sub_community::sub_community::SubCommunityComponent;
     use openzeppelin_access::ownable::OwnableComponent;
 
 
@@ -131,7 +131,7 @@ pub mod PublicationComponent {
         impl Jolt: JoltComponent::HasComponent<TContractState>,
         impl Ownable: OwnableComponent::HasComponent<TContractState>,
         impl Community: CommunityComponent::HasComponent<TContractState>,
-        impl Channel: ChannelComponent::HasComponent<TContractState>,
+        impl SubCommunity: SubCommunityComponent::HasComponent<TContractState>,
     > of IColonizPublications<ComponentState<TContractState>> {
         // *************************************************************************
         //                              PUBLISHING FUNCTIONS
@@ -535,7 +535,7 @@ pub mod PublicationComponent {
         impl Jolt: JoltComponent::HasComponent<TContractState>,
         impl Ownable: OwnableComponent::HasComponent<TContractState>,
         impl Community: CommunityComponent::HasComponent<TContractState>,
-        impl Channel: ChannelComponent::HasComponent<TContractState>,
+        impl SubCommunity: SubCommunityComponent::HasComponent<TContractState>,
     > of InternalTrait<TContractState> {
         /// @notice initalizes channel component
         /// @param channel_nft_classhash classhash of channel NFT
@@ -813,7 +813,7 @@ pub mod PublicationComponent {
         fn _check_channel_approval(
             self: @ComponentState<TContractState>, profile_owner: ContractAddress, channel_id: u256
         ) -> bool {
-            let channel_comp = get_dep_component!(self, Channel);
+            let channel_comp = get_dep_component!(self, SubCommunity);
             let channel_censorship_status = channel_comp.get_channel_censorship_status(channel_id);
 
             // check profile is a channel member and has not been banned
@@ -830,7 +830,7 @@ pub mod PublicationComponent {
             profile_address: ContractAddress,
             channel_id: u256
         ) {
-            let channel_comp = get_dep_component!(self, Channel);
+            let channel_comp = get_dep_component!(self, SubCommunity);
 
             let (is_channel_member, _) = channel_comp
                 .is_channel_member(profile_address, channel_id);

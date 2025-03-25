@@ -30,7 +30,7 @@ pub mod ColonizHub {
     use coloniz::profile::profile::ProfileComponent;
     // use coloniz::publication::publication::PublicationComponent;
     use coloniz::community::community::CommunityComponent;
-    use coloniz::channel::channel::ChannelComponent;
+    use coloniz::sub_community::sub_community::SubCommunityComponent;
     use coloniz::jolt::jolt::JoltComponent;
     use coloniz::interfaces::IFollowNFT::{IFollowNFTDispatcher, IFollowNFTDispatcherTrait};
     use coloniz::interfaces::IHandle::{IHandleDispatcher, IHandleDispatcherTrait};
@@ -51,7 +51,7 @@ pub mod ColonizHub {
     // component!(path: PublicationComponent, storage: publication, event: PublicationEvent);
     component!(path: OwnableComponent, storage: ownable, event: OwnableEvent);
     component!(path: JoltComponent, storage: jolt, event: JoltEvent);
-    component!(path: ChannelComponent, storage: channel, event: ChannelEvent);
+    component!(path: SubCommunityComponent, storage: sub_community, event: SubCommunityEvent);
     component!(path: CommunityComponent, storage: community, event: CommunityEvent);
     component!(path: UpgradeableComponent, storage: upgradeable, event: UpgradeableEvent);
 
@@ -62,7 +62,7 @@ pub mod ColonizHub {
     #[abi(embed_v0)]
     impl communityImpl = CommunityComponent::colonizCommunity<ContractState>;
     #[abi(embed_v0)]
-    impl channelImpl = ChannelComponent::colonizChannel<ContractState>;
+    impl subCommunityImpl = SubCommunityComponent::SubCommunity<ContractState>;
     #[abi(embed_v0)]
     impl joltImpl = JoltComponent::Jolt<ContractState>;
     #[abi(embed_v0)]
@@ -72,7 +72,7 @@ pub mod ColonizHub {
     impl joltPrivateImpl = JoltComponent::Private<ContractState>;
     // impl PublicationPrivateImpl = PublicationComponent::InternalImpl<ContractState>;
     impl ProfilePrivateImpl = ProfileComponent::Private<ContractState>;
-    impl channelPrivateImpl = ChannelComponent::InternalImpl<ContractState>;
+    impl SubCommunityPrivateImpl = SubCommunityComponent::InternalImpl<ContractState>;
     impl communityPrivateImpl = CommunityComponent::Private<ContractState>;
     impl UpgradeableInternalImpl = UpgradeableComponent::InternalImpl<ContractState>;
 
@@ -92,7 +92,7 @@ pub mod ColonizHub {
         #[substorage(v0)]
         community: CommunityComponent::Storage,
         #[substorage(v0)]
-        channel: ChannelComponent::Storage,
+        sub_community: SubCommunityComponent::Storage,
         #[substorage(v0)]
         upgradeable: UpgradeableComponent::Storage,
         handle_contract_address: ContractAddress,
@@ -105,8 +105,8 @@ pub mod ColonizHub {
     #[event]
     #[derive(Drop, starknet::Event)]
     enum Event {
+        #[flat]
         ProfileEvent: ProfileComponent::Event,
-        // PublicationEvent: PublicationComponent::Event,
         #[flat]
         JoltEvent: JoltComponent::Event,
         #[flat]
@@ -114,7 +114,7 @@ pub mod ColonizHub {
         #[flat]
         CommunityEvent: CommunityComponent::Event,
         #[flat]
-        ChannelEvent: ChannelComponent::Event,
+        SubCommunityEvent: SubCommunityComponent::Event,
         #[flat]
         UpgradeableEvent: UpgradeableComponent::Event
     }
@@ -130,7 +130,6 @@ pub mod ColonizHub {
         handle_registry_contract_address: ContractAddress,
         follow_nft_classhash: felt252,
         community_nft_classhash: felt252,
-        // collect_nft_classhash: felt252,
         owner: ContractAddress
     ) {
         self
@@ -140,8 +139,7 @@ pub mod ColonizHub {
             );
         self.handle_contract_address.write(handle_contract_address);
         self.handle_registry_contract_address.write(handle_registry_contract_address);
-        self.channel._initializer();
-        // self.publication._initializer(collect_nft_classhash);
+        self.sub_community._initializer();
         self.community._initializer(community_nft_classhash);
         self.jolt._initializer(owner);
         self.ownable.initializer(owner);

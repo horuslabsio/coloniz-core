@@ -2,7 +2,7 @@ use starknet::ContractAddress;
 use coloniz::base::constants::types::{ChannelDetails, ChannelMember};
 
 #[starknet::interface]
-pub trait IChannel<TState> {
+pub trait ISubCommunity<TState> {
     // *************************************************************************
     //                              EXTERNALS
     // *************************************************************************

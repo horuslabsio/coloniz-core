@@ -17,7 +17,7 @@ use coloniz::mocks::interfaces::IComposable::{IComposableDispatcher, IComposable
 use coloniz::base::constants::types::{PostParams, RepostParams, CommentParams, PublicationType};
 use coloniz::interfaces::ICollectNFT::{ICollectNFTDispatcher, ICollectNFTDispatcherTrait};
 use coloniz::interfaces::ICommunity::{ICommunityDispatcher, ICommunityDispatcherTrait};
-use coloniz::interfaces::IChannel::{IChannelDispatcher, IChannelDispatcherTrait};
+use coloniz::interfaces::ISubCommunity::{ISubCommunityDispatcher, ISubCommunityDispatcherTrait};
 use coloniz::interfaces::IERC20::{IERC20Dispatcher, IERC20DispatcherTrait};
 use coloniz::base::constants::types::{
     ProfileVariants, AccessoryVariants, FaceVariants, ClothVariants, BackgroundVariants,
@@ -117,7 +117,7 @@ fn test_post_community_post() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -159,7 +159,7 @@ fn test_if_is_community_post() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -209,7 +209,7 @@ fn test_community_censorship_post_status_tobe_true() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -255,7 +255,7 @@ fn test_community_censorship_post_status_tobe_false() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -302,7 +302,7 @@ fn test_channel_censorship_post_status_tobe_true() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -347,7 +347,7 @@ fn test_channel_censorship_post_status_tobe_false() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -396,7 +396,7 @@ fn test_if_is_channel_post() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -448,7 +448,7 @@ fn test_should_fail_if_user_is_not_a_community_member() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -507,7 +507,7 @@ fn test_should_fail_if_user_is_not_a_channel_member() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -586,7 +586,7 @@ fn test_post_channel_post() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -628,7 +628,7 @@ fn test_upvote() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -670,7 +670,7 @@ fn test_downvote() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -715,7 +715,7 @@ fn test_upvote_event_emission() {
         contract_address: publication_contract_address
     };
 
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -770,7 +770,7 @@ fn test_downvote_event_emission() {
         contract_address: publication_contract_address
     };
 
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -823,7 +823,7 @@ fn test_upvote_should_fail_if_user_already_upvoted() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -865,7 +865,7 @@ fn test_downvote_should_fail_if_user_already_downvoted() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -909,7 +909,7 @@ fn test_post_event_emission() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -963,7 +963,7 @@ fn test_comment() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -1044,7 +1044,7 @@ fn test_comment_event_emission() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -1121,7 +1121,7 @@ fn test_repost() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -1191,7 +1191,7 @@ fn test_repost_event_emission() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -1266,7 +1266,7 @@ fn test_get_publication_content_uri() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -1306,7 +1306,7 @@ fn test_get_publication_type() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -1348,7 +1348,7 @@ fn test_should_fail_if_banned_profile_from_posting() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -1416,7 +1416,7 @@ fn test_should_fail_if_not_community_member_while_posting() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -1467,7 +1467,7 @@ fn test_tip() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };
@@ -1541,7 +1541,7 @@ fn test_collect() {
     let publication_dispatcher = IComposableDispatcher {
         contract_address: publication_contract_address
     };
-    let channel_dispatcher = IChannelDispatcher { contract_address: publication_contract_address };
+    let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
     let community_dispatcher = ICommunityDispatcher {
         contract_address: publication_contract_address
     };

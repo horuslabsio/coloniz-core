@@ -1,5 +1,5 @@
 #[starknet::component]
-pub mod ChannelComponent {
+pub mod SubCommunityComponent {
     // *************************************************************************
     //                            IMPORT
     // *************************************************************************
@@ -14,7 +14,7 @@ pub mod ChannelComponent {
 
     use coloniz::jolt::jolt::JoltComponent;
     use coloniz::community::community::CommunityComponent;
-    use coloniz::interfaces::{IChannel::IChannel, ICommunity::ICommunity,};
+    use coloniz::interfaces::{ISubCommunity::ISubCommunity, ICommunity::ICommunity,};
     use coloniz::base::{
         constants::errors::Errors::{
             NOT_CHANNEL_OWNER, ALREADY_MEMBER, NOT_CHANNEL_MEMBER, NOT_COMMUNITY_MEMBER,
@@ -114,7 +114,7 @@ pub mod ChannelComponent {
     // *************************************************************************
     //                              EXTERNAL FUNCTIONS
     // *************************************************************************
-    #[embeddable_as(colonizChannel)]
+    #[embeddable_as(SubCommunity)]
     impl ChannelImpl<
         TContractState,
         +HasComponent<TContractState>,
@@ -122,7 +122,7 @@ pub mod ChannelComponent {
         impl Community: CommunityComponent::HasComponent<TContractState>,
         impl Jolt: JoltComponent::HasComponent<TContractState>,
         impl Ownable: OwnableComponent::HasComponent<TContractState>
-    > of IChannel<ComponentState<TContractState>> {
+    > of ISubCommunity<ComponentState<TContractState>> {
         /// @notice creates a new channel
         fn create_channel(
             ref self: ComponentState<TContractState>, channel_id: u256, community_id: u256

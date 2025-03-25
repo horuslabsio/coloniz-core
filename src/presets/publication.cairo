@@ -6,14 +6,14 @@ pub mod ColonizPublication {
     use coloniz::jolt::jolt::JoltComponent;
     use openzeppelin_access::ownable::OwnableComponent;
     use coloniz::community::community::CommunityComponent;
-    use coloniz::channel::channel::ChannelComponent;
+    use coloniz::sub_community::sub_community::SubCommunityComponent;
 
 
     component!(path: PublicationComponent, storage: publication, event: PublicationEvent);
     component!(path: ProfileComponent, storage: profile, event: ProfileEvent);
     component!(path: JoltComponent, storage: jolt, event: JoltEvent);
     component!(path: OwnableComponent, storage: ownable, event: OwnableEvent);
-    component!(path: ChannelComponent, storage: channel, event: ChannelEvent);
+    component!(path: SubCommunityComponent, storage: sub_community, event: SubCommunityEvent);
     component!(path: CommunityComponent, storage: community, event: CommunityEvent);
 
 
@@ -33,8 +33,8 @@ pub mod ColonizPublication {
     impl communityPrivateImpl = CommunityComponent::Private<ContractState>;
 
     #[abi(embed_v0)]
-    impl channelImpl = ChannelComponent::colonizChannel<ContractState>;
-    impl channelPrivateImpl = ChannelComponent::InternalImpl<ContractState>;
+    impl subCommunityImpl = SubCommunityComponent::SubCommunity<ContractState>;
+    impl subCommunityPrivateImpl = SubCommunityComponent::InternalImpl<ContractState>;
 
     #[storage]
     struct Storage {
@@ -49,7 +49,7 @@ pub mod ColonizPublication {
         #[substorage(v0)]
         community: CommunityComponent::Storage,
         #[substorage(v0)]
-        channel: ChannelComponent::Storage,
+        sub_community: SubCommunityComponent::Storage,
     }
 
     #[event]
@@ -66,7 +66,7 @@ pub mod ColonizPublication {
         #[flat]
         CommunityEvent: CommunityComponent::Event,
         #[flat]
-        ChannelEvent: ChannelComponent::Event,
+        SubCommunityEvent: SubCommunityComponent::Event,
     }
 
     #[constructor]
@@ -81,7 +81,7 @@ pub mod ColonizPublication {
     ) {
         self.profile._initializer(coloniznft_contract_address, hub_address, follow_nft_classhash);
         self.publication._initializer(collect_nft_classhash);
-        self.channel._initializer();
+        self.sub_community._initializer();
         self.community._initializer(community_nft_classhash);
         self.jolt._initializer(owner);
     }

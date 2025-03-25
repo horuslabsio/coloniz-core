@@ -1,18 +1,18 @@
 #[starknet::contract]
 pub mod ColonizChannel {
-    use coloniz::channel::channel::ChannelComponent;
+    use coloniz::sub_community::sub_community::SubCommunityComponent;
     use coloniz::community::community::CommunityComponent;
     use coloniz::jolt::jolt::JoltComponent;
     use openzeppelin_access::ownable::OwnableComponent;
 
-    component!(path: ChannelComponent, storage: channel, event: ChannelEvent);
+    component!(path: SubCommunityComponent, storage: sub_community, event: SubCommunityEvent);
     component!(path: CommunityComponent, storage: community, event: CommunityEvent);
     component!(path: JoltComponent, storage: jolt, event: JoltEvent);
     component!(path: OwnableComponent, storage: ownable, event: OwnableEvent);
 
     #[abi(embed_v0)]
-    impl channelImpl = ChannelComponent::colonizChannel<ContractState>;
-    impl channelPrivateImpl = ChannelComponent::InternalImpl<ContractState>;
+    impl subCommunityImpl = SubCommunityComponent::SubCommunity<ContractState>;
+    impl subCommunityPrivateImpl = SubCommunityComponent::InternalImpl<ContractState>;
 
     #[abi(embed_v0)]
     impl communityImpl = CommunityComponent::colonizCommunity<ContractState>;
@@ -21,7 +21,7 @@ pub mod ColonizChannel {
     #[storage]
     struct Storage {
         #[substorage(v0)]
-        channel: ChannelComponent::Storage,
+        sub_community: SubCommunityComponent::Storage,
         #[substorage(v0)]
         community: CommunityComponent::Storage,
         #[substorage(v0)]
@@ -34,7 +34,7 @@ pub mod ColonizChannel {
     #[derive(Drop, starknet::Event)]
     enum Event {
         #[flat]
-        ChannelEvent: ChannelComponent::Event,
+        SubCommunityEvent: SubCommunityComponent::Event,
         #[flat]
         CommunityEvent: CommunityComponent::Event,
         #[flat]
@@ -45,7 +45,7 @@ pub mod ColonizChannel {
 
     #[constructor]
     fn constructor(ref self: ContractState, community_nft_classhash: felt252) {
-        self.channel._initializer();
+        self.sub_community._initializer();
         self.community._initializer(community_nft_classhash);
     }
 }

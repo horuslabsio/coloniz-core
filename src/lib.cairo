@@ -10,4 +10,4 @@ pub mod presets;
 pub mod hub;
 pub mod jolt;
 pub mod community;
-pub mod channel;
+pub mod sub_community;

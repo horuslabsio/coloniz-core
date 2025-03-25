@@ -12,4 +12,4 @@ pub mod ICommunity;
 pub mod ICollectNFT;
 pub mod ICustomNFT;
 pub mod IJolt;
-pub mod IChannel;
+pub mod ISubCommunity;
