@@ -24,7 +24,6 @@
 //     BodyVariants, ToolVariants
 // };
 
-
 // const HUB_ADDRESS: felt252 = 'HUB';
 // const USER_ONE: felt252 = 'BOB';
 // const USER_TWO: felt252 = 'ALICE';
@@ -33,7 +32,6 @@
 // const USER_FIVE: felt252 = 'RANDY';
 // const USER_SIX: felt252 = 'JOE';
 // const ADMIN: felt252 = 'ADMIN';
-
 
 // // *************************************************************************
 // //                              SETUP
@@ -117,7 +115,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -159,7 +158,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -209,7 +209,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -255,7 +256,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -302,7 +304,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -347,7 +350,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -396,7 +400,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -448,7 +453,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -507,7 +513,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -586,7 +593,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -628,7 +636,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -670,7 +679,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -715,7 +725,8 @@
 //         contract_address: publication_contract_address
 //     };
 
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -770,7 +781,8 @@
 //         contract_address: publication_contract_address
 //     };
 
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -823,7 +835,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -865,7 +878,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -909,7 +923,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -947,7 +962,6 @@
 //     stop_cheat_caller_address(publication_contract_address);
 // }
 
-
 // #[test]
 // fn test_comment() {
 //     let (
@@ -963,7 +977,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -1044,7 +1059,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -1105,7 +1121,6 @@
 //     spy.assert_emitted(@array![(publication_contract_address, expected_event)]);
 // }
 
-
 // #[test]
 // fn test_repost() {
 //     let (
@@ -1121,7 +1136,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -1170,7 +1186,8 @@
 //     assert(user_repost.content_URI == "ipfs://helloworld", 'invalid content URI');
 //     assert(user_repost.pub_Type == PublicationType::Repost, 'invalid pub_type');
 //     assert(
-//         user_repost.root_profile_address == user_one_profile_address, 'invalid root profile address'
+//         user_repost.root_profile_address == user_one_profile_address, 'invalid root profile
+//         address'
 //     );
 //     assert(user_repost.root_pub_id == pub_assigned_id, 'invalid root publication ID');
 // }
@@ -1191,7 +1208,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -1251,7 +1269,6 @@
 //     spy.assert_emitted(@array![(publication_contract_address, expected_event)]);
 // }
 
-
 // #[test]
 // fn test_get_publication_content_uri() {
 //     let (
@@ -1266,7 +1283,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -1306,7 +1324,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -1348,7 +1367,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -1416,7 +1436,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -1467,7 +1488,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -1541,7 +1563,8 @@
 //     let publication_dispatcher = IComposableDispatcher {
 //         contract_address: publication_contract_address
 //     };
-//     let channel_dispatcher = ISubCommunityDispatcher { contract_address: publication_contract_address };
+//     let channel_dispatcher = ISubCommunityDispatcher { contract_address:
+//     publication_contract_address };
 //     let community_dispatcher = ICommunityDispatcher {
 //         contract_address: publication_contract_address
 //     };
@@ -1607,4 +1630,5 @@
 //     assert(token_id2 == user3_token_id, 'invalid token_id');
 //     stop_cheat_caller_address(publication_contract_address);
 // }
+
 

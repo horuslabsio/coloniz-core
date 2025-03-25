@@ -4,12 +4,8 @@ pub mod SubCommunityComponent {
     //                            IMPORT
     // *************************************************************************
     use core::clone::Clone;
-    use core::starknet::{
-        ContractAddress, get_caller_address, get_block_timestamp
-    };
-    use starknet::storage::{
-        Map, StorageMapReadAccess, StorageMapWriteAccess
-    };
+    use core::starknet::{ContractAddress, get_caller_address, get_block_timestamp};
+    use starknet::storage::{Map, StorageMapReadAccess, StorageMapWriteAccess};
     use openzeppelin_access::ownable::OwnableComponent;
 
     use coloniz::jolt::jolt::JoltComponent;
@@ -17,9 +13,8 @@ pub mod SubCommunityComponent {
     use coloniz::interfaces::{ISubCommunity::ISubCommunity, ICommunity::ICommunity};
     use coloniz::base::{
         constants::errors::Errors::{
-            UNAUTHORIZED,
-            COMMUNITY_DOES_NOT_EXIST, CHANNEL_ALREADY_EXISTS,
-            CHANNEL_DOES_NOT_EXIST, SUB_COMMUNITY_ALREADY_EXISTS, SUB_COMMUNITY_DOES_NOT_EXIST
+            UNAUTHORIZED, COMMUNITY_DOES_NOT_EXIST, CHANNEL_ALREADY_EXISTS, CHANNEL_DOES_NOT_EXIST,
+            SUB_COMMUNITY_ALREADY_EXISTS, SUB_COMMUNITY_DOES_NOT_EXIST
         },
         constants::types::{SubCommunityDetails, ChannelDetails}
     };
@@ -202,12 +197,16 @@ pub mod SubCommunityComponent {
         /// @param metadata_uri The new metadata URI
         /// @dev Only the owner of the community or a sub community mod can set the metadata URI
         fn set_sub_community_metadata_uri(
-            ref self: ComponentState<TContractState>, sub_community_id: u256, metadata_uri: ByteArray
+            ref self: ComponentState<TContractState>,
+            sub_community_id: u256,
+            metadata_uri: ByteArray
         ) {
             // validate caller
             self._validate_authorization(get_caller_address(), sub_community_id);
 
-            let mut updated_sub_community: SubCommunityDetails = self.sub_communities.read(sub_community_id);
+            let mut updated_sub_community: SubCommunityDetails = self
+                .sub_communities
+                .read(sub_community_id);
             updated_sub_community.sub_community_metadata_uri = metadata_uri;
             self.sub_communities.write(sub_community_id, updated_sub_community);
         }
@@ -273,10 +272,7 @@ pub mod SubCommunityComponent {
 
             // update channel details
             let updated_channel = ChannelDetails {
-                channel_id: 0,
-                community_id: 0,
-                sub_community_id: 0,
-                channel_metadata_uri: ""
+                channel_id: 0, community_id: 0, sub_community_id: 0, channel_metadata_uri: ""
             };
 
             // update storage
@@ -306,9 +302,7 @@ pub mod SubCommunityComponent {
 
             // update channel details
             let updated_sub_community = SubCommunityDetails {
-                sub_community_id: 0,
-                community_id: 0,
-                sub_community_metadata_uri: ""
+                sub_community_id: 0, community_id: 0, sub_community_metadata_uri: ""
             };
 
             // update storage
@@ -333,7 +327,9 @@ pub mod SubCommunityComponent {
         /// @notice gets the sub community parameters
         /// @param sub_community_id The id of the sub community
         /// @return SubCommunityDetails The sub community parameters
-        fn get_sub_community(self: @ComponentState<TContractState>, sub_community_id: u256) -> SubCommunityDetails {
+        fn get_sub_community(
+            self: @ComponentState<TContractState>, sub_community_id: u256
+        ) -> SubCommunityDetails {
             self.sub_communities.read(sub_community_id)
         }
 
@@ -365,7 +361,9 @@ pub mod SubCommunityComponent {
         ///@notice gets the parent community id of a sub community
         /// @param sub_community_id the id of the sub community
         /// @return u256 the community id
-        fn get_parent_community_id(self: @ComponentState<TContractState>, sub_community_id: u256) -> u256 {
+        fn get_parent_community_id(
+            self: @ComponentState<TContractState>, sub_community_id: u256
+        ) -> u256 {
             self.sub_communities.read(sub_community_id).community_id
         }
         /// @notice checks if a profile is a moderator
@@ -378,7 +376,7 @@ pub mod SubCommunityComponent {
             self.sub_community_moderators.read((sub_community_id, profile))
         }
 
-         /// @notice checks if a channel is deleted
+        /// @notice checks if a channel is deleted
         /// @param channel_id id of channel to check
         fn is_channel_deleted(self: @ComponentState<TContractState>, channel_id: u256) -> bool {
             self.is_channel_deleted.read(channel_id)
@@ -386,7 +384,9 @@ pub mod SubCommunityComponent {
 
         /// @notice checks if a sub community is deleted
         /// @param sub_community_id id of sub community to check
-        fn is_sub_community_deleted(self: @ComponentState<TContractState>, sub_community_id: u256) -> bool {
+        fn is_sub_community_deleted(
+            self: @ComponentState<TContractState>, sub_community_id: u256
+        ) -> bool {
             self.is_sub_community_deleted.read(sub_community_id)
         }
     }
@@ -405,15 +405,20 @@ pub mod SubCommunityComponent {
     > of InternalTrait<TContractState> {
         /// @notice validates authorization for sub communities
         /// @param sub_community_id id of sub community to validate authorization
-        fn _validate_authorization(self: @ComponentState<TContractState>, caller: ContractAddress, sub_community_id: u256) {
+        fn _validate_authorization(
+            self: @ComponentState<TContractState>, caller: ContractAddress, sub_community_id: u256
+        ) {
             let community_id = self.get_sub_community(sub_community_id).community_id;
 
             let community_instance = get_dep_component!(self, Community);
-            let parent_community_owner = community_instance.get_community(community_id).community_owner;
+            let parent_community_owner = community_instance
+                .get_community(community_id)
+                .community_owner;
 
             // check caller is parent owner or sub_community mod
             assert(
-                parent_community_owner == get_caller_address() || self.is_sub_community_mod(get_caller_address(), sub_community_id),
+                parent_community_owner == get_caller_address()
+                    || self.is_sub_community_mod(get_caller_address(), sub_community_id),
                 UNAUTHORIZED
             );
         }

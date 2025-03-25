@@ -182,7 +182,6 @@
 //     assert(channel_member.total_publications == 0, 'Invalid Total Publication');
 // }
 
-
 // #[test]
 // #[should_panic(expected: ('coloniz: already a Member',))]
 // fn test_should_panic_if_a_user_joins_one_channel_twice() {
@@ -543,7 +542,8 @@
 //     dispatcher.join_channel(channel_id);
 //     stop_cheat_caller_address(channel_contract_address);
 
-//     let mut moderator_array = array![USER_TWO.try_into().unwrap(), USER_THREE.try_into().unwrap()];
+//     let mut moderator_array = array![USER_TWO.try_into().unwrap(),
+//     USER_THREE.try_into().unwrap()];
 //     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());
 //     dispatcher.add_channel_mods(channel_id, moderator_array);
 //     stop_cheat_caller_address(channel_contract_address);
@@ -592,7 +592,8 @@
 //     dispatcher.join_channel(channel_id);
 //     stop_cheat_caller_address(channel_contract_address);
 
-//     let mut moderator_array = array![USER_TWO.try_into().unwrap(), USER_THREE.try_into().unwrap()];
+//     let mut moderator_array = array![USER_TWO.try_into().unwrap(),
+//     USER_THREE.try_into().unwrap()];
 //     start_cheat_caller_address(channel_contract_address, USER_FOUR.try_into().unwrap());
 //     dispatcher.add_channel_mods(channel_id, moderator_array);
 //     stop_cheat_caller_address(channel_contract_address);
@@ -682,7 +683,8 @@
 //     dispatcher.join_channel(channel_id);
 //     stop_cheat_caller_address(channel_contract_address);
 
-//     let mut moderator_array = array![USER_TWO.try_into().unwrap(), USER_THREE.try_into().unwrap()];
+//     let mut moderator_array = array![USER_TWO.try_into().unwrap(),
+//     USER_THREE.try_into().unwrap()];
 //     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());
 //     dispatcher.add_channel_mods(channel_id, moderator_array);
 //     stop_cheat_caller_address(channel_contract_address);
@@ -723,7 +725,8 @@
 //     dispatcher.join_channel(channel_id);
 //     stop_cheat_caller_address(channel_contract_address);
 
-//     let mut moderator_array = array![USER_TWO.try_into().unwrap(), USER_THREE.try_into().unwrap()];
+//     let mut moderator_array = array![USER_TWO.try_into().unwrap(),
+//     USER_THREE.try_into().unwrap()];
 //     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());
 //     dispatcher.add_channel_mods(channel_id, moderator_array);
 //     stop_cheat_caller_address(channel_contract_address);
@@ -767,7 +770,8 @@
 //     dispatcher.join_channel(channel_id);
 //     stop_cheat_caller_address(channel_contract_address);
 
-//     let mut moderator_array = array![USER_TWO.try_into().unwrap(), USER_FOUR.try_into().unwrap()];
+//     let mut moderator_array = array![USER_TWO.try_into().unwrap(),
+//     USER_FOUR.try_into().unwrap()];
 //     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());
 //     dispatcher.add_channel_mods(channel_id, moderator_array);
 //     stop_cheat_caller_address(channel_contract_address);
@@ -804,7 +808,8 @@
 //     dispatcher.join_channel(channel_id);
 //     stop_cheat_caller_address(channel_contract_address);
 
-//     let mut moderator_array = array![USER_TWO.try_into().unwrap(), USER_THREE.try_into().unwrap()];
+//     let mut moderator_array = array![USER_TWO.try_into().unwrap(),
+//     USER_THREE.try_into().unwrap()];
 //     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());
 //     dispatcher.add_channel_mods(channel_id, moderator_array);
 //     stop_cheat_caller_address(channel_contract_address);
@@ -943,7 +948,8 @@
 //     dispatcher.set_channel_ban_status(channel_id, profiles, ban_statuses);
 //     stop_cheat_caller_address(channel_contract_address);
 
-//     let ban_status = dispatcher.get_channel_ban_status(USER_THREE.try_into().unwrap(), channel_id);
+//     let ban_status = dispatcher.get_channel_ban_status(USER_THREE.try_into().unwrap(),
+//     channel_id);
 //     assert(ban_status == true, 'Channel Member is not ban');
 //     stop_cheat_caller_address(channel_contract_address);
 // }
@@ -1090,4 +1096,5 @@
 //     start_cheat_caller_address(channel_contract_address, USER_ONE.try_into().unwrap());
 //     dispatcher.set_channel_ban_status(channel_id, profiles, ban_statuses);
 // }
+
 

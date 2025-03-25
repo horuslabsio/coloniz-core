@@ -419,7 +419,7 @@ pub mod PublicationComponent {
                     ._validate_community_membership_and_ban_status(
                         caller, publication.community_id
                     );
-            } 
+            }
 
             let collect_nft_address = self._get_or_deploy_collect_nft(profile_address, pub_id);
             let token_id = self._mint_collect_nft(collect_nft_address, caller);
