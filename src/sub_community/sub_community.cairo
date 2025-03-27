@@ -117,6 +117,9 @@ pub mod SubCommunityComponent {
             let is_initialized = self.sub_community_initialized.read(sub_community_id);
             assert(is_initialized == false, SUB_COMMUNITY_ALREADY_EXISTS);
 
+            // validate caller
+            self._validate_authorization(get_caller_address(), sub_community_id);
+
             // check that community exists
             let community_instance = get_dep_component!(@self, Community);
             let _community_id = community_instance.get_community(community_id).community_id;
@@ -158,6 +161,9 @@ pub mod SubCommunityComponent {
             // check channel id does not already exist
             let is_initialized = self.channel_initialized.read(channel_id);
             assert(is_initialized == false, CHANNEL_ALREADY_EXISTS);
+
+            // validate caller
+            self._validate_authorization(get_caller_address(), sub_community_id);
 
             // check that sub-community exists
             let sub_community_id = self.sub_communities.read(sub_community_id).sub_community_id;
@@ -415,10 +421,11 @@ pub mod SubCommunityComponent {
                 .get_community(community_id)
                 .community_owner;
 
-            // check caller is parent owner or sub_community mod
+            // check caller is community owner, community mod or sub_community mod
             assert(
-                parent_community_owner == get_caller_address()
-                    || self.is_sub_community_mod(get_caller_address(), sub_community_id),
+                parent_community_owner == caller || 
+                community_instance.is_community_mod(caller, community_id) ||
+                self.is_sub_community_mod(get_caller_address(), sub_community_id),
                 UNAUTHORIZED
             );
         }
