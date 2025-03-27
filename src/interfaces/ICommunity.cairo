@@ -58,6 +58,9 @@ pub trait ICommunity<TState> {
     fn set_permissioned_addresses(
         ref self: TState, community_id: u256, permissioned_addresses: Array<ContractAddress>
     );
+    fn transfer_community_ownership(
+        ref self: TState, community_id: u256, new_owner: ContractAddress
+    );
     fn delete_community(ref self: TState, community_id: u256);
 
     // *************************************************************************
