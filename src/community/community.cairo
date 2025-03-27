@@ -542,7 +542,9 @@ pub mod CommunityComponent {
         /// @notice transfer a community ownership
         /// @param community_id The id of the community
         /// @param new_owner The address to tranfer ownership to
-        fn transfer_community_ownership(ref self: ComponentState<TContractState>, community_id: u256, new_owner: ContractAddress) {
+        fn transfer_community_ownership(
+            ref self: ComponentState<TContractState>, community_id: u256, new_owner: ContractAddress
+        ) {
             // check caller is owner
             let mut community = self.communities.read(community_id);
             assert(community.community_owner == get_caller_address(), UNAUTHORIZED);
@@ -556,12 +558,15 @@ pub mod CommunityComponent {
             self.communities.write(community_id, updated_community);
 
             // emit event
-            self.emit(CommunityOwnershipTransferred {
-                community_id: community_id,
-                old_owner: get_caller_address(),
-                new_owner: new_owner,
-                block_timestamp: get_block_timestamp()
-            })
+            self
+                .emit(
+                    CommunityOwnershipTransferred {
+                        community_id: community_id,
+                        old_owner: get_caller_address(),
+                        new_owner: new_owner,
+                        block_timestamp: get_block_timestamp()
+                    }
+                )
         }
 
         /// @notice delete a community

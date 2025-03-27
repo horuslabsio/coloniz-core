@@ -423,9 +423,9 @@ pub mod SubCommunityComponent {
 
             // check caller is community owner, community mod or sub_community mod
             assert(
-                parent_community_owner == caller || 
-                community_instance.is_community_mod(caller, community_id) ||
-                self.is_sub_community_mod(get_caller_address(), sub_community_id),
+                parent_community_owner == caller
+                    || community_instance.is_community_mod(caller, community_id)
+                    || self.is_sub_community_mod(get_caller_address(), sub_community_id),
                 UNAUTHORIZED
             );
         }
