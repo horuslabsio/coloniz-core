@@ -14,7 +14,7 @@ pub mod SubCommunityComponent {
     use coloniz::base::{
         constants::errors::Errors::{
             UNAUTHORIZED, COMMUNITY_DOES_NOT_EXIST, CHANNEL_ALREADY_EXISTS, CHANNEL_DOES_NOT_EXIST,
-            SUB_COMMUNITY_ALREADY_EXISTS, SUB_COMMUNITY_DOES_NOT_EXIST
+            SUB_COMMUNITY_ALREADY_EXISTS, SUB_COMMUNITY_DOES_NOT_EXIST, NOT_COMMUNITY_MEMBER, NOT_SUB_COMMUNITY_MOD
         },
         constants::types::{SubCommunityDetails, ChannelDetails}
     };
@@ -99,7 +99,7 @@ pub mod SubCommunityComponent {
     //                              EXTERNAL FUNCTIONS
     // *************************************************************************
     #[embeddable_as(SubCommunity)]
-    impl ChannelImpl<
+    impl SubCommunityImpl<
         TContractState,
         +HasComponent<TContractState>,
         +Drop<TContractState>,
@@ -117,26 +117,34 @@ pub mod SubCommunityComponent {
             let is_initialized = self.sub_community_initialized.read(sub_community_id);
             assert(is_initialized == false, SUB_COMMUNITY_ALREADY_EXISTS);
 
-            // validate caller
-            self._validate_authorization(get_caller_address(), sub_community_id);
-
             // check that community exists
             let community_instance = get_dep_component!(@self, Community);
             let _community_id = community_instance.get_community(community_id).community_id;
             assert(community_id == _community_id, COMMUNITY_DOES_NOT_EXIST);
 
+            // validate caller
+            let community_owner = community_instance.get_community(community_id).community_owner;
+            assert(
+                community_owner == get_caller_address()
+                    || community_instance.is_community_mod(get_caller_address(), community_id),
+                UNAUTHORIZED
+            );
+
+            // create new sub community
             let new_sub_community = SubCommunityDetails {
                 sub_community_id: sub_community_id,
                 community_id: community_id,
                 sub_community_metadata_uri: ""
             };
-
-            // update storage
             self.sub_communities.write(sub_community_id, new_sub_community.clone());
-            self.channel_initialized.write(sub_community_id, true);
 
             // create default channel
-            self.create_channel(sub_community_id, sub_community_id);
+            let default_channel_id = sub_community_id;
+            self.create_channel(default_channel_id, sub_community_id);
+
+            // update storage
+            self.sub_community_initialized.write(sub_community_id, true);
+            self.channel_initialized.write(default_channel_id, true);
 
             // emit event
             self
@@ -251,7 +259,7 @@ pub mod SubCommunityComponent {
 
         /// @notice Remove a moderator from the sub community
         /// @param sub_community_id The id of the sub_community
-        /// @param moderator: The address of the moderator
+        /// @param moderator The address of the moderator
         /// dev only primary moderator/owner can remove the moderators
         fn remove_sub_community_mods(
             ref self: ComponentState<TContractState>,
@@ -443,6 +451,13 @@ pub mod SubCommunityComponent {
 
             while index < length {
                 let moderator = *moderators.at(index);
+
+                // check if profile is a community member
+                let community_instance = get_dep_component!(@self, Community);
+                let community_id = self.get_sub_community(sub_community_id).community_id;
+                let (is_community_member, _) = community_instance.is_community_member(moderator, community_id);
+                assert(is_community_member == true, NOT_COMMUNITY_MEMBER);
+
                 self.sub_community_moderators.write((sub_community_id, moderator), true);
 
                 // emit event
@@ -472,6 +487,11 @@ pub mod SubCommunityComponent {
 
             while index < length {
                 let moderator = *moderators.at(index);
+
+                // check that profile is a mod
+                let is_mod = self.is_sub_community_mod(moderator, sub_community_id);
+                assert(is_mod == true, NOT_SUB_COMMUNITY_MOD);
+
                 self.sub_community_moderators.write((sub_community_id, moderator), false);
 
                 // emit event

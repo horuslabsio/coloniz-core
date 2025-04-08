@@ -1,5 +1,5 @@
 #[starknet::contract]
-pub mod ColonizChannel {
+pub mod ColonizSubCommunity {
     use coloniz::sub_community::sub_community::SubCommunityComponent;
     use coloniz::community::community::CommunityComponent;
     use coloniz::jolt::jolt::JoltComponent;

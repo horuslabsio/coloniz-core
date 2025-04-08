@@ -26,6 +26,7 @@ pub mod Errors {
     pub const COMMUNITY_ALREADY_EXISTS: felt252 = 'coloniz: Comm already exists';
     pub const SUB_COMMUNITY_ALREADY_EXISTS: felt252 = 'coloniz: sub-com already exists';
     pub const SUB_COMMUNITY_DOES_NOT_EXIST: felt252 = 'coloniz: sub-com doesnt exist';
+    pub const NOT_SUB_COMMUNITY_MOD: felt252 = 'coloniz: not a moderator';
     pub const CHANNEL_ALREADY_EXISTS: felt252 = 'coloniz: channel already exists';
     pub const CHANNEL_DOES_NOT_EXIST: felt252 = 'coloniz: channel does not exist';
     pub const NOT_COMMUNITY_OWNER: felt252 = 'coloniz: Not Community owner';
