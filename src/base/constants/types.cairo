@@ -382,7 +382,7 @@ pub struct ChannelDetails {
 // * @param block_timestamp time when jolting happened
 // * @param erc20_contract_address currency being jolted in
 // */
-#[derive(Drop, Serde, starknet::Store)]
+#[derive(Drop, Serde, starknet::Store, Clone)]
 pub struct JoltData {
     pub jolt_id: u256,
     pub jolt_type: JoltType,
@@ -407,7 +407,7 @@ pub struct JoltData {
 // * @param subscription_details details of subscription (if type is subscription)
 // * @param erc20_contract_address currency being jolted in
 // */
-#[derive(Drop, Serde)]
+#[derive(Drop, Serde, Clone)]
 pub struct JoltParams {
     pub jolt_type: JoltType,
     pub recipient: ContractAddress,
@@ -444,7 +444,7 @@ pub struct SubscriptionData {
 // * @param Subscription used for subscriptions
 // * @param Request used for requests
 // */
-#[derive(Drop, Serde, starknet::Store, PartialEq)]
+#[derive(Drop, Serde, starknet::Store, PartialEq, Clone)]
 pub enum JoltType {
     Tip,
     Transfer,
@@ -461,7 +461,7 @@ pub enum JoltType {
 // * @param REJECTED when a jolt was rejected
 // * @param FAILED when a jolt txn fails
 // */
-#[derive(Drop, Serde, starknet::Store, PartialEq)]
+#[derive(Drop, Serde, starknet::Store, PartialEq, Clone)]
 pub enum JoltStatus {
     PENDING,
     SUCCESSFUL,

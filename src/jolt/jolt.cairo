@@ -54,6 +54,7 @@ pub mod JoltComponent {
         pub jolt_type: felt252,
         pub sender: ContractAddress,
         pub amount: u256,
+        pub memo: ByteArray,
         pub recipient: ContractAddress,
         pub erc20_contract_address: ContractAddress,
         pub block_timestamp: u64,
@@ -65,6 +66,7 @@ pub mod JoltComponent {
         pub jolt_type: felt252,
         pub sender: ContractAddress,
         pub amount: u256,
+        pub memo: ByteArray,
         pub recipient: ContractAddress,
         pub erc20_contract_address: ContractAddress,
         pub expiration_timestamp: u64,
@@ -77,6 +79,7 @@ pub mod JoltComponent {
         pub jolt_type: felt252,
         pub sender: ContractAddress,
         pub amount: u256,
+        pub memo: ByteArray,
         pub recipient: ContractAddress,
         pub erc20_contract_address: ContractAddress,
         pub expiration_timestamp: u64,
@@ -142,8 +145,9 @@ pub mod JoltComponent {
             let jolt_id: u256 = jolt_hash.try_into().unwrap();
 
             // jolt
+            let params = jolt_params.clone();
             let mut jolt_status = JoltStatus::PENDING;
-            let erc20_contract_address = jolt_params.erc20_contract_address;
+            let erc20_contract_address = params.erc20_contract_address;
 
             let jolt_type = @jolt_params.jolt_type;
             match jolt_type {
@@ -152,8 +156,9 @@ pub mod JoltComponent {
                         ._tip(
                             jolt_id,
                             sender,
-                            jolt_params.recipient,
-                            jolt_params.amount,
+                            params.recipient,
+                            params.amount,
+                            params.memo,
                             erc20_contract_address
                         );
                     jolt_status = _jolt_status;
@@ -163,8 +168,9 @@ pub mod JoltComponent {
                         ._transfer(
                             jolt_id,
                             sender,
-                            jolt_params.recipient,
-                            jolt_params.amount,
+                            params.recipient,
+                            params.amount,
+                            params.memo,
                             erc20_contract_address
                         );
                     jolt_status = _jolt_status;
@@ -176,6 +182,7 @@ pub mod JoltComponent {
                         ._subscribe(
                             jolt_id,
                             sub_id,
+                            params.memo,
                             sender,
                             renewal_status,
                             renewal_iterations,
@@ -188,9 +195,10 @@ pub mod JoltComponent {
                         ._request(
                             jolt_id,
                             sender,
-                            jolt_params.recipient,
-                            jolt_params.amount,
-                            jolt_params.expiration_stamp,
+                            params.recipient,
+                            params.amount,
+                            params.memo,
+                            params.expiration_stamp,
                             erc20_contract_address
                         );
                     jolt_status = _jolt_status;
@@ -454,6 +462,7 @@ pub mod JoltComponent {
             sender: ContractAddress,
             recipient: ContractAddress,
             amount: u256,
+            memo: ByteArray,
             erc20_contract_address: ContractAddress
         ) -> JoltStatus {
             // check that user is not self-tipping or tipping a non-existent address
@@ -471,6 +480,7 @@ pub mod JoltComponent {
                         jolt_type: 'TIP',
                         sender,
                         amount,
+                        memo,
                         recipient: recipient,
                         erc20_contract_address,
                         block_timestamp: get_block_timestamp(),
@@ -494,6 +504,7 @@ pub mod JoltComponent {
             sender: ContractAddress,
             recipient: ContractAddress,
             amount: u256,
+            memo: ByteArray,
             erc20_contract_address: ContractAddress
         ) -> JoltStatus {
             // check that user is not transferring to self or to a non-existent address
@@ -511,6 +522,7 @@ pub mod JoltComponent {
                         jolt_type: 'TRANSFER',
                         sender,
                         amount,
+                        memo,
                         recipient: recipient,
                         erc20_contract_address,
                         block_timestamp: get_block_timestamp(),
@@ -534,6 +546,7 @@ pub mod JoltComponent {
             ref self: ComponentState<TContractState>,
             jolt_id: u256,
             sub_id: u256,
+            memo: ByteArray,
             sender: ContractAddress,
             renewal_status: bool,
             renewal_iterations: u256,
@@ -569,6 +582,7 @@ pub mod JoltComponent {
                         jolt_type: 'SUBSCRIPTION',
                         sender,
                         amount: subscription_data.amount,
+                        memo,
                         recipient: subscription_data.fee_address,
                         erc20_contract_address,
                         block_timestamp: get_block_timestamp(),
@@ -593,6 +607,7 @@ pub mod JoltComponent {
             sender: ContractAddress,
             recipient: ContractAddress,
             amount: u256,
+            memo: ByteArray,
             expiration_timestamp: u64,
             erc20_contract_address: ContractAddress
         ) -> JoltStatus {
@@ -610,6 +625,7 @@ pub mod JoltComponent {
                         jolt_type: 'REQUEST',
                         sender,
                         amount,
+                        memo,
                         recipient: recipient,
                         expiration_timestamp,
                         erc20_contract_address,
@@ -641,7 +657,7 @@ pub mod JoltComponent {
                 );
 
             // update jolt details
-            let jolt_data = JoltData { status: JoltStatus::SUCCESSFUL, ..jolt_details };
+            let jolt_data = JoltData { status: JoltStatus::SUCCESSFUL, ..jolt_details.clone() };
             self.jolt.write(jolt_id, jolt_data);
 
             // emit events
@@ -652,6 +668,7 @@ pub mod JoltComponent {
                         jolt_type: 'REQUEST FULFILLMENT',
                         sender: jolt_details.recipient,
                         amount: jolt_details.amount,
+                        memo: jolt_details.memo,
                         recipient: jolt_details.sender,
                         erc20_contract_address: jolt_details.erc20_contract_address,
                         expiration_timestamp: jolt_details.expiration_stamp,
@@ -721,6 +738,7 @@ pub mod JoltComponent {
                         jolt_type: 'SUBSCRIPTION',
                         sender,
                         amount,
+                        memo: "auto renew successful",
                         recipient: fee_address,
                         erc20_contract_address,
                         block_timestamp: get_block_timestamp(),
