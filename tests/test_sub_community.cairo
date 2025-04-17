@@ -33,10 +33,8 @@ fn __setup__() -> ContractAddress {
 
     let sub_community_contract = declare("ColonizSubCommunity").unwrap().contract_class();
     let mut constructor_calldata = array![(*(community_nft_class_hash)).into()];
-    let (contract_address, _) = sub_community_contract
-        .deploy(@constructor_calldata)
-        .unwrap();
-    
+    let (contract_address, _) = sub_community_contract.deploy(@constructor_calldata).unwrap();
+
     return contract_address;
 }
 // TODO: expand test
@@ -93,8 +91,9 @@ fn test_set_sub_community_metadata_uri() {
 
     let community_id = community_dispatcher.create_community(123);
     let sub_community_id = sub_community_dispatcher.create_sub_community(234, community_id);
-    sub_community_dispatcher.set_sub_community_metadata_uri(sub_community_id, "ipfs://metalru324afn2kl13n");
-    
+    sub_community_dispatcher
+        .set_sub_community_metadata_uri(sub_community_id, "ipfs://metalru324afn2kl13n");
+
     stop_cheat_caller_address(contract_address);
 
     let metadata_uri = sub_community_dispatcher.get_sub_community_metadata_uri(sub_community_id);
@@ -112,7 +111,7 @@ fn test_set_channel_metadata_uri() {
     let community_id = community_dispatcher.create_community(123);
     let sub_community_id = sub_community_dispatcher.create_sub_community(234, community_id);
     sub_community_dispatcher.set_channel_metadata_uri(234, "ipfs://default3ru324afn2kl13n");
-    
+
     stop_cheat_caller_address(contract_address);
 
     let metadata_uri = sub_community_dispatcher.get_channel_metadata_uri(sub_community_id);
@@ -140,20 +139,19 @@ fn test_add_sub_community_mods() {
     start_cheat_caller_address(contract_address, USER_FIVE.try_into().unwrap());
     community_dispatcher.join_community(community_id);
     stop_cheat_caller_address(contract_address);
-    
+
     // add moderators
     start_cheat_caller_address(contract_address, USER_ONE.try_into().unwrap());
-    sub_community_dispatcher.add_sub_community_mods(
-        sub_community_id, 
-        array![
-            USER_FIVE.try_into().unwrap(), 
-            USER_SIX.try_into().unwrap()
-            ]
+    sub_community_dispatcher
+        .add_sub_community_mods(
+            sub_community_id, array![USER_FIVE.try_into().unwrap(), USER_SIX.try_into().unwrap()]
         );
     stop_cheat_caller_address(contract_address);
 
-    let user_five_is_mod = sub_community_dispatcher.is_sub_community_mod(USER_FIVE.try_into().unwrap(), sub_community_id);
-    let user_six_is_mod = sub_community_dispatcher.is_sub_community_mod(USER_SIX.try_into().unwrap(), sub_community_id);
+    let user_five_is_mod = sub_community_dispatcher
+        .is_sub_community_mod(USER_FIVE.try_into().unwrap(), sub_community_id);
+    let user_six_is_mod = sub_community_dispatcher
+        .is_sub_community_mod(USER_SIX.try_into().unwrap(), sub_community_id);
 
     assert(user_five_is_mod == true, 'invalid mod status');
     assert(user_six_is_mod == true, 'invalid mod status');
@@ -180,31 +178,27 @@ fn test_remove_sub_community_mods() {
     start_cheat_caller_address(contract_address, USER_FIVE.try_into().unwrap());
     community_dispatcher.join_community(community_id);
     stop_cheat_caller_address(contract_address);
-    
+
     // add moderators
     start_cheat_caller_address(contract_address, USER_ONE.try_into().unwrap());
-    sub_community_dispatcher.add_sub_community_mods(
-        sub_community_id, 
-        array![
-            USER_FIVE.try_into().unwrap(), 
-            USER_SIX.try_into().unwrap()
-            ]
+    sub_community_dispatcher
+        .add_sub_community_mods(
+            sub_community_id, array![USER_FIVE.try_into().unwrap(), USER_SIX.try_into().unwrap()]
         );
     stop_cheat_caller_address(contract_address);
 
     // remove moderators
     start_cheat_caller_address(contract_address, USER_ONE.try_into().unwrap());
-    sub_community_dispatcher.remove_sub_community_mods(
-        sub_community_id, 
-        array![
-            USER_FIVE.try_into().unwrap(), 
-            USER_SIX.try_into().unwrap()
-            ]
+    sub_community_dispatcher
+        .remove_sub_community_mods(
+            sub_community_id, array![USER_FIVE.try_into().unwrap(), USER_SIX.try_into().unwrap()]
         );
     stop_cheat_caller_address(contract_address);
 
-    let user_five_is_mod = sub_community_dispatcher.is_sub_community_mod(USER_FIVE.try_into().unwrap(), sub_community_id);
-    let user_six_is_mod = sub_community_dispatcher.is_sub_community_mod(USER_SIX.try_into().unwrap(), sub_community_id);
+    let user_five_is_mod = sub_community_dispatcher
+        .is_sub_community_mod(USER_FIVE.try_into().unwrap(), sub_community_id);
+    let user_six_is_mod = sub_community_dispatcher
+        .is_sub_community_mod(USER_SIX.try_into().unwrap(), sub_community_id);
 
     assert(user_five_is_mod == false, 'invalid mod status');
     assert(user_six_is_mod == false, 'invalid mod status');
@@ -243,6 +237,8 @@ fn test_sub_community_deletion() {
     sub_community_dispatcher.delete_sub_community(sub_community_id);
     stop_cheat_caller_address(contract_address);
 
-    let _sub_community_id = sub_community_dispatcher.get_sub_community(sub_community_id).sub_community_id;
+    let _sub_community_id = sub_community_dispatcher
+        .get_sub_community(sub_community_id)
+        .sub_community_id;
     assert(_sub_community_id == 0, 'sub community was not deleted');
 }

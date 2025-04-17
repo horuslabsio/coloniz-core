@@ -14,7 +14,8 @@ pub mod SubCommunityComponent {
     use coloniz::base::{
         constants::errors::Errors::{
             UNAUTHORIZED, COMMUNITY_DOES_NOT_EXIST, CHANNEL_ALREADY_EXISTS, CHANNEL_DOES_NOT_EXIST,
-            SUB_COMMUNITY_ALREADY_EXISTS, SUB_COMMUNITY_DOES_NOT_EXIST, NOT_COMMUNITY_MEMBER, NOT_SUB_COMMUNITY_MOD
+            SUB_COMMUNITY_ALREADY_EXISTS, SUB_COMMUNITY_DOES_NOT_EXIST, NOT_COMMUNITY_MEMBER,
+            NOT_SUB_COMMUNITY_MOD
         },
         constants::types::{SubCommunityDetails, ChannelDetails}
     };
@@ -455,7 +456,8 @@ pub mod SubCommunityComponent {
                 // check if profile is a community member
                 let community_instance = get_dep_component!(@self, Community);
                 let community_id = self.get_sub_community(sub_community_id).community_id;
-                let (is_community_member, _) = community_instance.is_community_member(moderator, community_id);
+                let (is_community_member, _) = community_instance
+                    .is_community_member(moderator, community_id);
                 assert(is_community_member == true, NOT_COMMUNITY_MEMBER);
 
                 self.sub_community_moderators.write((sub_community_id, moderator), true);
