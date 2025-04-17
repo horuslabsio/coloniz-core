@@ -11,8 +11,6 @@ use snforge_std::{
     EventSpyAssertionsTrait, ContractClassTrait, DeclareResultTrait
 };
 
-use coloniz::community::community::CommunityComponent;
-use coloniz::base::constants::types::{GateKeepType, CommunityType};
 use coloniz::interfaces::ICommunity::{ICommunityDispatcher, ICommunityDispatcherTrait};
 use coloniz::interfaces::ISubCommunity::{ISubCommunityDispatcher, ISubCommunityDispatcherTrait};
 
@@ -41,6 +39,7 @@ fn __setup__() -> ContractAddress {
     
     return contract_address;
 }
+// TODO: expand test
 
 // *************************************************************************
 //                              TESTS
