@@ -469,3 +469,17 @@ pub enum JoltStatus {
     REJECTED,
     FAILED
 }
+
+// *************************************************************************
+//                            COMMUNITY POT
+// *************************************************************************
+#[derive(Drop, Serde, starknet::Store)]
+pub struct PotInstance {
+    pub instance_id: u256,
+    pub community_id: u256,
+    pub root: u256,
+    pub distribution_amount: u256,
+    pub max_claim: u256,
+    pub erc20_contract_address: ContractAddress,
+    pub instance_duration: u64
+}

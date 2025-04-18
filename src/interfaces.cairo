@@ -13,3 +13,4 @@ pub mod ICollectNFT;
 pub mod ICustomNFT;
 pub mod IJolt;
 pub mod ISubCommunity;
+pub mod IPot;

@@ -51,4 +51,8 @@ pub mod Errors {
     pub const BANNED_FROM_CHANNEL: felt252 = 'coloniz: banned from channel';
     pub const CHANNEL_HAS_NO_MEMBER: felt252 = 'coloniz: channel has no members';
     pub const INVALID_LENGTH: felt252 = 'coloniz: array mismatch';
+    pub const INVALID_MAX_CLAIM: felt252 = 'coloniz: max claim too large';
+    pub const INVALID_START_TIME: felt252 = 'coloniz: start time in the past';
+    pub const INVALID_DURATION: felt252 = 'coloniz: duration < 1 hr';
+    pub const INSTANCE_NOT_ENDED: felt252 = 'coloniz: instance has not ended';
 }
