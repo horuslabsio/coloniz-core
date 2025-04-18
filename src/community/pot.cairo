@@ -4,21 +4,24 @@ pub mod CommunityPot {
     //                            IMPORTS
     // *************************************************************************
     use starknet::{
-        ContractAddress, get_caller_address, get_contract_address, get_block_timestamp, get_tx_info,
+        ContractAddress, get_caller_address, get_block_timestamp,
         storage::{
             StoragePointerWriteAccess, StoragePointerReadAccess, Map, StorageMapReadAccess,
             StorageMapWriteAccess
         }
     };
 
-    use coloniz::base::constants::{ types::{ PotInstance }, errors::Errors };
-    use coloniz::interfaces::{ IPot::IPot, IERC20::{IERC20Dispatcher, IERC20DispatcherTrait} };
+    use coloniz::base::constants::{types::{PotInstance, JoltParams, JoltType}, errors::Errors};
+    use coloniz::interfaces::{IPot::IPot};
     use coloniz::community::community::CommunityComponent;
     use coloniz::jolt::jolt::JoltComponent;
 
     use openzeppelin_access::ownable::OwnableComponent;
     use openzeppelin_upgrades::UpgradeableComponent;
 
+    // *************************************************************************
+    //                              COMPONENTS
+    // *************************************************************************
     component!(path: CommunityComponent, storage: community, event: CommunityEvent);
     component!(path: JoltComponent, storage: jolt, event: JoltEvent);
     component!(path: OwnableComponent, storage: ownable, event: OwnableEvent);
@@ -32,10 +35,15 @@ pub mod CommunityPot {
     impl OwnableInternalImpl = OwnableComponent::InternalImpl<ContractState>;
     impl UpgradeableInternalImpl = UpgradeableComponent::InternalImpl<ContractState>;
 
+    // *************************************************************************
+    //                              STORAGE
+    // *************************************************************************
     #[storage]
     pub struct Storage {
         instances: Map<u256, PotInstance>,
         total_instances: u256,
+        distributed_amount: Map<u256, u256>,
+        has_claimed: Map<ContractAddress, bool>,
         #[substorage(v0)]
         community: CommunityComponent::Storage,
         #[substorage(v0)]
@@ -69,7 +77,7 @@ pub mod CommunityPot {
     pub struct ActivatedPot {
         pub pot_instance_id: u256,
         pub community_id: u256,
-        pub root: u256,
+        pub merkle_root: felt252,
         pub distribution_amount: u256,
         pub erc20_contract_address: ContractAddress,
         pub instance_start_time: u64,
@@ -81,7 +89,8 @@ pub mod CommunityPot {
         pub pot_instance_id: u256,
         pub community_id: u256,
         pub address: ContractAddress,
-        pub amount_claimed: u256
+        pub amount_claimed: u256,
+        pub erc20_contract_address: ContractAddress,
     }
 
     #[derive(Drop, starknet::Event)]
@@ -89,7 +98,8 @@ pub mod CommunityPot {
         pub pot_instance_id: u256,
         pub community_id: u256,
         pub address: ContractAddress,
-        pub amount_withdrawn: u256
+        pub amount_withdrawn: u256,
+        pub erc20_contract_address: ContractAddress,
     }
 
     #[abi(embed_v0)]
@@ -100,7 +110,7 @@ pub mod CommunityPot {
         fn activate(
             ref self: ContractState,
             community_id: u256,
-            root: u256,
+            merkle_root: felt252,
             max_claim: u256,
             distribution_amount: u256,
             erc20_contract_address: ContractAddress,
@@ -109,8 +119,12 @@ pub mod CommunityPot {
         ) -> u256 {
             // check caller is community owner/mod
             let community_owner = self.community.get_community(community_id).community_owner;
-            let is_community_mod = self.community.is_community_mod(get_caller_address(), community_id);
-            assert(get_caller_address() == community_owner || is_community_mod, Errors::UNAUTHORIZED);
+            let is_community_mod = self
+                .community
+                .is_community_mod(get_caller_address(), community_id);
+            assert(
+                get_caller_address() == community_owner || is_community_mod, Errors::UNAUTHORIZED
+            );
 
             // check max claim is less than distribution_amount
             assert(max_claim < distribution_amount, Errors::INVALID_MAX_CLAIM);
@@ -122,47 +136,229 @@ pub mod CommunityPot {
 
             // write instance details to storage
             let new_instance_id: u256 = self.total_instances.read() + 1;
-            let new_pot_instance =  PotInstance {
+            let new_pot_instance = PotInstance {
                 instance_id: new_instance_id,
                 community_id,
-                root,
+                merkle_root,
                 distribution_amount,
                 max_claim,
                 erc20_contract_address,
+                instance_start_time,
                 instance_duration
             };
             self.instances.write(new_instance_id, new_pot_instance);
+            self.total_instances.write(new_instance_id);
 
-            self.emit( ActivatedPot {
-                pot_instance_id: new_instance_id,
-                community_id,
-                root,
-                distribution_amount,
-                erc20_contract_address,
-                instance_start_time,
-                instance_duration
-            });
+            self
+                .emit(
+                    ActivatedPot {
+                        pot_instance_id: new_instance_id,
+                        community_id,
+                        merkle_root,
+                        distribution_amount,
+                        erc20_contract_address,
+                        instance_start_time,
+                        instance_duration
+                    }
+                );
 
             new_instance_id
         }
 
-        fn claim(ref self: ContractState, instance_id: u256) {
+        fn claim(ref self: ContractState, instance_id: u256, amount: u256, proof: Span<felt252>) {
+            // check that instance exists and is ongoing
+            let instance = self.instances.read(instance_id);
+            assert(instance.instance_id != 0, Errors::INSTANCE_DOES_NOT_EXIST);
 
+            let now = get_block_timestamp();
+            let caller = get_caller_address();
+            let instance_start_time = instance.instance_start_time;
+            let instance_end_time = instance_start_time + instance.instance_duration;
+            assert(now > instance_start_time && now < instance_end_time, Errors::INSTANCE_INACTIVE);
+
+            // check that the caller is a member of the community
+            let (is_member, _) = self.community.is_community_member(caller, instance.community_id);
+            assert(is_member, Errors::NOT_COMMUNITY_MEMBER);
+
+            // check that the caller has not previously claimed
+            assert(self.has_claimed.read(caller), Errors::USER_ALREADY_CLAIMED);
+
+            // check the distribution amount is not exhausted
+            let distributed_amount = self.distributed_amount.read(instance_id);
+            let unclaimed_amount = instance.distribution_amount - distributed_amount;
+            assert(unclaimed_amount > 0, Errors::DISTRIBUTION_AMOUNT_EXHAUSTED);
+
+            // check that proof is valid
+            let is_valid_proof = self._verify_claim_proof(instance_id, caller, amount, proof);
+            assert(is_valid_proof, Errors::INVALID_CLAIM_PROOF);
+
+            // call an internal function to process claim
+            self
+                ._claim(
+                    instance_id,
+                    instance.community_id,
+                    caller,
+                    amount,
+                    instance.erc20_contract_address
+                )
         }
 
         fn withdraw(ref self: ContractState, instance_id: u256, address: ContractAddress) {
-            
+            let instance = self.instances.read(instance_id);
+
+            // check caller is owner
+            let community_owner = self
+                .community
+                .get_community(instance.community_id)
+                .community_owner;
+            assert(get_caller_address() == community_owner, Errors::UNAUTHORIZED);
+
+            // check the distribution amount was not exhausted
+            let distributed_amount = self.distributed_amount.read(instance_id);
+            let unclaimed_amount = instance.distribution_amount - distributed_amount;
+            assert(unclaimed_amount > 0, Errors::DISTRIBUTION_AMOUNT_EXHAUSTED);
+
+            // check that instance duration is over
+            let now = get_block_timestamp();
+            let instance_end_time = instance.instance_start_time + instance.instance_duration;
+            assert(now > instance_end_time, Errors::INSTANCE_NOT_ENDED);
+
+            self
+                ._withdraw(
+                    instance_id,
+                    instance.community_id,
+                    address,
+                    unclaimed_amount,
+                    instance.erc20_contract_address
+                );
         }
 
         // *************************************************************************
         //                              GETTERS
         // *************************************************************************
         fn instance_is_active(self: @ContractState, instance_id: u256) -> bool {
-            false
+            let instance = self.instances.read(instance_id);
+            let now = get_block_timestamp();
+            let instance_start_time = instance.instance_start_time;
+            let instance_end_time = instance_start_time + instance.instance_duration;
+
+            if now > instance_start_time && now < instance_end_time {
+                return true;
+            } else {
+                return false;
+            }
         }
 
-        fn user_is_eligible(self: @ContractState, instance_id: u256, address: ContractAddress) -> (bool, u256) {
-            (false, 0)
+        fn user_is_eligible(
+            self: @ContractState,
+            instance_id: u256,
+            address: ContractAddress,
+            amount: u256,
+            proof: Span<felt252>
+        ) -> bool {
+            self._verify_claim_proof(instance_id, address, amount, proof)
+        }
+
+        fn user_has_claimed(
+            self: @ContractState, instance_id: u256, address: ContractAddress
+        ) -> bool {
+            self.has_claimed.read(address)
+        }
+
+        fn get_distributed_amount(self: @ContractState, instance_id: u256) -> u256 {
+            self.distributed_amount.read(instance_id)
+        }
+    }
+
+    // *************************************************************************
+    //                              PRIVATE FUNCTIONS
+    // *************************************************************************
+    #[generate_trait]
+    pub impl Private of PrivateTrait {
+        fn _verify_claim_proof(
+            self: @ContractState,
+            instance_id: u256,
+            caller: ContractAddress,
+            amount: u256,
+            proof: Span<felt252>
+        ) -> bool {
+            // get instance merkle root
+
+            // recreate the leaf
+
+            // verify merkle proof
+            true
+        }
+
+        fn _claim(
+            ref self: ContractState,
+            instance_id: u256,
+            community_id: u256,
+            caller: ContractAddress,
+            amount: u256,
+            erc20_contract_address: ContractAddress
+        ) {
+            // jolt the funds to the caller
+            let jolt_params = JoltParams {
+                jolt_type: JoltType::Transfer,
+                recipient: caller,
+                memo: "claimed funds from pot",
+                amount: amount,
+                expiration_stamp: 0,
+                subscription_details: (0, false, 0),
+                erc20_contract_address: erc20_contract_address
+            };
+
+            self.jolt.jolt(jolt_params);
+
+            // update storage
+            self.has_claimed.write(caller, true);
+
+            // emit claimed event
+            self
+                .emit(
+                    ClaimedFromPot {
+                        pot_instance_id: instance_id,
+                        community_id: community_id,
+                        address: caller,
+                        amount_claimed: amount,
+                        erc20_contract_address: erc20_contract_address
+                    }
+                )
+        }
+
+        fn _withdraw(
+            ref self: ContractState,
+            instance_id: u256,
+            community_id: u256,
+            address: ContractAddress,
+            amount: u256,
+            erc20_contract_address: ContractAddress
+        ) {
+            // jolt the funds back to the owner
+            let jolt_params = JoltParams {
+                jolt_type: JoltType::Transfer,
+                recipient: address,
+                memo: "Withdrew unclaimed funds from pot",
+                amount: amount,
+                expiration_stamp: 0,
+                subscription_details: (0, false, 0),
+                erc20_contract_address: erc20_contract_address
+            };
+
+            self.jolt.jolt(jolt_params);
+
+            // emit event
+            self
+                .emit(
+                    WithdrawnFromPot {
+                        pot_instance_id: instance_id,
+                        community_id: community_id,
+                        address: address,
+                        amount_withdrawn: amount,
+                        erc20_contract_address: erc20_contract_address,
+                    }
+                );
         }
     }
 }

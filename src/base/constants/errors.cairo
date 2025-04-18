@@ -55,4 +55,9 @@ pub mod Errors {
     pub const INVALID_START_TIME: felt252 = 'coloniz: start time in the past';
     pub const INVALID_DURATION: felt252 = 'coloniz: duration < 1 hr';
     pub const INSTANCE_NOT_ENDED: felt252 = 'coloniz: instance has not ended';
+    pub const DISTRIBUTION_AMOUNT_EXHAUSTED: felt252 = 'coloniz: distribution exhausted';
+    pub const INSTANCE_DOES_NOT_EXIST: felt252 = 'coloniz: instance doesnt exist';
+    pub const INSTANCE_INACTIVE: felt252 = 'coloniz: instance inactive';
+    pub const USER_ALREADY_CLAIMED: felt252 = 'coloniz: user already claimed';
+    pub const INVALID_CLAIM_PROOF: felt252 = 'coloniz: invalid claim proof';
 }
