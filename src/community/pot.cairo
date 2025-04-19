@@ -1,5 +1,5 @@
-#[starknet::contract]
-pub mod CommunityPot {
+#[starknet::component]
+pub mod PotComponent {
     // *************************************************************************
     //                            IMPORTS
     // *************************************************************************
@@ -14,47 +14,26 @@ pub mod CommunityPot {
     };
 
     use coloniz::base::constants::{types::{PotInstance, JoltParams, JoltType}, errors::Errors};
-    use coloniz::interfaces::{IPot::IPot};
+    use coloniz::interfaces::{
+        IPot::IPot, 
+        ICommunity::ICommunity,
+        IJolt::IJolt
+    };
     use coloniz::community::community::CommunityComponent;
     use coloniz::jolt::jolt::JoltComponent;
 
     use openzeppelin_access::ownable::OwnableComponent;
-    use openzeppelin_upgrades::UpgradeableComponent;
     use alexandria_merkle_tree::merkle_tree::{ Hasher, MerkleTree, pedersen::PedersenHasherImpl, MerkleTreeTrait };
-
-    // *************************************************************************
-    //                              COMPONENTS
-    // *************************************************************************
-    component!(path: CommunityComponent, storage: community, event: CommunityEvent);
-    component!(path: JoltComponent, storage: jolt, event: JoltEvent);
-    component!(path: OwnableComponent, storage: ownable, event: OwnableEvent);
-    component!(path: UpgradeableComponent, storage: upgradeable, event: UpgradeableEvent);
-
-    impl communityImpl = CommunityComponent::colonizCommunity<ContractState>;
-    impl joltImpl = JoltComponent::Jolt<ContractState>;
-    #[abi(embed_v0)]
-    impl OwnableMixinImpl = OwnableComponent::OwnableMixinImpl<ContractState>;
-
-    impl OwnableInternalImpl = OwnableComponent::InternalImpl<ContractState>;
-    impl UpgradeableInternalImpl = UpgradeableComponent::InternalImpl<ContractState>;
 
     // *************************************************************************
     //                              STORAGE
     // *************************************************************************
     #[storage]
     pub struct Storage {
-        instances: Map<u256, PotInstance>,
-        total_instances: u256,
-        distributed_amount: Map<u256, u256>,
-        has_claimed: Map<ContractAddress, bool>,
-        #[substorage(v0)]
-        community: CommunityComponent::Storage,
-        #[substorage(v0)]
-        jolt: JoltComponent::Storage,
-        #[substorage(v0)]
-        ownable: OwnableComponent::Storage,
-        #[substorage(v0)]
-        upgradeable: UpgradeableComponent::Storage,
+        instances: Map<u256, PotInstance>, // map<instance_id, Pot>
+        total_instances: u256, // tracks total instances
+        distributed_amount: Map<u256, u256>, // map<instance_id, distributed_amount>
+        has_claimed: Map<ContractAddress, bool>, // map<user profile, claim status>
     }
 
     // *************************************************************************
@@ -66,14 +45,6 @@ pub mod CommunityPot {
         ActivatedPot: ActivatedPot,
         ClaimedFromPot: ClaimedFromPot,
         WithdrawnFromPot: WithdrawnFromPot,
-        #[flat]
-        CommunityEvent: CommunityComponent::Event,
-        #[flat]
-        JoltEvent: JoltComponent::Event,
-        #[flat]
-        OwnableEvent: OwnableComponent::Event,
-        #[flat]
-        UpgradeableEvent: UpgradeableComponent::Event
     }
 
     #[derive(Drop, starknet::Event)]
@@ -105,13 +76,20 @@ pub mod CommunityPot {
         pub erc20_contract_address: ContractAddress,
     }
 
-    #[abi(embed_v0)]
-    impl CommunityPotImpl of IPot<ContractState> {
+    #[embeddable_as(communityPot)]
+    impl CommunityPotImpl<
+        TContractState,
+        +HasComponent<TContractState>,
+        +Drop<TContractState>,
+        impl Jolt: JoltComponent::HasComponent<TContractState>,
+        impl Community: CommunityComponent::HasComponent<TContractState>,
+        impl Ownable: OwnableComponent::HasComponent<TContractState>
+     >of IPot<ComponentState<TContractState>> {
         // *************************************************************************
         //                              EXTERNALS
         // *************************************************************************
         fn activate(
-            ref self: ContractState,
+            ref self: ComponentState<TContractState>,
             community_id: u256,
             merkle_root: felt252,
             max_claim: u256,
@@ -121,10 +99,10 @@ pub mod CommunityPot {
             instance_duration: u64
         ) -> u256 {
             // check caller is community owner/mod
-            let community_owner = self.community.get_community(community_id).community_owner;
-            let is_community_mod = self
-                .community
-                .is_community_mod(get_caller_address(), community_id);
+            let community_comp = get_dep_component!(@self, Community);
+            let community_owner = community_comp.get_community(community_id).community_owner;
+            let is_community_mod = community_comp
+            .is_community_mod(get_caller_address(), community_id);
             assert(
                 get_caller_address() == community_owner || is_community_mod, Errors::UNAUTHORIZED
             );
@@ -134,8 +112,6 @@ pub mod CommunityPot {
             // check start time is not in the past
             let now = get_block_timestamp();
             assert(instance_start_time > now, Errors::INVALID_START_TIME);
-            // check duration is greater than 1 hr
-            assert(instance_duration > 3600, Errors::INVALID_DURATION);
 
             // write instance details to storage
             let new_instance_id: u256 = self.total_instances.read() + 1;
@@ -168,7 +144,7 @@ pub mod CommunityPot {
             new_instance_id
         }
 
-        fn claim(ref self: ContractState, instance_id: u256, amount: u256, proof: Span<felt252>) {
+        fn claim(ref self: ComponentState<TContractState>, instance_id: u256, amount: u256, proof: Span<felt252>) {
             // check that instance exists and is ongoing
             let instance = self.instances.read(instance_id);
             assert(instance.instance_id != 0, Errors::INSTANCE_DOES_NOT_EXIST);
@@ -180,7 +156,8 @@ pub mod CommunityPot {
             assert(now > instance_start_time && now < instance_end_time, Errors::INSTANCE_INACTIVE);
 
             // check that the caller is a member of the community
-            let (is_member, _) = self.community.is_community_member(caller, instance.community_id);
+            let community_comp = get_dep_component!(@self, Community);
+            let (is_member, _) = community_comp.is_community_member(caller, instance.community_id);
             assert(is_member, Errors::NOT_COMMUNITY_MEMBER);
 
             // check that the caller has not previously claimed
@@ -212,12 +189,12 @@ pub mod CommunityPot {
                 )
         }
 
-        fn withdraw(ref self: ContractState, instance_id: u256, address: ContractAddress) {
+        fn withdraw(ref self: ComponentState<TContractState>, instance_id: u256, address: ContractAddress) {
             let instance = self.instances.read(instance_id);
 
             // check caller is owner
-            let community_owner = self
-                .community
+            let community_comp = get_dep_component!(@self, Community);
+            let community_owner = community_comp
                 .get_community(instance.community_id)
                 .community_owner;
             assert(get_caller_address() == community_owner, Errors::UNAUTHORIZED);
@@ -245,7 +222,7 @@ pub mod CommunityPot {
         // *************************************************************************
         //                              GETTERS
         // *************************************************************************
-        fn instance_is_active(self: @ContractState, instance_id: u256) -> bool {
+        fn instance_is_active(self: @ComponentState<TContractState>, instance_id: u256) -> bool {
             let instance = self.instances.read(instance_id);
             let now = get_block_timestamp();
             let instance_start_time = instance.instance_start_time;
@@ -259,7 +236,7 @@ pub mod CommunityPot {
         }
 
         fn user_is_eligible(
-            self: @ContractState,
+            self: @ComponentState<TContractState>,
             instance_id: u256,
             address: ContractAddress,
             amount: u256,
@@ -276,12 +253,12 @@ pub mod CommunityPot {
         }
 
         fn user_has_claimed(
-            self: @ContractState, instance_id: u256, address: ContractAddress
+            self: @ComponentState<TContractState>, instance_id: u256, address: ContractAddress
         ) -> bool {
             self.has_claimed.read(address)
         }
 
-        fn get_distributed_amount(self: @ContractState, instance_id: u256) -> u256 {
+        fn get_distributed_amount(self: @ComponentState<TContractState>, instance_id: u256) -> u256 {
             self.distributed_amount.read(instance_id)
         }
     }
@@ -290,9 +267,16 @@ pub mod CommunityPot {
     //                              PRIVATE FUNCTIONS
     // *************************************************************************
     #[generate_trait]
-    pub impl Private of PrivateTrait {
+    pub impl Private<
+        TContractState,
+        +HasComponent<TContractState>,
+        +Drop<TContractState>,
+        impl Jolt: JoltComponent::HasComponent<TContractState>,
+        impl Community: CommunityComponent::HasComponent<TContractState>,
+        impl Ownable: OwnableComponent::HasComponent<TContractState>
+    > of PrivateTrait<TContractState> {
         fn _verify_claim_proof(
-            self: @ContractState,
+            self: @ComponentState<TContractState>,
             instance_id: u256,
             caller: ContractAddress,
             amount: u256,
@@ -315,7 +299,7 @@ pub mod CommunityPot {
         }
 
         fn _claim(
-            ref self: ContractState,
+            ref self: ComponentState<TContractState>,
             instance_id: u256,
             community_id: u256,
             caller: ContractAddress,
@@ -333,7 +317,8 @@ pub mod CommunityPot {
                 erc20_contract_address: erc20_contract_address
             };
 
-            self.jolt.jolt(jolt_params);
+            let mut jolt_comp = get_dep_component_mut!(ref self, Jolt);
+            jolt_comp.jolt(jolt_params);
 
             // update storage
             self.has_claimed.write(caller, true);
@@ -352,7 +337,7 @@ pub mod CommunityPot {
         }
 
         fn _withdraw(
-            ref self: ContractState,
+            ref self: ComponentState<TContractState>,
             instance_id: u256,
             community_id: u256,
             address: ContractAddress,
@@ -370,7 +355,8 @@ pub mod CommunityPot {
                 erc20_contract_address: erc20_contract_address
             };
 
-            self.jolt.jolt(jolt_params);
+            let mut jolt_comp = get_dep_component_mut!(ref self, Jolt);
+            jolt_comp.jolt(jolt_params);
 
             // emit event
             self

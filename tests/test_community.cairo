@@ -32,7 +32,7 @@ const NFT_ONE: felt252 = 'JOE_NFT';
 //                              SETUP
 // *************************************************************************
 fn __setup__() -> (ContractAddress, ContractAddress) {
-    // deploy community nft
+    // declare community nft
     let community_nft_class_hash = declare("CommunityNFT").unwrap().contract_class();
 
     // deploy community preset contract
