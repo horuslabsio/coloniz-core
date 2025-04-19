@@ -53,7 +53,6 @@ pub mod Errors {
     pub const INVALID_LENGTH: felt252 = 'coloniz: array mismatch';
     pub const INVALID_MAX_CLAIM: felt252 = 'coloniz: max claim too large';
     pub const INVALID_START_TIME: felt252 = 'coloniz: start time in the past';
-    pub const INVALID_DURATION: felt252 = 'coloniz: duration < 1 hr';
     pub const INSTANCE_NOT_ENDED: felt252 = 'coloniz: instance has not ended';
     pub const DISTRIBUTION_AMOUNT_EXHAUSTED: felt252 = 'coloniz: distribution exhausted';
     pub const INSTANCE_DOES_NOT_EXIST: felt252 = 'coloniz: instance doesnt exist';

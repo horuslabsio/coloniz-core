@@ -261,6 +261,10 @@ pub mod PotComponent {
         fn get_distributed_amount(self: @ComponentState<TContractState>, instance_id: u256) -> u256 {
             self.distributed_amount.read(instance_id)
         }
+
+        fn get_total_instances(self: @ComponentState<TContractState>) -> u256 {
+            self.total_instances.read()
+        }
     }
 
     // *************************************************************************
