@@ -5,8 +5,10 @@
 
 <!-- primary badges -->
 <p align="center">
+   <a href="https://github.com/horuslabsio/coloniz-core/actions">
+    <img src="https://github.com/horuslabsio/coloniz-core/actions/workflows/build_contract.yml/badge.svg">
   <a href="https://github.com/horuslabsio/coloniz-core/blob/main/LICENSE/">
-    <img src="https://img.shields.io/badge/license-MIT-black">
+    <img src="https://img.shields.io/badge/license-MIT-green">
   </a>
 </p>
 
