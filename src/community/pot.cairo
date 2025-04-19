@@ -77,7 +77,7 @@ pub mod PotComponent {
     }
 
     #[embeddable_as(communityPot)]
-    impl CommunityPotImpl<
+    pub impl CommunityPotImpl<
         TContractState,
         +HasComponent<TContractState>,
         +Drop<TContractState>,
