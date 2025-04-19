@@ -3,6 +3,8 @@ pub mod CommunityPot {
     // *************************************************************************
     //                            IMPORTS
     // *************************************************************************
+    use core::hash::HashStateTrait;
+    use core::pedersen::PedersenTrait;
     use starknet::{
         ContractAddress, get_caller_address, get_block_timestamp,
         storage::{
@@ -18,6 +20,7 @@ pub mod CommunityPot {
 
     use openzeppelin_access::ownable::OwnableComponent;
     use openzeppelin_upgrades::UpgradeableComponent;
+    use alexandria_merkle_tree::merkle_tree::{ Hasher, MerkleTree, pedersen::PedersenHasherImpl, MerkleTreeTrait };
 
     // *************************************************************************
     //                              COMPONENTS
@@ -189,7 +192,13 @@ pub mod CommunityPot {
             assert(unclaimed_amount > 0, Errors::DISTRIBUTION_AMOUNT_EXHAUSTED);
 
             // check that proof is valid
-            let is_valid_proof = self._verify_claim_proof(instance_id, caller, amount, proof);
+            let is_valid_proof = self._verify_claim_proof(
+                instance_id, 
+                caller, 
+                amount, 
+                instance.merkle_root,
+                proof
+            );
             assert(is_valid_proof, Errors::INVALID_CLAIM_PROOF);
 
             // call an internal function to process claim
@@ -256,7 +265,14 @@ pub mod CommunityPot {
             amount: u256,
             proof: Span<felt252>
         ) -> bool {
-            self._verify_claim_proof(instance_id, address, amount, proof)
+            let instance = self.instances.read(instance_id);
+            self._verify_claim_proof(
+                instance_id, 
+                address, 
+                amount, 
+                instance.merkle_root, 
+                proof
+            )
         }
 
         fn user_has_claimed(
@@ -280,14 +296,22 @@ pub mod CommunityPot {
             instance_id: u256,
             caller: ContractAddress,
             amount: u256,
+            merkle_root: felt252,
             proof: Span<felt252>
         ) -> bool {
-            // get instance merkle root
+            // create a new merkle tree instance
+            let mut merkle_tree: MerkleTree<Hasher> = MerkleTreeTrait::new();
 
             // recreate the leaf
+            let leaf = PedersenTrait::new(0)
+                .update(caller.into())
+                .update(amount.low.into())
+                .update(amount.high.into())
+                .update(3)
+                .finalize();
 
             // verify merkle proof
-            true
+            merkle_tree.verify(merkle_root, leaf, proof)
         }
 
         fn _claim(
