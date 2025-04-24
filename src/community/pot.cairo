@@ -6,7 +6,7 @@ pub mod PotComponent {
     use core::hash::HashStateTrait;
     use core::pedersen::PedersenTrait;
     use starknet::{
-        ContractAddress, get_caller_address, get_block_timestamp,
+        ContractAddress, get_caller_address, get_contract_address, get_block_timestamp,
         storage::{
             StoragePointerWriteAccess, StoragePointerReadAccess, Map, StorageMapReadAccess,
             StorageMapWriteAccess
@@ -14,7 +14,10 @@ pub mod PotComponent {
     };
 
     use coloniz::base::constants::{types::{PotInstance, JoltParams, JoltType}, errors::Errors};
-    use coloniz::interfaces::{IPot::IPot, ICommunity::ICommunity, IJolt::IJolt};
+    use coloniz::interfaces::{
+        IPot::IPot, ICommunity::ICommunity, IJolt::IJolt,
+        IERC20::{IERC20Dispatcher, IERC20DispatcherTrait}
+    };
     use coloniz::community::community::CommunityComponent;
     use coloniz::jolt::jolt::JoltComponent;
 
@@ -40,13 +43,13 @@ pub mod PotComponent {
     #[event]
     #[derive(Drop, starknet::Event)]
     pub enum Event {
-        ActivatedPot: ActivatedPot,
+        PotInstanceCreated: PotInstanceCreated,
         ClaimedFromPot: ClaimedFromPot,
         WithdrawnFromPot: WithdrawnFromPot,
     }
 
     #[derive(Drop, starknet::Event)]
-    pub struct ActivatedPot {
+    pub struct PotInstanceCreated {
         pub pot_instance_id: u256,
         pub community_id: u256,
         pub merkle_root: felt252,
@@ -86,7 +89,15 @@ pub mod PotComponent {
         // *************************************************************************
         //                              EXTERNALS
         // *************************************************************************
-        fn activate(
+        /// @notice creates a new pot instance
+        /// @param community_id id of community
+        /// @param merkle_root root of the tree
+        /// @param max_claim max claim a user can make
+        /// @param distribution_amount amount to be distributed
+        /// @param erc20_contract_address address of token to distribute
+        /// @param instance_start_time time at which instance is activated
+        /// @param instance_duration duration of the instance
+        fn create_instance(
             ref self: ComponentState<TContractState>,
             community_id: u256,
             merkle_root: felt252,
@@ -111,41 +122,26 @@ pub mod PotComponent {
             let now = get_block_timestamp();
             assert(instance_start_time > now, Errors::INVALID_START_TIME);
 
-            // write instance details to storage
-            let new_instance_id: u256 = self.total_instances.read() + 1;
-            let new_pot_instance = PotInstance {
-                instance_id: new_instance_id,
-                community_id,
-                merkle_root,
-                distribution_amount,
-                max_claim,
-                erc20_contract_address,
-                instance_start_time,
-                instance_duration
-            };
-            self.instances.write(new_instance_id, new_pot_instance);
-            self.total_instances.write(new_instance_id);
-
             self
-                .emit(
-                    ActivatedPot {
-                        pot_instance_id: new_instance_id,
-                        community_id,
-                        merkle_root,
-                        distribution_amount,
-                        erc20_contract_address,
-                        instance_start_time,
-                        instance_duration
-                    }
-                );
-
-            new_instance_id
+                ._create_instance(
+                    community_id,
+                    merkle_root,
+                    max_claim,
+                    distribution_amount,
+                    erc20_contract_address,
+                    instance_start_time,
+                    instance_duration
+                )
         }
 
+        /// @notice called to claim from pot
+        /// @param instance_id id of the pot instance to claim from
+        /// @param claim_amount amount to be claimed
+        /// @param proof merkle proof to be validated
         fn claim(
             ref self: ComponentState<TContractState>,
             instance_id: u256,
-            amount: u256,
+            claim_amount: u256,
             proof: Span<felt252>
         ) {
             // check that instance exists and is ongoing
@@ -167,16 +163,18 @@ pub mod PotComponent {
             assert(!self.has_claimed.read(caller), Errors::USER_ALREADY_CLAIMED);
 
             // check that the claim amount does not exceed max claim
-            assert(amount <= instance.max_claim, Errors::EXCEEDS_MAX_CLAIM);
+            assert(claim_amount <= instance.max_claim, Errors::EXCEEDS_MAX_CLAIM);
 
             // check the distribution amount is not exhausted
             let distributed_amount = self.distributed_amount.read(instance_id);
             let unclaimed_amount = instance.distribution_amount - distributed_amount;
-            assert(unclaimed_amount > 0, Errors::DISTRIBUTION_AMOUNT_EXHAUSTED);
+            assert(unclaimed_amount >= claim_amount, Errors::DISTRIBUTION_AMOUNT_EXHAUSTED);
 
             // check that proof is valid
             let is_valid_proof = self
-                ._verify_claim_proof(instance_id, caller, amount, instance.merkle_root, proof);
+                ._verify_claim_proof(
+                    instance_id, caller, claim_amount, instance.merkle_root, proof
+                );
             assert(is_valid_proof, Errors::INVALID_CLAIM_PROOF);
 
             // call an internal function to process claim
@@ -185,11 +183,14 @@ pub mod PotComponent {
                     instance_id,
                     instance.community_id,
                     caller,
-                    amount,
+                    claim_amount,
                     instance.erc20_contract_address
                 )
         }
 
+        /// @notice withdraws the remaining funds after claiming is ended
+        /// @param instance_id id of the pot instance to withdraw from
+        /// @param address address to withdraw funds to
         fn withdraw(
             ref self: ComponentState<TContractState>, instance_id: u256, address: ContractAddress
         ) {
@@ -217,6 +218,7 @@ pub mod PotComponent {
                     instance_id,
                     instance.community_id,
                     address,
+                    instance.distribution_amount,
                     unclaimed_amount,
                     instance.erc20_contract_address
                 );
@@ -225,6 +227,8 @@ pub mod PotComponent {
         // *************************************************************************
         //                              GETTERS
         // *************************************************************************
+        /// @notice returns the status of an instance
+        /// @param instance_id id of the instance to be queried
         fn instance_is_active(self: @ComponentState<TContractState>, instance_id: u256) -> bool {
             let instance = self.instances.read(instance_id);
             let now = get_block_timestamp();
@@ -238,6 +242,11 @@ pub mod PotComponent {
             }
         }
 
+        /// @notice checks if a user is eligible for claiming
+        /// @param instance_id id of instance to check against
+        /// @param address address to be checked
+        /// @param amount claim amount
+        /// @param proof merkle proof to be validated
         fn user_is_eligible(
             self: @ComponentState<TContractState>,
             instance_id: u256,
@@ -249,18 +258,24 @@ pub mod PotComponent {
             self._verify_claim_proof(instance_id, address, amount, instance.merkle_root, proof)
         }
 
+        /// @notice checks if a user has claimed
+        /// @param instance_id id of instance to check against
+        /// @param address address to be checked
         fn user_has_claimed(
             self: @ComponentState<TContractState>, instance_id: u256, address: ContractAddress
         ) -> bool {
             self.has_claimed.read(address)
         }
 
+        /// @notice get the distributed amount in an instance
+        /// @param instance_id id of instance to check against
         fn get_distributed_amount(
             self: @ComponentState<TContractState>, instance_id: u256
         ) -> u256 {
             self.distributed_amount.read(instance_id)
         }
 
+        /// @notice get the total no. of instances created
         fn get_total_instances(self: @ComponentState<TContractState>) -> u256 {
             self.total_instances.read()
         }
@@ -278,6 +293,76 @@ pub mod PotComponent {
         impl Community: CommunityComponent::HasComponent<TContractState>,
         impl Ownable: OwnableComponent::HasComponent<TContractState>
     > of PrivateTrait<TContractState> {
+        /// @notice internal function to create new instances
+        /// @param community_id id of community
+        /// @param merkle_root root of the tree
+        /// @param max_claim max claim a user can make
+        /// @param distribution_amount amount to be distributed
+        /// @param erc20_contract_address address of token to distribute
+        /// @param instance_start_time time at which instance is activated
+        /// @param instance_duration duration of the instance
+        fn _create_instance(
+            ref self: ComponentState<TContractState>,
+            community_id: u256,
+            merkle_root: felt252,
+            max_claim: u256,
+            distribution_amount: u256,
+            erc20_contract_address: ContractAddress,
+            instance_start_time: u64,
+            instance_duration: u64
+        ) -> u256 {
+            // jolt amount to the contract
+            let jolt_params = JoltParams {
+                jolt_type: JoltType::Transfer,
+                recipient: get_contract_address(),
+                memo: "Funding community pot",
+                amount: distribution_amount,
+                expiration_stamp: 0,
+                subscription_details: (0, false, 0),
+                erc20_contract_address: erc20_contract_address
+            };
+
+            let mut jolt_comp = get_dep_component_mut!(ref self, Jolt);
+            jolt_comp.jolt(jolt_params);
+
+            // write instance details to storage and emit event
+            let new_instance_id: u256 = self.total_instances.read() + 1;
+            let new_pot_instance = PotInstance {
+                instance_id: new_instance_id,
+                community_id,
+                merkle_root,
+                distribution_amount,
+                max_claim,
+                erc20_contract_address,
+                instance_start_time,
+                instance_duration
+            };
+
+            self.instances.write(new_instance_id, new_pot_instance);
+            self.total_instances.write(new_instance_id);
+
+            self
+                .emit(
+                    PotInstanceCreated {
+                        pot_instance_id: new_instance_id,
+                        community_id,
+                        merkle_root,
+                        distribution_amount,
+                        erc20_contract_address,
+                        instance_start_time,
+                        instance_duration
+                    }
+                );
+
+            new_instance_id
+        }
+
+        /// @notice verifies a claim proof
+        /// @param instance_id id of pot instance
+        /// @param caller claiming address
+        /// @param amount claim amount
+        /// @param merkle_root root to verify proof against
+        /// @param proof merkle proof to be verified
         fn _verify_claim_proof(
             self: @ComponentState<TContractState>,
             instance_id: u256,
@@ -301,6 +386,12 @@ pub mod PotComponent {
             merkle_tree.verify(merkle_root, leaf, proof)
         }
 
+        /// @notice internal function to perform the claim action
+        /// @param instance_id id of pot instance
+        /// @param community_id id of community, pot instance belongs to
+        /// @param caller claiming address
+        /// @param amount claim amount
+        /// @param erc20_contract_address address of token being claimed
         fn _claim(
             ref self: ComponentState<TContractState>,
             instance_id: u256,
@@ -309,24 +400,16 @@ pub mod PotComponent {
             amount: u256,
             erc20_contract_address: ContractAddress
         ) {
-            // jolt the funds to the caller
-            let jolt_params = JoltParams {
-                jolt_type: JoltType::Transfer,
-                recipient: caller,
-                memo: "claimed funds from pot",
-                amount: amount,
-                expiration_stamp: 0,
-                subscription_details: (0, false, 0),
-                erc20_contract_address: erc20_contract_address
-            };
-
-            let mut jolt_comp = get_dep_component_mut!(ref self, Jolt);
-            jolt_comp.jolt(jolt_params);
-
             // update storage
             self.has_claimed.write(caller, true);
 
-            // emit claimed event
+            // update distributed amount
+            let total_distributed_amount = self.distributed_amount.read(instance_id);
+            self.distributed_amount.write(instance_id, (total_distributed_amount + amount));
+
+            // send claim amount to caller
+            IERC20Dispatcher { contract_address: erc20_contract_address }.transfer(caller, amount);
+
             self
                 .emit(
                     ClaimedFromPot {
@@ -339,36 +422,35 @@ pub mod PotComponent {
                 )
         }
 
+        /// @notice internal function to perform the withdraw action
+        /// @param instance_id id of pot instance
+        /// @param community_id id of community, pot instance belongs to
+        /// @param address address to withdraw funds to
+        /// @param distribution_amount total amount that was to be initially distributed
+        /// @param unclaimed_amount amount to be withdrawn
+        /// @param erc20_contract_address address of token being withdrawn
         fn _withdraw(
             ref self: ComponentState<TContractState>,
             instance_id: u256,
             community_id: u256,
             address: ContractAddress,
-            amount: u256,
+            distribution_amount: u256,
+            unclaimed_amount: u256,
             erc20_contract_address: ContractAddress
         ) {
-            // jolt the funds back to the owner
-            let jolt_params = JoltParams {
-                jolt_type: JoltType::Transfer,
-                recipient: address,
-                memo: "Withdrew unclaimed funds from pot",
-                amount: amount,
-                expiration_stamp: 0,
-                subscription_details: (0, false, 0),
-                erc20_contract_address: erc20_contract_address
-            };
+            // update distributed amount
+            self.distributed_amount.write(instance_id, distribution_amount);
 
-            let mut jolt_comp = get_dep_component_mut!(ref self, Jolt);
-            jolt_comp.jolt(jolt_params);
+            IERC20Dispatcher { contract_address: erc20_contract_address }
+                .transfer(address, unclaimed_amount);
 
-            // emit event
             self
                 .emit(
                     WithdrawnFromPot {
                         pot_instance_id: instance_id,
                         community_id: community_id,
                         address: address,
-                        amount_withdrawn: amount,
+                        amount_withdrawn: unclaimed_amount,
                         erc20_contract_address: erc20_contract_address,
                     }
                 );

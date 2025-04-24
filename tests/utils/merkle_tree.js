@@ -36,8 +36,8 @@ console.log('root: ', tree.root)
 // proof
 console.log('proof: ', tree.getProof(
     hash.computePedersenHashOnElements([
-        amount2_low,
-        amount2_high,
-        BigInt("0x02d904Aedff382C0D68F22444B525146ec5eA2926e271fC411845e8D9E751DE1")
+        amount1_low,
+        amount1_high,
+        BigInt("0x072966f3178Cd2f4eDF57EFC318b1c6026698Ff6091386BF4AC06bD51EC1fEDe")
     ])
 ))
