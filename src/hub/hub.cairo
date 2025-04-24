@@ -55,7 +55,7 @@ pub mod ColonizHub {
     component!(path: CommunityComponent, storage: community, event: CommunityEvent);
     component!(path: PotComponent, storage: pot, event: PotEvent);
     component!(path: UpgradeableComponent, storage: upgradeable, event: UpgradeableEvent);
-    
+
     #[abi(embed_v0)]
     impl ProfileImpl = ProfileComponent::colonizProfile<ContractState>;
     #[abi(embed_v0)]

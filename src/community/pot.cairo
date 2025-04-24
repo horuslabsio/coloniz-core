@@ -14,16 +14,14 @@ pub mod PotComponent {
     };
 
     use coloniz::base::constants::{types::{PotInstance, JoltParams, JoltType}, errors::Errors};
-    use coloniz::interfaces::{
-        IPot::IPot, 
-        ICommunity::ICommunity,
-        IJolt::IJolt
-    };
+    use coloniz::interfaces::{IPot::IPot, ICommunity::ICommunity, IJolt::IJolt};
     use coloniz::community::community::CommunityComponent;
     use coloniz::jolt::jolt::JoltComponent;
 
     use openzeppelin_access::ownable::OwnableComponent;
-    use alexandria_merkle_tree::merkle_tree::{ Hasher, MerkleTree, pedersen::PedersenHasherImpl, MerkleTreeTrait };
+    use alexandria_merkle_tree::merkle_tree::{
+        Hasher, MerkleTree, pedersen::PedersenHasherImpl, MerkleTreeTrait
+    };
 
     // *************************************************************************
     //                              STORAGE
@@ -84,7 +82,7 @@ pub mod PotComponent {
         impl Jolt: JoltComponent::HasComponent<TContractState>,
         impl Community: CommunityComponent::HasComponent<TContractState>,
         impl Ownable: OwnableComponent::HasComponent<TContractState>
-     >of IPot<ComponentState<TContractState>> {
+    > of IPot<ComponentState<TContractState>> {
         // *************************************************************************
         //                              EXTERNALS
         // *************************************************************************
@@ -102,7 +100,7 @@ pub mod PotComponent {
             let community_comp = get_dep_component!(@self, Community);
             let community_owner = community_comp.get_community(community_id).community_owner;
             let is_community_mod = community_comp
-            .is_community_mod(get_caller_address(), community_id);
+                .is_community_mod(get_caller_address(), community_id);
             assert(
                 get_caller_address() == community_owner || is_community_mod, Errors::UNAUTHORIZED
             );
@@ -144,7 +142,12 @@ pub mod PotComponent {
             new_instance_id
         }
 
-        fn claim(ref self: ComponentState<TContractState>, instance_id: u256, amount: u256, proof: Span<felt252>) {
+        fn claim(
+            ref self: ComponentState<TContractState>,
+            instance_id: u256,
+            amount: u256,
+            proof: Span<felt252>
+        ) {
             // check that instance exists and is ongoing
             let instance = self.instances.read(instance_id);
             assert(instance.instance_id != 0, Errors::INSTANCE_DOES_NOT_EXIST);
@@ -161,7 +164,10 @@ pub mod PotComponent {
             assert(is_member, Errors::NOT_COMMUNITY_MEMBER);
 
             // check that the caller has not previously claimed
-            assert(self.has_claimed.read(caller), Errors::USER_ALREADY_CLAIMED);
+            assert(!self.has_claimed.read(caller), Errors::USER_ALREADY_CLAIMED);
+
+            // check that the claim amount does not exceed max claim
+            assert(amount <= instance.max_claim, Errors::EXCEEDS_MAX_CLAIM);
 
             // check the distribution amount is not exhausted
             let distributed_amount = self.distributed_amount.read(instance_id);
@@ -169,13 +175,8 @@ pub mod PotComponent {
             assert(unclaimed_amount > 0, Errors::DISTRIBUTION_AMOUNT_EXHAUSTED);
 
             // check that proof is valid
-            let is_valid_proof = self._verify_claim_proof(
-                instance_id, 
-                caller, 
-                amount, 
-                instance.merkle_root,
-                proof
-            );
+            let is_valid_proof = self
+                ._verify_claim_proof(instance_id, caller, amount, instance.merkle_root, proof);
             assert(is_valid_proof, Errors::INVALID_CLAIM_PROOF);
 
             // call an internal function to process claim
@@ -189,7 +190,9 @@ pub mod PotComponent {
                 )
         }
 
-        fn withdraw(ref self: ComponentState<TContractState>, instance_id: u256, address: ContractAddress) {
+        fn withdraw(
+            ref self: ComponentState<TContractState>, instance_id: u256, address: ContractAddress
+        ) {
             let instance = self.instances.read(instance_id);
 
             // check caller is owner
@@ -243,13 +246,7 @@ pub mod PotComponent {
             proof: Span<felt252>
         ) -> bool {
             let instance = self.instances.read(instance_id);
-            self._verify_claim_proof(
-                instance_id, 
-                address, 
-                amount, 
-                instance.merkle_root, 
-                proof
-            )
+            self._verify_claim_proof(instance_id, address, amount, instance.merkle_root, proof)
         }
 
         fn user_has_claimed(
@@ -258,7 +255,9 @@ pub mod PotComponent {
             self.has_claimed.read(address)
         }
 
-        fn get_distributed_amount(self: @ComponentState<TContractState>, instance_id: u256) -> u256 {
+        fn get_distributed_amount(
+            self: @ComponentState<TContractState>, instance_id: u256
+        ) -> u256 {
             self.distributed_amount.read(instance_id)
         }
 
@@ -292,9 +291,9 @@ pub mod PotComponent {
 
             // recreate the leaf
             let leaf = PedersenTrait::new(0)
-                .update(caller.into())
                 .update(amount.low.into())
                 .update(amount.high.into())
+                .update(caller.try_into().unwrap())
                 .update(3)
                 .finalize();
 
