@@ -12,8 +12,6 @@ use coloniz::interfaces::ICommunity::{ICommunityDispatcher, ICommunityDispatcher
 use coloniz::interfaces::IERC20::{IERC20Dispatcher, IERC20DispatcherTrait};
 use coloniz::community::pot::PotComponent::{
     {Event as PotInstanceCreatedEvent, PotInstanceCreated},
-    {Event as ClaimedFromPotEvent, ClaimedFromPot},
-    {Event as WithdrawnFromPotEvent, WithdrawnFromPot}
 };
 
 const ADMIN: felt252 = 5382942;
@@ -406,7 +404,6 @@ fn test_claiming_fails_if_distribution_amount_is_exhausted() {
 fn test_withdraw() {
     let (pot_contract_address, usdt_contract_address) = __setup__();
     let pot_dispatcher = IPotDispatcher { contract_address: pot_contract_address };
-    let community_dispatcher = ICommunityDispatcher { contract_address: pot_contract_address };
     let erc20_dispatcher = IERC20Dispatcher { contract_address: usdt_contract_address };
 
     let merkle_root: felt252 =
@@ -448,8 +445,6 @@ fn test_withdraw() {
 fn test_withdrawal_can_only_be_called_by_owner() {
     let (pot_contract_address, usdt_contract_address) = __setup__();
     let pot_dispatcher = IPotDispatcher { contract_address: pot_contract_address };
-    let community_dispatcher = ICommunityDispatcher { contract_address: pot_contract_address };
-    let erc20_dispatcher = IERC20Dispatcher { contract_address: usdt_contract_address };
 
     let merkle_root: felt252 =
         415944806682468542317893663524164587180226905219159939966475712536121842448;
@@ -524,8 +519,6 @@ fn test_cannot_withdraw_if_distribution_amount_is_exhausted() {
 fn test_withdrawal_cannot_be_called_twice() {
     let (pot_contract_address, usdt_contract_address) = __setup__();
     let pot_dispatcher = IPotDispatcher { contract_address: pot_contract_address };
-    let community_dispatcher = ICommunityDispatcher { contract_address: pot_contract_address };
-    let erc20_dispatcher = IERC20Dispatcher { contract_address: usdt_contract_address };
 
     let merkle_root: felt252 =
         415944806682468542317893663524164587180226905219159939966475712536121842448;
@@ -561,8 +554,6 @@ fn test_withdrawal_cannot_be_called_twice() {
 fn test_withdrawal_cannot_be_called_if_instance_has_not_ended() {
     let (pot_contract_address, usdt_contract_address) = __setup__();
     let pot_dispatcher = IPotDispatcher { contract_address: pot_contract_address };
-    let community_dispatcher = ICommunityDispatcher { contract_address: pot_contract_address };
-    let erc20_dispatcher = IERC20Dispatcher { contract_address: usdt_contract_address };
 
     let merkle_root: felt252 =
         415944806682468542317893663524164587180226905219159939966475712536121842448;
