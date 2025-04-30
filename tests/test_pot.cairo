@@ -580,3 +580,28 @@ fn test_withdrawal_cannot_be_called_if_instance_has_not_ended() {
     start_cheat_block_timestamp(pot_contract_address, 7000);
     pot_dispatcher.withdraw(1, ADDRESS3.try_into().unwrap());
 }
+
+//get_pot_instance
+#[test]
+fn test_get_pot_instance() {
+    let merkle_root = 2703728896489335098836699947247689135263632301646280222217001614516487978490;
+
+    let (pot_contract_address, usdt_contract_addresss) = __setup__();
+
+    let pot_dispatcher = IPotDispatcher { contract_address: pot_contract_address };
+    let community_dispatcher = ICommunityDispatcher { contract_address: pot_contract_address };
+
+    // create instance
+    let instance_id = create_instance(
+        pot_contract_address, usdt_contract_addresss, 123, merkle_root, 20, 80, 6300, 300
+    );
+    let pot_details = pot_dispatcher.get_pot_instance_details(instance_id);
+
+    let community_id = pot_details.community_id;
+    let max_claim = pot_details.max_claim;
+    let distribution_amount = pot_details.distribution_amount;
+    assert(instance_id == 1, 'invalid instance');
+    assert(community_id == 123, 'invalid community_id');
+    assert(max_claim == 20, 'invalid max_claim');
+    assert(distribution_amount == 80, 'invalid distribution amount');
+}

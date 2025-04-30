@@ -242,6 +242,13 @@ pub mod PotComponent {
             }
         }
 
+        //
+
+        fn get_pot_instance_details(self:@ComponentState<TContractState>, instance_id: u256) -> PotInstance{
+            let instance_details = self.instances.read(instance_id);
+            instance_details
+        }
+
         /// @notice checks if a user is eligible for claiming
         /// @param instance_id id of instance to check against
         /// @param address address to be checked
