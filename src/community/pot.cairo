@@ -276,10 +276,20 @@ pub mod PotComponent {
             self.distributed_amount.read(instance_id)
         }
 
-        fn get_community_active_instance(
+        /// @notice get the latest pot instance for a community
+        /// @param community_id id of community
+        fn get_recent_community_instance(
             self: @ComponentState<TContractState>, community_id: u256
         ) -> u256 {
             self.active_instance.read(community_id)
+        }
+
+        /// @notice get the pot instance details
+        /// @param instance_id id of pot instance
+        fn get_pot_instance_details(
+            self: @ComponentState<TContractState>, instance_id: u256
+        ) -> PotInstance {
+            self.instances.read(instance_id)
         }
 
         /// @notice get the total no. of instances created

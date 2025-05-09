@@ -1,4 +1,5 @@
 use starknet::ContractAddress;
+use coloniz::base::constants::types::PotInstance;
 
 #[starknet::interface]
 pub trait IPot<TState> {
@@ -31,6 +32,7 @@ pub trait IPot<TState> {
     ) -> bool;
     fn user_has_claimed(self: @TState, instance_id: u256, address: ContractAddress) -> bool;
     fn get_distributed_amount(self: @TState, instance_id: u256) -> u256;
-    fn get_community_active_instance(self: @TState, community_id: u256) -> u256;
+    fn get_recent_community_instance(self: @TState, community_id: u256) -> u256;
+    fn get_pot_instance_details(self: @TState, instance_id: u256) -> PotInstance;
     fn get_total_instances(self: @TState) -> u256;
 }
