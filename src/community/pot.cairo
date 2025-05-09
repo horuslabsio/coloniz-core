@@ -33,6 +33,7 @@ pub mod PotComponent {
     pub struct Storage {
         instances: Map<u256, PotInstance>, // map<instance_id, Pot>
         total_instances: u256, // tracks total instances
+        active_instance: Map<u256, u256>,
         distributed_amount: Map<u256, u256>, // map<instance_id, distributed_amount>
         has_claimed: Map<ContractAddress, bool>, // map<user profile, claim status>
     }
@@ -275,6 +276,12 @@ pub mod PotComponent {
             self.distributed_amount.read(instance_id)
         }
 
+        fn get_community_active_instance(
+            self: @ComponentState<TContractState>, community_id: u256
+        ) -> u256 {
+            self.active_instance.read(community_id)
+        }
+
         /// @notice get the total no. of instances created
         fn get_total_instances(self: @ComponentState<TContractState>) -> u256 {
             self.total_instances.read()
@@ -339,6 +346,7 @@ pub mod PotComponent {
             };
 
             self.instances.write(new_instance_id, new_pot_instance);
+            self.active_instance.write(community_id, new_instance_id);
             self.total_instances.write(new_instance_id);
 
             self

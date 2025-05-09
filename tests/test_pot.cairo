@@ -121,17 +121,21 @@ fn _claim(
 // *************************************************************************
 #[test]
 fn test_create_instance() {
-    let (pot_contract_address, usdt_contract_addresss) = __setup__();
+    let (pot_contract_address, usdt_contract_address) = __setup__();
     let pot_dispatcher = IPotDispatcher { contract_address: pot_contract_address };
+    let erc20_dispatcher = IERC20Dispatcher { contract_address: usdt_contract_address };
 
     let merkle_root = 2703728896489335098836699947247689135263632301646280222217001614516487978490;
+    let initial_pot_balance = erc20_dispatcher.balance_of(pot_contract_address);
     let instance_id = create_instance(
-        pot_contract_address, usdt_contract_addresss, 123, merkle_root, 30, 100, 6300, 300
+        pot_contract_address, usdt_contract_address, 123, merkle_root, 30, 100, 6300, 300
     );
 
     let total_instances = pot_dispatcher.get_total_instances();
+    let new_pot_balance = erc20_dispatcher.balance_of(pot_contract_address);
     assert(instance_id == 1, 'invalid instance');
     assert(total_instances == 1, 'wrong no. of total instances');
+    assert(new_pot_balance == initial_pot_balance + 100, 'wrong pot balance');
 }
 
 #[test]
