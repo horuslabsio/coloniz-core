@@ -8,6 +8,9 @@
   <a href="https://github.com/horuslabsio/coloniz-core/blob/main/LICENSE/">
     <img src="https://img.shields.io/badge/license-MIT-black">
   </a>
+  <a href="https://github.com/horuslabsio/coloniz-core/actions">
+    <img src="https://github.com/horuslabsio/coloniz-core/actions/workflows/build_contract.yml/badge.svg">
+  </a>
 </p>
 
 Coloniz empowers you to build smart, dynamic communities effortlessly. Create your own colony, define custom rules, and leverage a powerful AI assistant that learns from community discussions to provide personalized support to your colonists.
