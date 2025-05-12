@@ -7,15 +7,15 @@ use core::traits::{TryInto, Into};
 use starknet::ContractAddress;
 
 use snforge_std::{
-    declare, start_cheat_caller_address, start_cheat_block_timestamp, stop_cheat_caller_address, spy_events,
-    EventSpyAssertionsTrait, ContractClassTrait, DeclareResultTrait
+    declare, start_cheat_caller_address, start_cheat_block_timestamp, stop_cheat_caller_address,
+    spy_events, EventSpyAssertionsTrait, ContractClassTrait, DeclareResultTrait
 };
 
 use coloniz::interfaces::ICommunity::{ICommunityDispatcher, ICommunityDispatcherTrait};
 use coloniz::interfaces::ISubCommunity::{ISubCommunityDispatcher, ISubCommunityDispatcherTrait};
 use coloniz::sub_community::sub_community::SubCommunityComponent::{
-    { Event as SubCommunityCreatedEvent, SubCommunityCreated },
-    { Event as ChannelCreatedEvent, ChannelCreated }
+    {Event as SubCommunityCreatedEvent, SubCommunityCreated},
+    {Event as ChannelCreatedEvent, ChannelCreated}
 };
 
 const HUB_ADDRESS: felt252 = 'HUB';
@@ -168,7 +168,7 @@ fn test_channel_creation_should_fail_if_not_by_authorized_caller() {
     let community_id = community_dispatcher.create_community(123);
     let sub_community_id = sub_community_dispatcher.create_sub_community(234, community_id);
     stop_cheat_caller_address(contract_address);
-    
+
     sub_community_dispatcher.create_channel(593, sub_community_id);
 }
 
@@ -330,9 +330,7 @@ fn test_add_sub_community_mods_should_fail_if_not_by_an_authorized_caller() {
 
     // add moderators
     sub_community_dispatcher
-        .add_sub_community_mods(
-            sub_community_id, array![USER_SIX.try_into().unwrap()]
-        );
+        .add_sub_community_mods(sub_community_id, array![USER_SIX.try_into().unwrap()]);
     stop_cheat_caller_address(contract_address);
 }
 
@@ -405,17 +403,13 @@ fn test_remove_sub_community_mods_fails_if_not_by_authorized_caller() {
     // add moderators
     start_cheat_caller_address(contract_address, USER_ONE.try_into().unwrap());
     sub_community_dispatcher
-        .add_sub_community_mods(
-            sub_community_id, array![USER_SIX.try_into().unwrap()]
-        );
+        .add_sub_community_mods(sub_community_id, array![USER_SIX.try_into().unwrap()]);
     stop_cheat_caller_address(contract_address);
 
     // remove moderators
     start_cheat_caller_address(contract_address, USER_FIVE.try_into().unwrap());
     sub_community_dispatcher
-        .remove_sub_community_mods(
-            sub_community_id, array![USER_SIX.try_into().unwrap()]
-        );
+        .remove_sub_community_mods(sub_community_id, array![USER_SIX.try_into().unwrap()]);
     stop_cheat_caller_address(contract_address);
 }
 
