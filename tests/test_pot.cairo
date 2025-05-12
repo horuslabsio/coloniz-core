@@ -145,7 +145,6 @@ fn test_get_pot_instance() {
     let (pot_contract_address, usdt_contract_addresss) = __setup__();
 
     let pot_dispatcher = IPotDispatcher { contract_address: pot_contract_address };
-    let community_dispatcher = ICommunityDispatcher { contract_address: pot_contract_address };
 
     // create instance
     let instance_id = create_instance(
