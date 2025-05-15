@@ -265,7 +265,7 @@ fn test_set_channel_metadata_uri_if_not_by_authorized_caller() {
 
     start_cheat_caller_address(contract_address, USER_ONE.try_into().unwrap());
     let community_id = community_dispatcher.create_community(123);
-    let sub_community_id = sub_community_dispatcher.create_sub_community(234, community_id);
+    sub_community_dispatcher.create_sub_community(234, community_id);
     stop_cheat_caller_address(contract_address);
 
     sub_community_dispatcher.set_channel_metadata_uri(234, "ipfs://default3ru324afn2kl13n");

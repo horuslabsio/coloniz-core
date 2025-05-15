@@ -861,8 +861,16 @@ pub mod CommunityComponent {
             community_token_id: u256
         ) {
             let community = self.communities.read(community_id);
+            let community_owner = community.community_owner;
+
             // burn user's community token
             self._burn_community_nft(community_nft_address, profile_caller, community_token_id);
+
+            // check if user is a moderator and remove mod status
+            let is_community_mod = self.community_mod.read((community_id, profile_caller));
+            if (is_community_mod) {
+                self._remove_community_mods(community_id, community_owner, array![profile_caller]);
+            }
 
             // remove member details and update storage
             let updated_member_details = CommunityMember {
