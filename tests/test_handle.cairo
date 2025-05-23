@@ -20,9 +20,10 @@ const TEST_LOCAL_NAME: felt252 = 'coloniz';
 const TEST_LOCAL_NAME_TWO: felt252 = 'coloniz_two';
 const TEST_LOCAL_NAME_THREE: felt252 = 'colonizdoe_';
 const TEST_LOCAL_NAME_FOUR: felt252 = 'colonizdoe2';
+const TEST_LOCAL_NAME_FIVE: felt252 = 'coloniz-doe2';
 const TEST_BAD_LOCAL_NAME_1: felt252 = '_coloniz';
 const TEST_BAD_LOCAL_NAME_2: felt252 = 'Coloniz';
-const TEST_BAD_LOCAL_NAME_3: felt252 = 'coloniz-';
+const TEST_BAD_LOCAL_NAME_3: felt252 = '-coloniz';
 
 const TEST_TOKEN_ID: u256 =
     3382571571946029498300446473584208976610422898231982587356291365654797409289;
@@ -60,6 +61,17 @@ fn test_mint_handle_two() {
     assert(local_name == TEST_LOCAL_NAME_TWO, 'invalid local name two');
 }
 
+fn test_mint_handle_supports_hyphens() {
+    let handles_contract_address = __setup__();
+    let handles_dispatcher = IHandleDispatcher { contract_address: handles_contract_address };
+
+    let token_id = handles_dispatcher
+        .mint_handle(TEST_LOCAL_NAME_FIVE, USER_ONE.try_into().unwrap());
+
+    let local_name: felt252 = handles_dispatcher.get_local_name(token_id);
+    assert(local_name == TEST_LOCAL_NAME_FIVE, 'invalid local name five');
+}
+
 #[test]
 #[should_panic(expected: ('coloniz: invalid local name!',))]
 fn test_mint_handle_with_bad_local_name_1() {
@@ -68,6 +80,7 @@ fn test_mint_handle_with_bad_local_name_1() {
 
     handles_dispatcher.mint_handle(TEST_BAD_LOCAL_NAME_1, USER_ONE.try_into().unwrap());
 }
+
 #[test]
 #[should_panic(expected: ('coloniz: invalid local name!',))]
 fn test_mint_handle_with_bad_local_name_2() {
