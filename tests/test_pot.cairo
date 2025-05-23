@@ -249,10 +249,10 @@ fn test_user_eligibility() {
     let pot_dispatcher = IPotDispatcher { contract_address: pot_contract_address };
 
     let merkle_root: felt252 =
-        1018745228276730910704891102790994956051553894193058494775844408792094808986;
+        415944806682468542317893663524164587180226905219159939966475712536121842448;
     let merkle_proof: Array<felt252> = array![
-        1761604568630620421740888441665833845656791646872009472483668397314975751449,
-        1159441081249918702317256603203685015326534686061889545802973339878349767760
+        2703728896489335098836699947247689135263632301646280222217001614516487978490,
+        3381855609922770965061329276586589566725045020499778094981472002911820906627
     ];
 
     let instance_id = create_instance(
@@ -260,14 +260,7 @@ fn test_user_eligibility() {
     );
 
     let is_eligible = pot_dispatcher
-        .user_is_eligible(
-            instance_id,
-            2383128754053831016163744975954369849134384176671708002113475243500452325532
-                .try_into()
-                .unwrap(),
-            0,
-            merkle_proof.span()
-        );
+        .user_is_eligible(instance_id, ADDRESS2.try_into().unwrap(), 50, merkle_proof.span());
 
     assert(is_eligible, 'user should be eligible');
 }
