@@ -8,7 +8,6 @@ pub mod colonizColors {
             '#EAD7FF',
             '#D9E0FF',
             '#F8C944',
-            '#F4FFDC',
             '#FFE7F0',
             '#F3EAFF',
             '#ECF0FF',
@@ -20,10 +19,24 @@ pub mod colonizColors {
             '#575757',
             '#DBDBDB',
             '#000',
-            '#E3F7FF',
             '#FF88A5',
             '#FFDFE7',
-            '#FFCFEC'
+            '#FFCFEC',
+            '#FF7F50',
+            '#0074D9',
+            '#FF851B',
+            '#2ECC40',
+            '#39CCCC',
+            '#B10DC9',
+            '#85144B',
+            '#3D9970',
+            '#FF4136',
+            '#111111',
+            '#AA00FF',
+            '#FF00A0',
+            '#008080',
+            '#D81B60',
+            '#5D4037'
         ];
 
         let len: u256 = colors.len().try_into().unwrap();

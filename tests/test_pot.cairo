@@ -236,7 +236,40 @@ fn test_claim() {
         50,
         6300,
         4000
-    )
+    );
+
+    let claimee_bal = IERC20Dispatcher { contract_address: usdt_contract_address }
+        .balance_of(ADDRESS2.try_into().unwrap());
+    assert(claimee_bal == 50, 'claiming failed');
+}
+
+#[test]
+fn test_user_eligibility() {
+    let (pot_contract_address, usdt_contract_address) = __setup__();
+    let pot_dispatcher = IPotDispatcher { contract_address: pot_contract_address };
+
+    let merkle_root: felt252 =
+        1018745228276730910704891102790994956051553894193058494775844408792094808986;
+    let merkle_proof: Array<felt252> = array![
+        1761604568630620421740888441665833845656791646872009472483668397314975751449,
+        1159441081249918702317256603203685015326534686061889545802973339878349767760
+    ];
+
+    let instance_id = create_instance(
+        pot_contract_address, usdt_contract_address, 123, merkle_root, 70, 100, 6300, 300
+    );
+
+    let is_eligible = pot_dispatcher
+        .user_is_eligible(
+            instance_id,
+            2383128754053831016163744975954369849134384176671708002113475243500452325532
+                .try_into()
+                .unwrap(),
+            0,
+            merkle_proof.span()
+        );
+
+    assert(is_eligible, 'user should be eligible');
 }
 
 #[test]
