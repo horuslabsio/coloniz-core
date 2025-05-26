@@ -35,7 +35,7 @@ pub mod PotComponent {
         total_instances: u256, // tracks total instances
         active_instance: Map<u256, u256>,
         distributed_amount: Map<u256, u256>, // map<instance_id, distributed_amount>
-        has_claimed: Map<ContractAddress, bool>, // map<user profile, claim status>
+        has_claimed: Map<(u256, ContractAddress), bool>, // map<user profile, claim status>
     }
 
     // *************************************************************************
@@ -161,7 +161,7 @@ pub mod PotComponent {
             assert(is_member, Errors::NOT_COMMUNITY_MEMBER);
 
             // check that the caller has not previously claimed
-            assert(!self.has_claimed.read(caller), Errors::USER_ALREADY_CLAIMED);
+            assert(!self.has_claimed.read((instance_id, caller)), Errors::USER_ALREADY_CLAIMED);
 
             // check that the claim amount does not exceed max claim
             assert(claim_amount <= instance.max_claim, Errors::EXCEEDS_MAX_CLAIM);
@@ -265,7 +265,7 @@ pub mod PotComponent {
         fn user_has_claimed(
             self: @ComponentState<TContractState>, instance_id: u256, address: ContractAddress
         ) -> bool {
-            self.has_claimed.read(address)
+            self.has_claimed.read((instance_id, address))
         }
 
         /// @notice get the distributed amount in an instance
@@ -419,7 +419,7 @@ pub mod PotComponent {
             erc20_contract_address: ContractAddress
         ) {
             // update storage
-            self.has_claimed.write(caller, true);
+            self.has_claimed.write((instance_id, caller), true);
 
             // update distributed amount
             let total_distributed_amount = self.distributed_amount.read(instance_id);
