@@ -331,43 +331,37 @@ pub enum CommunityType {
 }
 
 // *************************************************************************
-//                            CHANNEL
+//                            SUB COMMUNITIES
 // *************************************************************************
 
 ///**
-// * @notice A struct containing the parameters representing a community
+// * @notice A struct containing the parameters representing a sub community
+// *
+// * @param sub_community_id id of the sub_community
+// * @param community_id The id of the community the channel belongs to
+// * @param sub_community_metadata_uri metatadata uri of the channel
+// */
+#[derive(Drop, Serde, Clone, starknet::Store)]
+pub struct SubCommunityDetails {
+    pub sub_community_id: u256,
+    pub community_id: u256,
+    pub sub_community_metadata_uri: ByteArray
+}
+
+///**
+// * @notice A struct containing the parameters representing a channel
 // *
 // * @param channel_id id of the channel
 // * @param community_id The id of the community the channel belongs to
-// * @param channel_owner profile address that owns the channel
+// * @param sub_community_id The id of the sub community the channel belongs to
 // * @param channel_metadata_uri metatadata uri of the channel
-// * @param channel_nft_address nft to mint to members of the channel
-// * @param channel_total_members total members in the channel
-// * @param channel_censorship indicates if a channel censors publications
 // */
 #[derive(Drop, Serde, Clone, starknet::Store)]
 pub struct ChannelDetails {
     pub channel_id: u256,
     pub community_id: u256,
-    pub channel_owner: ContractAddress,
-    pub channel_metadata_uri: ByteArray,
-    pub channel_total_members: u256,
-    pub channel_censorship: bool,
-}
-
-///**
-// * @notice A struct representing details of a channel member
-// *
-// * @param profile_address The address of channel member
-// * @param channel_id The id of the channel he belongs to
-// * @param total_publications The toal publications of the channel member
-// * @param channel_token_id channel nft minted to the member
-// */
-#[derive(Drop, Serde, Clone, starknet::Store)]
-pub struct ChannelMember {
-    pub profile: ContractAddress,
-    pub channel_id: u256,
-    pub total_publications: u256,
+    pub sub_community_id: u256,
+    pub channel_metadata_uri: ByteArray
 }
 
 // *************************************************************************
@@ -388,7 +382,7 @@ pub struct ChannelMember {
 // * @param block_timestamp time when jolting happened
 // * @param erc20_contract_address currency being jolted in
 // */
-#[derive(Drop, Serde, starknet::Store)]
+#[derive(Drop, Serde, starknet::Store, Clone)]
 pub struct JoltData {
     pub jolt_id: u256,
     pub jolt_type: JoltType,
@@ -413,7 +407,7 @@ pub struct JoltData {
 // * @param subscription_details details of subscription (if type is subscription)
 // * @param erc20_contract_address currency being jolted in
 // */
-#[derive(Drop, Serde)]
+#[derive(Drop, Serde, Clone)]
 pub struct JoltParams {
     pub jolt_type: JoltType,
     pub recipient: ContractAddress,
@@ -450,7 +444,7 @@ pub struct SubscriptionData {
 // * @param Subscription used for subscriptions
 // * @param Request used for requests
 // */
-#[derive(Drop, Serde, starknet::Store, PartialEq)]
+#[derive(Drop, Serde, starknet::Store, PartialEq, Clone)]
 pub enum JoltType {
     Tip,
     Transfer,
@@ -467,11 +461,26 @@ pub enum JoltType {
 // * @param REJECTED when a jolt was rejected
 // * @param FAILED when a jolt txn fails
 // */
-#[derive(Drop, Serde, starknet::Store, PartialEq)]
+#[derive(Drop, Serde, starknet::Store, PartialEq, Clone)]
 pub enum JoltStatus {
     PENDING,
     SUCCESSFUL,
     EXPIRED,
     REJECTED,
     FAILED
+}
+
+// *************************************************************************
+//                            COMMUNITY POT
+// *************************************************************************
+#[derive(Drop, Serde, starknet::Store)]
+pub struct PotInstance {
+    pub instance_id: u256,
+    pub community_id: u256,
+    pub merkle_root: felt252,
+    pub distribution_amount: u256,
+    pub max_claim: u256,
+    pub erc20_contract_address: ContractAddress,
+    pub instance_start_time: u64,
+    pub instance_duration: u64
 }

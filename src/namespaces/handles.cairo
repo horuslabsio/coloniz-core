@@ -76,6 +76,7 @@ pub mod Handles {
     const ASCII_0: u8 = 48;
     const ASCII_9: u8 = 57;
     const ASCII_UNDERSCORE: u8 = 95;
+    const ASCII_HYPHEN: u8 = 45;
 
     // *************************************************************************
     //                            EVENTS
@@ -270,7 +271,7 @@ pub mod Handles {
         }
 
         /// @notice validates that a local name contains only [a-z,0-9,_] and does not begin with an
-        /// underscore.
+        /// underscore or hyphen.
         /// @param local_name username to be minted
         fn _validate_local_name(self: @ContractState, local_name: felt252) {
             let mut value: u256 = local_name.into();
@@ -282,7 +283,9 @@ pub mod Handles {
                 }
                 last_char = (value & 0xFF).try_into().unwrap();
                 assert(
-                    (self._is_alpha_numeric(last_char) || last_char == ASCII_UNDERSCORE),
+                    (self._is_alpha_numeric(last_char)
+                        || last_char == ASCII_UNDERSCORE
+                        || last_char == ASCII_HYPHEN),
                     Errors::INVALID_LOCAL_NAME
                 );
 
@@ -291,7 +294,10 @@ pub mod Handles {
 
             // Note that for performance reason, the local_name is parsed in reverse order,
             // so the first character is the last processed one.
-            assert(last_char != ASCII_UNDERSCORE.into(), Errors::INVALID_LOCAL_NAME);
+            assert(
+                last_char != ASCII_UNDERSCORE.into() && last_char != ASCII_HYPHEN.into(),
+                Errors::INVALID_LOCAL_NAME
+            );
         }
 
         // @notice checks that a character is alpha numeric

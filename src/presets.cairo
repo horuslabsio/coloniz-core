@@ -1,5 +1,6 @@
 pub mod profile;
 pub mod publication;
 pub mod community;
-pub mod channel;
+pub mod sub_community;
 pub mod jolt;
+pub mod pot;

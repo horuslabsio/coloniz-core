@@ -24,6 +24,9 @@ pub mod Errors {
     pub const ALREADY_MEMBER: felt252 = 'coloniz: already a Member';
     pub const COMMUNITY_DOES_NOT_EXIST: felt252 = 'coloniz: Comm does not exist';
     pub const COMMUNITY_ALREADY_EXISTS: felt252 = 'coloniz: Comm already exists';
+    pub const SUB_COMMUNITY_ALREADY_EXISTS: felt252 = 'coloniz: sub-com already exists';
+    pub const SUB_COMMUNITY_DOES_NOT_EXIST: felt252 = 'coloniz: sub-com doesnt exist';
+    pub const NOT_SUB_COMMUNITY_MOD: felt252 = 'coloniz: not a moderator';
     pub const CHANNEL_ALREADY_EXISTS: felt252 = 'coloniz: channel already exists';
     pub const CHANNEL_DOES_NOT_EXIST: felt252 = 'coloniz: channel does not exist';
     pub const NOT_COMMUNITY_OWNER: felt252 = 'coloniz: Not Community owner';
@@ -48,4 +51,13 @@ pub mod Errors {
     pub const BANNED_FROM_CHANNEL: felt252 = 'coloniz: banned from channel';
     pub const CHANNEL_HAS_NO_MEMBER: felt252 = 'coloniz: channel has no members';
     pub const INVALID_LENGTH: felt252 = 'coloniz: array mismatch';
+    pub const INVALID_MAX_CLAIM: felt252 = 'coloniz: max claim too large';
+    pub const EXCEEDS_MAX_CLAIM: felt252 = 'coloniz: amount > max claim';
+    pub const INVALID_START_TIME: felt252 = 'coloniz: start time in the past';
+    pub const INSTANCE_NOT_ENDED: felt252 = 'coloniz: instance has not ended';
+    pub const DISTRIBUTION_AMOUNT_EXHAUSTED: felt252 = 'coloniz: distribution exhausted';
+    pub const INSTANCE_DOES_NOT_EXIST: felt252 = 'coloniz: instance doesnt exist';
+    pub const INSTANCE_INACTIVE: felt252 = 'coloniz: instance inactive';
+    pub const USER_ALREADY_CLAIMED: felt252 = 'coloniz: user already claimed';
+    pub const INVALID_CLAIM_PROOF: felt252 = 'coloniz: invalid claim proof';
 }

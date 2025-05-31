@@ -32,7 +32,7 @@ const NFT_ONE: felt252 = 'JOE_NFT';
 //                              SETUP
 // *************************************************************************
 fn __setup__() -> (ContractAddress, ContractAddress) {
-    // deploy community nft
+    // declare community nft
     let community_nft_class_hash = declare("CommunityNFT").unwrap().contract_class();
 
     // deploy community preset contract
@@ -296,6 +296,45 @@ fn test_leave_community() {
 
     assert(member.community_token_id == 0, 'NFT was not burned');
     stop_cheat_caller_address(community_contract_address);
+}
+
+#[test]
+fn test_mod_status_is_removed_after_leaving() {
+    let (community_contract_address, _) = __setup__();
+
+    let community_dispatcher = ICommunityDispatcher {
+        contract_address: community_contract_address
+    };
+
+    //create the community
+    start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());
+    let community_id = community_dispatcher.create_community(123);
+    stop_cheat_caller_address(community_contract_address);
+
+    // join community
+    start_cheat_caller_address(community_contract_address, USER_TWO.try_into().unwrap());
+    community_dispatcher.join_community(community_id);
+    stop_cheat_caller_address(community_contract_address);
+
+    // make user a mod
+    start_cheat_caller_address(community_contract_address, USER_ONE.try_into().unwrap());
+    let mut moderators = ArrayTrait::new();
+    moderators.append(USER_TWO.try_into().unwrap());
+    community_dispatcher.add_community_mods(community_id, moderators);
+    stop_cheat_caller_address(community_contract_address);
+
+    // leave community
+    start_cheat_caller_address(community_contract_address, USER_TWO.try_into().unwrap());
+    community_dispatcher.leave_community(community_id);
+    stop_cheat_caller_address(community_contract_address);
+
+    let (is_member, _) = community_dispatcher
+        .is_community_member(USER_TWO.try_into().unwrap(), community_id);
+    let is_community_mod = community_dispatcher
+        .is_community_mod(USER_TWO.try_into().unwrap(), community_id);
+
+    assert(is_member != true, 'still a community member');
+    assert(is_community_mod != true, 'still a moderator');
 }
 
 #[test]

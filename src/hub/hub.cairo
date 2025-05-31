@@ -30,7 +30,8 @@ pub mod ColonizHub {
     use coloniz::profile::profile::ProfileComponent;
     // use coloniz::publication::publication::PublicationComponent;
     use coloniz::community::community::CommunityComponent;
-    use coloniz::channel::channel::ChannelComponent;
+    use coloniz::sub_community::sub_community::SubCommunityComponent;
+    use coloniz::community::pot::PotComponent;
     use coloniz::jolt::jolt::JoltComponent;
     use coloniz::interfaces::IFollowNFT::{IFollowNFTDispatcher, IFollowNFTDispatcherTrait};
     use coloniz::interfaces::IHandle::{IHandleDispatcher, IHandleDispatcherTrait};
@@ -48,21 +49,21 @@ pub mod ColonizHub {
     //                              COMPONENTS
     // *************************************************************************
     component!(path: ProfileComponent, storage: profile, event: ProfileEvent);
-    // component!(path: PublicationComponent, storage: publication, event: PublicationEvent);
     component!(path: OwnableComponent, storage: ownable, event: OwnableEvent);
     component!(path: JoltComponent, storage: jolt, event: JoltEvent);
-    component!(path: ChannelComponent, storage: channel, event: ChannelEvent);
+    component!(path: SubCommunityComponent, storage: sub_community, event: SubCommunityEvent);
     component!(path: CommunityComponent, storage: community, event: CommunityEvent);
+    component!(path: PotComponent, storage: pot, event: PotEvent);
     component!(path: UpgradeableComponent, storage: upgradeable, event: UpgradeableEvent);
 
     #[abi(embed_v0)]
     impl ProfileImpl = ProfileComponent::colonizProfile<ContractState>;
-    // #[abi(embed_v0)]
-    // impl PublicationImpl = PublicationComponent::colonizPublication<ContractState>;
     #[abi(embed_v0)]
     impl communityImpl = CommunityComponent::colonizCommunity<ContractState>;
     #[abi(embed_v0)]
-    impl channelImpl = ChannelComponent::colonizChannel<ContractState>;
+    impl potImpl = PotComponent::communityPot<ContractState>;
+    #[abi(embed_v0)]
+    impl subCommunityImpl = SubCommunityComponent::SubCommunity<ContractState>;
     #[abi(embed_v0)]
     impl joltImpl = JoltComponent::Jolt<ContractState>;
     #[abi(embed_v0)]
@@ -70,10 +71,10 @@ pub mod ColonizHub {
 
     impl OwnableInternalImpl = OwnableComponent::InternalImpl<ContractState>;
     impl joltPrivateImpl = JoltComponent::Private<ContractState>;
-    // impl PublicationPrivateImpl = PublicationComponent::InternalImpl<ContractState>;
     impl ProfilePrivateImpl = ProfileComponent::Private<ContractState>;
-    impl channelPrivateImpl = ChannelComponent::InternalImpl<ContractState>;
+    impl SubCommunityPrivateImpl = SubCommunityComponent::InternalImpl<ContractState>;
     impl communityPrivateImpl = CommunityComponent::Private<ContractState>;
+    impl potPrivateImpl = PotComponent::Private<ContractState>;
     impl UpgradeableInternalImpl = UpgradeableComponent::InternalImpl<ContractState>;
 
     // *************************************************************************
@@ -83,8 +84,6 @@ pub mod ColonizHub {
     struct Storage {
         #[substorage(v0)]
         profile: ProfileComponent::Storage,
-        // #[substorage(v0)]
-        // publication: PublicationComponent::Storage,
         #[substorage(v0)]
         jolt: JoltComponent::Storage,
         #[substorage(v0)]
@@ -92,7 +91,9 @@ pub mod ColonizHub {
         #[substorage(v0)]
         community: CommunityComponent::Storage,
         #[substorage(v0)]
-        channel: ChannelComponent::Storage,
+        pot: PotComponent::Storage,
+        #[substorage(v0)]
+        sub_community: SubCommunityComponent::Storage,
         #[substorage(v0)]
         upgradeable: UpgradeableComponent::Storage,
         handle_contract_address: ContractAddress,
@@ -105,8 +106,8 @@ pub mod ColonizHub {
     #[event]
     #[derive(Drop, starknet::Event)]
     enum Event {
+        #[flat]
         ProfileEvent: ProfileComponent::Event,
-        // PublicationEvent: PublicationComponent::Event,
         #[flat]
         JoltEvent: JoltComponent::Event,
         #[flat]
@@ -114,7 +115,9 @@ pub mod ColonizHub {
         #[flat]
         CommunityEvent: CommunityComponent::Event,
         #[flat]
-        ChannelEvent: ChannelComponent::Event,
+        PotEvent: PotComponent::Event,
+        #[flat]
+        SubCommunityEvent: SubCommunityComponent::Event,
         #[flat]
         UpgradeableEvent: UpgradeableComponent::Event
     }
@@ -130,7 +133,6 @@ pub mod ColonizHub {
         handle_registry_contract_address: ContractAddress,
         follow_nft_classhash: felt252,
         community_nft_classhash: felt252,
-        // collect_nft_classhash: felt252,
         owner: ContractAddress
     ) {
         self
@@ -140,8 +142,6 @@ pub mod ColonizHub {
             );
         self.handle_contract_address.write(handle_contract_address);
         self.handle_registry_contract_address.write(handle_registry_contract_address);
-        self.channel._initializer();
-        // self.publication._initializer(collect_nft_classhash);
         self.community._initializer(community_nft_classhash);
         self.jolt._initializer(owner);
         self.ownable.initializer(owner);

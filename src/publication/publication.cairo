@@ -18,12 +18,11 @@ pub mod PublicationComponent {
     use coloniz::interfaces::IPublication::IColonizPublications;
     use coloniz::interfaces::IJolt::IJolt;
     use coloniz::interfaces::ICommunity::ICommunity;
-    use coloniz::interfaces::IChannel::IChannel;
     use coloniz::interfaces::ICollectNFT::{ICollectNFTDispatcher, ICollectNFTDispatcherTrait};
     use coloniz::base::{
         constants::errors::Errors::{
             NOT_PROFILE_OWNER, UNSUPPORTED_PUB_TYPE, ALREADY_REACTED, NOT_COMMUNITY_MEMBER,
-            BANNED_MEMBER, NOT_CHANNEL_MEMBER, BANNED_FROM_CHANNEL
+            BANNED_MEMBER
         },
         constants::types::{
             PostParams, Publication, PublicationType, CommentParams, RepostParams, JoltParams,
@@ -35,7 +34,7 @@ pub mod PublicationComponent {
     use coloniz::profile::profile::ProfileComponent::PrivateTrait;
     use coloniz::jolt::jolt::JoltComponent;
     use coloniz::community::community::CommunityComponent;
-    use coloniz::channel::channel::ChannelComponent;
+    use coloniz::sub_community::sub_community::SubCommunityComponent;
     use openzeppelin_access::ownable::OwnableComponent;
 
 
@@ -131,7 +130,7 @@ pub mod PublicationComponent {
         impl Jolt: JoltComponent::HasComponent<TContractState>,
         impl Ownable: OwnableComponent::HasComponent<TContractState>,
         impl Community: CommunityComponent::HasComponent<TContractState>,
-        impl Channel: ChannelComponent::HasComponent<TContractState>,
+        impl SubCommunity: SubCommunityComponent::HasComponent<TContractState>,
     > of IColonizPublications<ComponentState<TContractState>> {
         // *************************************************************************
         //                              PUBLISHING FUNCTIONS
@@ -184,8 +183,6 @@ pub mod PublicationComponent {
                 new_post.channel_id = 0; // Set channel_id to 0 since it's a community post
                 new_post.approved = is_approved; // Set approval status based on checks
             } else {
-                is_approved = self._check_channel_approval(profile_owner, post_params.channel_id);
-
                 new_post.community_id = 0; // Set community_id to 0 since it's a channel post
                 new_post.channel_id = post_params.channel_id;
                 new_post.approved = is_approved; // Set approval status based on checks
@@ -223,11 +220,6 @@ pub mod PublicationComponent {
                 self
                     ._validate_community_membership_and_ban_status(
                         profile_owner, comment_params.community_id
-                    );
-            } else {
-                self
-                    ._validate_channel_membership_and_ban_status(
-                        profile_owner, comment_params.channel_id
                     );
             }
             assert(profile_owner == get_caller_address(), NOT_PROFILE_OWNER);
@@ -268,11 +260,6 @@ pub mod PublicationComponent {
                 self
                     ._validate_community_membership_and_ban_status(
                         profile_owner, repost_params.community_id
-                    );
-            } else {
-                self
-                    ._validate_channel_membership_and_ban_status(
-                        profile_owner, repost_params.channel_id
                     );
             }
             assert(profile_owner == get_caller_address(), NOT_PROFILE_OWNER);
@@ -322,8 +309,6 @@ pub mod PublicationComponent {
                     ._validate_community_membership_and_ban_status(
                         caller, publication.community_id
                     );
-            } else {
-                self._validate_channel_membership_and_ban_status(caller, publication.channel_id);
             }
 
             let upvote_current_count = publication.upvote + 1;
@@ -360,8 +345,6 @@ pub mod PublicationComponent {
                     ._validate_community_membership_and_ban_status(
                         caller, publication.community_id
                     );
-            } else {
-                self._validate_channel_membership_and_ban_status(caller, publication.channel_id);
             }
 
             let downvote_current_count = publication.downvote + 1;
@@ -401,8 +384,6 @@ pub mod PublicationComponent {
                     ._validate_community_membership_and_ban_status(
                         caller, publication.community_id
                     );
-            } else {
-                self._validate_channel_membership_and_ban_status(caller, publication.channel_id);
             }
 
             let jolt_param = JoltParams {
@@ -438,8 +419,6 @@ pub mod PublicationComponent {
                     ._validate_community_membership_and_ban_status(
                         caller, publication.community_id
                     );
-            } else {
-                self._validate_channel_membership_and_ban_status(caller, publication.channel_id);
             }
 
             let collect_nft_address = self._get_or_deploy_collect_nft(profile_address, pub_id);
@@ -535,7 +514,7 @@ pub mod PublicationComponent {
         impl Jolt: JoltComponent::HasComponent<TContractState>,
         impl Ownable: OwnableComponent::HasComponent<TContractState>,
         impl Community: CommunityComponent::HasComponent<TContractState>,
-        impl Channel: ChannelComponent::HasComponent<TContractState>,
+        impl SubCommunity: SubCommunityComponent::HasComponent<TContractState>,
     > of InternalTrait<TContractState> {
         /// @notice initalizes channel component
         /// @param channel_nft_classhash classhash of channel NFT
@@ -805,40 +784,6 @@ pub mod PublicationComponent {
             self._validate_community_membership_and_ban_status(profile_owner, community_id);
 
             !community_censorship_status
-        }
-
-        /// @notice internal function to check a channel censorship status and validate user
-        /// @param profile_owner profile posting to the channel
-        /// @param channel_id id of channel to be posted to
-        fn _check_channel_approval(
-            self: @ComponentState<TContractState>, profile_owner: ContractAddress, channel_id: u256
-        ) -> bool {
-            let channel_comp = get_dep_component!(self, Channel);
-            let channel_censorship_status = channel_comp.get_channel_censorship_status(channel_id);
-
-            // check profile is a channel member and has not been banned
-            self._validate_channel_membership_and_ban_status(profile_owner, channel_id);
-
-            !channel_censorship_status
-        }
-
-        /// @notice internal function to validate a user's channel membership
-        /// @param profile_address address to be validated
-        /// @param channel_id id of channel to be posted to
-        fn _validate_channel_membership_and_ban_status(
-            self: @ComponentState<TContractState>,
-            profile_address: ContractAddress,
-            channel_id: u256
-        ) {
-            let channel_comp = get_dep_component!(self, Channel);
-
-            let (is_channel_member, _) = channel_comp
-                .is_channel_member(profile_address, channel_id);
-            let channel_ban_status = channel_comp
-                .get_channel_ban_status(profile_address, channel_id);
-
-            assert(channel_ban_status == false, BANNED_FROM_CHANNEL);
-            assert(is_channel_member == true, NOT_CHANNEL_MEMBER);
         }
 
         /// @notice internal function to validate a user's community membership
