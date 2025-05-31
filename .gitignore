@@ -3,3 +3,5 @@ target
 .snfoundry_versioned_programs/
 snfoundry_trace
 .DS_Store
+node_modules
+.env
